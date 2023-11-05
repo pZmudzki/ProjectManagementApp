@@ -3,15 +3,13 @@ import axios from "axios";
 import { Toaster } from "react-hot-toast";
 
 // components
-import Navbar from "./components/Navbar";
+// import Navbar from "./components/Navbar";
+import Example from "./components/NavbarTest";
 import HomePage from "./Pages/HomePage";
 import ErrorPage from "./Pages/ErrorPage";
 import RegisterPage from "./Pages/authPages/RegisterPage";
 import LoginPage from "./Pages/authPages/LoginPage";
 import Dashboard from "./Pages/Dashboard";
-
-import Example from "./Pages/HomePageTest";
-
 // context
 import { UserContextProvider } from "../context/userContext";
 
@@ -22,7 +20,8 @@ axios.defaults.withCredentials = true;
 function App() {
   return (
     <UserContextProvider>
-      <Navbar />
+      {/* <Navbar /> */}
+      <Example />
       <Toaster position="top-center" toastOptions={{ duration: 2000 }} />
       <Routes>
         <Route path="/" element={<HomePage />} />
@@ -32,7 +31,6 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/example" element={<Example />} />
       </Routes>
     </UserContextProvider>
   );
