@@ -8,6 +8,7 @@ import HomePage from "./Pages/HomePage";
 import ErrorPage from "./Pages/ErrorPage";
 import RegisterPage from "./Pages/authPages/RegisterPage";
 import LoginPage from "./Pages/authPages/LoginPage";
+import Dashboard from "./Pages/Dashboard";
 
 // context
 import { UserContextProvider } from "../context/userContext";
@@ -28,6 +29,7 @@ function App() {
         {/* auth */}
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </UserContextProvider>
   );

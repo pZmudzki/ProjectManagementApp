@@ -10,9 +10,9 @@ const port = process.env.PORT || 5000;
 
 // middlewares
 // Parse JSON bodies (as sent by API clients)
+app.use(cookieParser());
 app.use(express.json());
 app.use("/", require("./routes/authRoutes"));
-app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
 // The server will start right after the connection to the database is established.

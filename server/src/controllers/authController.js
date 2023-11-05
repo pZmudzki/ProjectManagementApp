@@ -61,7 +61,7 @@ const loginUser = async (req, res) => {
     const isMatch = await comparePassword(password, user.password);
     if (isMatch) {
       jwt.sign(
-        { email: user.email, id: user._id, name: user.name },
+        { email: user.email, id: user._id, username: user.username },
         process.env.JWT_SECRET,
         {},
         (err, token) => {
@@ -80,7 +80,7 @@ const loginUser = async (req, res) => {
 
 // Get Profile API Endpoint (for protected routes)
 const getProfile = (req, res) => {
-  const { token } = req.cookie;
+  const { token } = req.cookies;
   if (token) {
     jwt.verify(token, process.env.JWT_SECRET, {}, (err, user) => {
       if (err) throw err;
