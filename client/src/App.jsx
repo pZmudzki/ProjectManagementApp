@@ -1,10 +1,9 @@
 import { Routes, Route } from "react-router-dom";
 import axios from "axios";
+import "./App.css";
 import { Toaster } from "react-hot-toast";
 
 // components
-// import Navbar from "./components/Navbar";
-import Example from "./components/NavbarTest";
 import HomePage from "./Pages/HomePage";
 import ErrorPage from "./Pages/ErrorPage";
 import RegisterPage from "./Pages/authPages/RegisterPage";
@@ -20,8 +19,6 @@ axios.defaults.withCredentials = true;
 function App() {
   return (
     <UserContextProvider>
-      {/* <Navbar /> */}
-      <Example />
       <Toaster position="top-center" toastOptions={{ duration: 2000 }} />
       <Routes>
         <Route path="/" element={<HomePage />} />
