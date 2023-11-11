@@ -4,7 +4,8 @@ const cors = require("cors");
 const {
   registerUser,
   loginUser,
-  getProfile,
+  // getProfile,
+  isLoggedIn,
 } = require("../controllers/authController");
 
 // middlewares
@@ -20,6 +21,8 @@ router.use(
 router.post("/register", registerUser);
 router.post("/login", loginUser);
 
-router.get("/profile", getProfile);
+// router.get("/profile", getProfile);
+
+router.get("/loggedIn", isLoggedIn);
 
 module.exports = router;

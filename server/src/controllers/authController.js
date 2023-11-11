@@ -61,12 +61,18 @@ const loginUser = async (req, res) => {
     const isMatch = await comparePassword(password, user.password);
     if (isMatch) {
       jwt.sign(
-        { email: user.email, id: user._id, username: user.username },
+        { _id: user._id, username: user.username, email: user.email },
         process.env.JWT_SECRET,
-        {},
+        { expiresIn: "1d" },
         (err, token) => {
           if (err) throw err;
-          res.cookie("token", token).json(user);
+          res
+            .cookie("token", token, {
+              httpOnly: true,
+              secure: true,
+              sameSite: "none",
+            })
+            .json(user);
         }
       );
     } else {
@@ -79,20 +85,37 @@ const loginUser = async (req, res) => {
 };
 
 // Get Profile API Endpoint (for protected routes)
-const getProfile = (req, res) => {
-  const { token } = req.cookies;
-  if (token) {
+// const getProfile = (req, res) => {
+//   const { token } = req.cookies;
+//   if (token) {
+//     jwt.verify(token, process.env.JWT_SECRET, {}, (err, user) => {
+//       if (err) throw err;
+//       res.json(user);
+//     });
+//   } else {
+//     res.json(null);
+//   }
+// };
+
+// c
+const isLoggedIn = (req, res) => {
+  try {
+    const { token } = req.cookies;
+    if (!token) return res, json(null);
+
     jwt.verify(token, process.env.JWT_SECRET, {}, (err, user) => {
       if (err) throw err;
       res.json(user);
     });
-  } else {
+  } catch (error) {
     res.json(null);
+    console.log(error.message);
   }
 };
 
 module.exports = {
   registerUser,
   loginUser,
-  getProfile,
+  // getProfile,
+  isLoggedIn,
 };

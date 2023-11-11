@@ -32,9 +32,9 @@ export default function Testimonials() {
           Testimonials
         </h2>
         <div className="grid grid-cols-1 divide-y-2 divide-indigo-200">
-          {people.map((person) => {
+          {people.map((person, i) => {
             return (
-              <figure className="mt-10">
+              <figure className="mt-10" key={i}>
                 <figcaption className="mt-10 flex items-center mb-5">
                   <img
                     className="h-10 w-10 rounded-full"

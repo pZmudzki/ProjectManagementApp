@@ -3,6 +3,11 @@ import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 
+// // test
+// import { useContext } from "react";
+// import { UserContext } from "../../../context/userContext";
+// import { useNavigate } from "react-router-dom";
+
 const navigation = [
   { name: "About Us", href: "#about" },
   { name: "Features", href: "#features" },
