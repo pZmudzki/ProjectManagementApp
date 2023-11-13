@@ -1,12 +1,12 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, Fragment } from "react";
 import { UserContext } from "../../context/userContext";
 import { useNavigate } from "react-router-dom";
 
-import LogoutButton from "../components/LogoutButton";
+import Navbar from "../components/DashboardComponents/Navbar";
 
-export default function Example() {
+export default function Dashboard() {
   const navigate = useNavigate();
-  const { user, isAuthenticated } = useContext(UserContext);
+  const { isAuthenticated } = useContext(UserContext);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -15,10 +15,21 @@ export default function Example() {
   }, []);
   return (
     <>
-      <h1>Dashboard</h1>
-      <h2>Welcome</h2>
-      {user && <p>{user.username}</p>}
-      <LogoutButton />
+      <div className="min-h-full">
+        <Navbar />
+        <header className="bg-white shadow">
+          <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+            <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+              Dashboard
+            </h1>
+          </div>
+        </header>
+        <main>
+          <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+            {/* Your content */}
+          </div>
+        </main>
+      </div>
     </>
   );
 }

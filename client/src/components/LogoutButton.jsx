@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { UserContext } from "../../context/userContext";
 import { useNavigate } from "react-router-dom";
 
-export default function LogoutButton() {
+export default function LogoutButton(props) {
   const navigate = useNavigate();
   const { setUser, setIsAuthenticated } = useContext(UserContext);
 
@@ -19,5 +19,9 @@ export default function LogoutButton() {
     }
   };
 
-  return <button onClick={logout}>Logout</button>;
+  return (
+    <button className={props.className} onClick={logout}>
+      Logout
+    </button>
+  );
 }
