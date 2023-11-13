@@ -80,6 +80,23 @@ const loginUser = async (req, res) => {
   }
 };
 
+// Logout API Endpoint
+const logoutUser = (req, res) => {
+  try {
+    res
+      .cookie("token", "", {
+        httpOnly: true,
+        expires: new Date(0),
+        secure: true,
+        sameSite: "none",
+      })
+      .json({ user: null, isAuthenticated: false });
+  } catch (error) {
+    console.log(error);
+    res.json({ error: error.message });
+  }
+};
+
 // check if user is logged in API Endpoint
 const isLoggedIn = (req, res) => {
   try {
@@ -99,5 +116,6 @@ const isLoggedIn = (req, res) => {
 module.exports = {
   registerUser,
   loginUser,
+  logoutUser,
   isLoggedIn,
 };

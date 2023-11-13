@@ -3,10 +3,9 @@ import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 
-// // test
-// import { useContext } from "react";
-// import { UserContext } from "../../../context/userContext";
-// import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { UserContext } from "../../../context/userContext";
+import LogoutButton from "../LogoutButton";
 
 const navigation = [
   { name: "About Us", href: "#about" },
@@ -16,6 +15,8 @@ const navigation = [
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const { isAuthenticated } = useContext(UserContext);
 
   return (
     <header className=" inset-x-0 top-0 z-50 fixed w-full shadow-md">
