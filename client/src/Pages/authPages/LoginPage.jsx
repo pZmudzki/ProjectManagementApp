@@ -1,9 +1,13 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useNavigate, Link } from "react-router-dom";
 
+import { UserContext } from "../../../context/userContext";
+
 export default function LoginPage() {
+  const { setUser, setIsAuthenticated } = useContext(UserContext);
+
   const navigate = useNavigate();
 
   const [data, setData] = useState({ email: "", password: "" });
@@ -20,6 +24,8 @@ export default function LoginPage() {
       if (data.error) {
         toast.error(data.error);
       } else {
+        setUser(data.user);
+        setIsAuthenticated(data.isAuthenticated);
         setData({});
         toast.success("Logged in successfully!");
         navigate("/dashboard");

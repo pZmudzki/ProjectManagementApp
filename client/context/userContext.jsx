@@ -5,30 +5,28 @@ export const UserContext = createContext();
 
 export function UserContextProvider({ children }) {
   const [user, setUser] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(null);
 
-  async function checkUser() {
+  const checkUser = async () => {
     try {
-      const isLoggedInRes = await axios.get("/loggedIn");
-      setUser(isLoggedInRes.data);
+      await axios.get("/loggedIn").then((res) => {
+        setUser(res.data.user);
+        setIsAuthenticated(res.data.isAuthenticated);
+      });
     } catch (error) {
       console.log(error);
-    } finally {
-      setIsLoading(false);
     }
-  }
+  };
 
   useEffect(() => {
     checkUser();
   }, []);
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
   return (
-    <UserContext.Provider value={{ user, setUser }}>
-      {children}
+    <UserContext.Provider
+      value={{ user, setUser, isAuthenticated, setIsAuthenticated }}
+    >
+      {isAuthenticated === null ? <div>Loading...</div> : children}
     </UserContext.Provider>
   );
 }

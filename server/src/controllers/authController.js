@@ -2,10 +2,6 @@ const User = require("../models/userSchema");
 const { hashPassword, comparePassword } = require("../helpers/auth");
 const jwt = require("jsonwebtoken");
 
-// const test = (req, res) => {
-//   res.json("test is working");
-// };
-
 // Register API Endpoint
 const registerUser = async (req, res) => {
   try {
@@ -63,7 +59,7 @@ const loginUser = async (req, res) => {
       jwt.sign(
         { _id: user._id, username: user.username, email: user.email },
         process.env.JWT_SECRET,
-        { expiresIn: "1d" },
+        { expiresIn: "10min" },
         (err, token) => {
           if (err) throw err;
           res
@@ -72,7 +68,7 @@ const loginUser = async (req, res) => {
               secure: true,
               sameSite: "none",
             })
-            .json(user);
+            .json({ user: user, isAuthenticated: true });
         }
       );
     } else {
@@ -84,31 +80,18 @@ const loginUser = async (req, res) => {
   }
 };
 
-// Get Profile API Endpoint (for protected routes)
-// const getProfile = (req, res) => {
-//   const { token } = req.cookies;
-//   if (token) {
-//     jwt.verify(token, process.env.JWT_SECRET, {}, (err, user) => {
-//       if (err) throw err;
-//       res.json(user);
-//     });
-//   } else {
-//     res.json(null);
-//   }
-// };
-
-// c
+// check if user is logged in API Endpoint
 const isLoggedIn = (req, res) => {
   try {
     const { token } = req.cookies;
-    if (!token) return res, json(null);
+    if (!token) return res.json({ user: null, isAuthenticated: false });
 
     jwt.verify(token, process.env.JWT_SECRET, {}, (err, user) => {
       if (err) throw err;
-      res.json(user);
+      res.json({ user: user, isAuthenticated: true });
     });
   } catch (error) {
-    res.json(null);
+    res.json({ user: null, isAuthenticated: false });
     console.log(error.message);
   }
 };
@@ -116,6 +99,5 @@ const isLoggedIn = (req, res) => {
 module.exports = {
   registerUser,
   loginUser,
-  // getProfile,
   isLoggedIn,
 };

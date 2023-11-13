@@ -3,15 +3,13 @@ import axios from "axios";
 import "./App.css";
 import { Toaster } from "react-hot-toast";
 
+import ProtectedRoute from "./Routes/ProtectedRoutes";
 // components
 import HomePage from "./Pages/HomePage";
 import ErrorPage from "./Pages/ErrorPage";
 import RegisterPage from "./Pages/authPages/RegisterPage";
 import LoginPage from "./Pages/authPages/LoginPage";
 import Dashboard from "./Pages/Dashboard";
-
-// context
-import { UserContextProvider } from "../context/userContext";
 
 // axios config
 axios.defaults.baseURL = "http://localhost:5000";
@@ -21,19 +19,19 @@ function App() {
   return (
     <Router>
       <Toaster position="top-center" toastOptions={{ duration: 2000 }} />
-      <UserContextProvider>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="*" element={<ErrorPage />} />
+      <Routes>
+        <Route exact path="/" element={<HomePage />} />
+        <Route path="*" element={<ErrorPage />} />
 
-          {/* auth */}
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/login" element={<LoginPage />} />
+        {/* auth */}
+        <Route exact path="/register" element={<RegisterPage />} />
+        <Route exact path="/login" element={<LoginPage />} />
 
-          {/* protected routes */}
-          <Route path="/dashboard" element={<Dashboard />} />
-        </Routes>
-      </UserContextProvider>
+        {/* protected routes */}
+        <Route exact path="/dashboard" component={<ProtectedRoute />}>
+          <Route path="/dashboard" exact element={<Dashboard />} />
+        </Route>
+      </Routes>
     </Router>
   );
 }
