@@ -10,6 +10,8 @@ import ErrorPage from "./Pages/ErrorPage";
 import RegisterPage from "./Pages/authPages/RegisterPage";
 import LoginPage from "./Pages/authPages/LoginPage";
 import Dashboard from "./Pages/Dashboard";
+import UserSettings from "./Pages/UserSettings";
+import UserProfile from "./Pages/UserProfile";
 
 // axios config
 axios.defaults.baseURL = "http://localhost:5000";
@@ -30,6 +32,8 @@ function App() {
         {/* protected routes */}
         <Route exact path="/dashboard" component={<ProtectedRoute />}>
           <Route path="/dashboard" exact element={<Dashboard />} />
+          <Route path="/dashboard/usersettings" exact element={<UserSettings />} />
+          <Route path="/dashboard/profile" exact element={<UserProfile />} />
         </Route>
       </Routes>
     </Router>

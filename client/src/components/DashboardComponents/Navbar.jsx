@@ -15,8 +15,8 @@ const navigation = [
   { name: "Reports", href: "#", current: false },
 ];
 const userNavigation = [
-  { name: "Your Profile", href: "#" },
-  { name: "Settings", href: "#" },
+  { name: "Your Profile", href: "/profile" },
+  { name: "Settings", href: "/usersettings" },
 ];
 
 function classNames(...classes) {
@@ -113,6 +113,9 @@ export default function Navbar() {
                                 )}
                               </Menu.Item>
                             ))}
+                            <LogoutButton className={
+                                      "block px-4 py-2 text-sm text-gray-700"
+                                    }/>
                           </Menu.Items>
                         </Transition>
                       </Menu>
