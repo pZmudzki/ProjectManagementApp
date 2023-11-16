@@ -26,7 +26,7 @@ export function UserContextProvider({ children }) {
     <UserContext.Provider
       value={{ user, setUser, isAuthenticated, setIsAuthenticated }}
     >
-      {isAuthenticated === null ? <div>Loading...</div> : children}
+      {isAuthenticated === null ? <div></div> : children}
     </UserContext.Provider>
   );
 }

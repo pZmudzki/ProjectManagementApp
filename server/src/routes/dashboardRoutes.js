@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const cors = require("cors");
-const {} = require("../controllers/dashboardController");
+const {createProject, getProjects, updateProject} = require("../controllers/dashboardController");
 
 // middlewares
 router.use(
@@ -11,6 +11,8 @@ router.use(
   })
 );
 
-router.post("/");
+router.post("/createProject", createProject);
+router.get("/getProjects", getProjects);
+router.post("/updateProject/:id", updateProject);
 
 module.exports = router;
