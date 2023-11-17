@@ -5,7 +5,8 @@ const {
   createProject,
   getProjects,
   updateProject,
-} = require("../controllers/dashboardController");
+  deleteProject,
+} = require("../controllers/projectController");
 
 // middlewares
 router.use(
@@ -18,5 +19,6 @@ router.use(
 router.post("/createProject", createProject);
 router.get("/getProjects", getProjects);
 router.post("/updateProject/:id", updateProject);
+router.post("/deleteProject/:id", deleteProject);
 
 module.exports = router;

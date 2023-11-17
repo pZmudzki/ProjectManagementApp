@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const projectSchema = new mongoose.Schema({
   projectName: {
     type: String,
-    required: true
+    required: true,
   },
   projectDescription: {
     type: String,
@@ -22,9 +22,8 @@ const projectSchema = new mongoose.Schema({
   },
   projectTeam: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User"
-    } 
+      type: String,
+    },
   ],
 });
 

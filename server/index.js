@@ -12,6 +12,7 @@ const port = process.env.PORT || 5000;
 app.use(cookieParser());
 app.use(express.json());
 app.use("/", require("./src/routes/authRoutes"));
+app.use("/dashboard", require("./src/routes/dashboardRoutes"));
 app.use(express.urlencoded({ extended: true }));
 
 // The server will start right after the connection to the database is established.
