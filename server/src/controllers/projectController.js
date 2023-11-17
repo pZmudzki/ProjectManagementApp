@@ -32,7 +32,7 @@ const createProject = async (req, res) => {
       projectTeam,
     } = req.body;
 
-    console.log(req.body.projectTeam);
+    // console.log(req.body.projectTeam);
 
     if (!projectName) {
       return res.json({ error: "Project name has not been entered" });

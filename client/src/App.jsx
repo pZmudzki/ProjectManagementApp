@@ -34,6 +34,7 @@ function App() {
         <Route exact path="/login" element={<LoginPage />} />
 
         {/* protected routes */}
+
         <Route path="dashboard" element={<Dashboard />}>
           <Route path="" element={<Overview />} />
           <Route path="projects" element={<Projects />} />

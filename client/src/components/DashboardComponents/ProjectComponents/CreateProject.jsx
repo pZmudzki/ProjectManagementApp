@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 import { UserPlusIcon } from "@heroicons/react/24/outline";
+import axios from "axios";
+import { toast } from "react-hot-toast";
 
-export default function CreateProject() {
+import { ProjectsContext } from "../../../../context/projectContext";
+
+export default function CreateProject({ modalActive }) {
+  const { projects, setProjects } = useContext(ProjectsContext);
+
   const [projectData, setProjectData] = useState({
     projectName: "",
     projectDescription: "",
@@ -19,9 +25,25 @@ export default function CreateProject() {
     });
   }
 
-  function onSubmit(e) {
-    e.preventDefault();
-    console.log(projectData);
+  async function onSubmit(e) {
+    try {
+      e.preventDefault();
+      const { data } = await axios.post(
+        "/api/project/createProject",
+        projectData
+      );
+      if (data.error) {
+        toast.error(data.error);
+      } else {
+        setProjects([...projects, data.newProject]);
+        setProjectData({});
+        modalActive(false);
+        toast.success(data.message);
+        console.log(data.newProject);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
   }
 
   return (

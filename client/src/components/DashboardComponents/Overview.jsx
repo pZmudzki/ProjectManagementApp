@@ -19,7 +19,9 @@ export default function Overview() {
         <button onClick={() => setCreateProjectModal(true)}>
           Create Project
         </button>
-        {createProjectModal && <CreateProject />}
+        {createProjectModal && (
+          <CreateProject modalActive={setCreateProjectModal} />
+        )}
       </div>
     </div>
   );
