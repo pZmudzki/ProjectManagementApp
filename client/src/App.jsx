@@ -3,15 +3,19 @@ import axios from "axios";
 import "./App.css";
 import { Toaster } from "react-hot-toast";
 
-import ProtectedRoute from "./Routes/ProtectedRoutes";
+// import ProtectedRoute from "./Routes/ProtectedRoutes";
+
 // components
 import HomePage from "./Pages/HomePage";
 import ErrorPage from "./Pages/ErrorPage";
 import RegisterPage from "./Pages/authPages/RegisterPage";
 import LoginPage from "./Pages/authPages/LoginPage";
 import Dashboard from "./Pages/Dashboard";
-import UserSettings from "./Pages/UserSettings";
-import UserProfile from "./Pages/UserProfile";
+// import UserSettings from "./Pages/UserSettings";
+// import UserProfile from "./Pages/UserProfile";
+import Overview from "./components/DashboardComponents/Overview";
+import Team from "./components/DashboardComponents/Team";
+import Projects from "./components/DashboardComponents/Projects";
 
 // axios config
 axios.defaults.baseURL = "http://localhost:5000";
@@ -30,10 +34,10 @@ function App() {
         <Route exact path="/login" element={<LoginPage />} />
 
         {/* protected routes */}
-        <Route exact path="/dashboard" component={<ProtectedRoute />}>
-          <Route path="/dashboard" exact element={<Dashboard />} />
-          <Route path="/dashboard/usersettings" exact element={<UserSettings />} />
-          <Route path="/dashboard/profile" exact element={<UserProfile />} />
+        <Route path="dashboard" element={<Dashboard />}>
+          <Route path="" element={<Overview />} />
+          <Route path="projects" element={<Projects />} />
+          <Route path="team" element={<Team />} />
         </Route>
       </Routes>
     </Router>

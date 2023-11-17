@@ -7,9 +7,9 @@ import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import LogoutButton from "../LogoutButton";
 
 const navigation = [
-  { name: "Dashboard", href: "#", current: true },
-  { name: "Team", href: "#", current: false },
-  { name: "Projects", href: "#", current: false },
+  { name: "Overview", href: "/dashboard", current: true },
+  { name: "Team", href: "/dashboard/team", current: false },
+  { name: "Projects", href: "/dashboard/projects", current: false },
   { name: "Calendar", href: "#", current: false },
   { name: "Reports", href: "#", current: false },
 ];
@@ -35,11 +35,16 @@ export default function Navbar() {
                 <div className="flex h-16 items-center justify-between">
                   <div className="flex items-center">
                     <div className="flex-shrink-0">
-                      <img
+                      {/* <img
                         className="h-8 w-8"
                         src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
                         alt="Your Company"
-                      />
+                      /> */}
+                      <a href="/dashboard" className="-m-1.5 p-1.5">
+                        <h1 className="transition font-bold text-indigo-500 text-3xl italic hover:text-indigo-400">
+                          ProjectFlow
+                        </h1>
+                      </a>
                     </div>
                     <div className="hidden md:block">
                       <div className="ml-10 flex items-baseline space-x-4">
@@ -209,13 +214,17 @@ export default function Navbar() {
           )}
         </Disclosure>
       </div>
-      <header className="bg-white shadow">
+      {/* <header className="bg-white shadow">
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
           <h1 className="text-3xl font-bold tracking-tight text-gray-900">
-            Dashboard
+            {navigation.map((item) => {
+              if (item.current) {
+                return item.name;
+              }
+            })}
           </h1>
         </div>
-      </header>
+      </header> */}
     </>
   );
 }
