@@ -28,7 +28,7 @@ export default function Navbar() {
   return (
     <>
       <div className="min-h-full">
-        <Disclosure as="nav" className="bg-gray-800">
+        <Disclosure as="nav" className="bg-indigo-600">
           {({ open }) => (
             <>
               <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -41,7 +41,7 @@ export default function Navbar() {
                         alt="Your Company"
                       /> */}
                       <a href="/dashboard" className="-m-1.5 p-1.5">
-                        <h1 className="transition font-bold text-indigo-500 text-3xl italic hover:text-indigo-400">
+                        <h1 className="transition font-bold text-indigo-500 text-3xl italic hover:text-indigo-400 logo-text">
                           ProjectFlow
                         </h1>
                       </a>

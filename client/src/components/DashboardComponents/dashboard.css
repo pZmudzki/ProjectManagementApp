@@ -1,0 +1,24 @@
+/* styles for navbar logo */
+.logo-text {
+  text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff,
+    1px 1px 0 #fff;
+}
+
+/* Modal for CreateProjectModal.jsx*/
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  box-shadow: 50px, 20px, 40px, rgb(0, 0, 0);
+  animation: modalAnim 0.2s ease-in;
+}
+
+@keyframes modalAnim {
+  0% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}

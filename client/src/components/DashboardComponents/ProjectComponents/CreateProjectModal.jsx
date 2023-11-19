@@ -1,18 +1,21 @@
-import React, { useState } from "react";
-import { UserPlusIcon } from "@heroicons/react/24/outline";
+import React, { useState, useContext } from "react";
+import { UserPlusIcon, UserMinusIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import "../dashboard.css";
 
 import { ProjectsContext } from "../../../../context/projectContext";
+import { UserContext } from "../../../../context/userContext";
 
-export default function CreateProject({ modalActive }) {
+export default function CreateProjectModal({ modalActive }) {
   const { projects, setProjects } = useContext(ProjectsContext);
+  const { user } = useContext(UserContext);
 
   const [projectData, setProjectData] = useState({
     projectName: "",
     projectDescription: "",
     status: "Not Started",
-    projectManager: "",
+    projectManager: user.email,
     projectTeam: [],
   });
 
@@ -47,12 +50,13 @@ export default function CreateProject({ modalActive }) {
   }
 
   return (
-    <div>
-      <h1>Create Project</h1>
+    <div className="modal  bg-indigo-600 text-white rounded-xl py-3 px-4">
+      <h1 className="text-4xl text-center mb-4">New Project</h1>
       <form onSubmit={onSubmit}>
-        <div>
+        <div className="mb-3 flex flex-col">
           <label htmlFor="projectName">Project Name</label>
           <input
+            className="text-black"
             type="text"
             name="projectName"
             id="projectName"
@@ -60,9 +64,10 @@ export default function CreateProject({ modalActive }) {
             onChange={handleChange}
           />
         </div>
-        <div>
+        <div className="mb-3 flex flex-col">
           <label htmlFor="projectDescription">Project Description</label>
           <textarea
+            className="text-black"
             name="projectDescription"
             id="projectDescription"
             cols="30"
@@ -71,19 +76,26 @@ export default function CreateProject({ modalActive }) {
             onChange={handleChange}
           ></textarea>
         </div>
-        <div>
+        <div className="mb-3">
           <label htmlFor="status">Status</label>
-          <select name="status" id="status" onChange={handleChange}>
+          <select
+            className="text-black"
+            name="status"
+            id="status"
+            onChange={handleChange}
+          >
             <option value="Not Started">Not Started</option>
             <option value="In Progress">In Progress</option>
             <option value="Completed">Completed</option>
           </select>
         </div>
-        <div>
-          <label htmlFor="projectManager">
-            Project Manager <span>Email</span>
+        <div className="mb-3 flex flex-col">
+          <label htmlFor="projectManager" className="relative">
+            Project Manager{" "}
+            <span className="absolute text-xs italic">Email</span>
           </label>
           <input
+            className="text-black"
             type="email"
             name="projectManager"
             id="projectManager"
@@ -91,17 +103,32 @@ export default function CreateProject({ modalActive }) {
             onChange={handleChange}
           />
         </div>
-        <div>
-          <label htmlFor="projectTeam">
-            Project Team Members <span>Email</span>
+        <div className="mb-3 flex flex-col">
+          <label htmlFor="projectTeam" className="relative">
+            Project Team Members{" "}
+            <span className="absolute text-xs italic">Email</span>
           </label>
           {projectData.projectTeam.map((teamMember) => (
-            <div key={teamMember}>
+            <div className="bg-indigo-200 flex" key={teamMember}>
               <p>{teamMember}</p>
+              <button
+                type="button"
+                onClick={() => {
+                  setProjectData({
+                    ...projectData,
+                    projectTeam: projectData.projectTeam.filter(
+                      (team) => team !== teamMember
+                    ),
+                  });
+                }}
+              >
+                <UserMinusIcon className="h-6 w-6" aria-hidden="true" />
+              </button>
             </div>
           ))}
           <input
-            type="email"
+            className="text-black"
+            type="text"
             name="projectTeam"
             id="projectTeam"
             value={projectTeam}
@@ -110,6 +137,12 @@ export default function CreateProject({ modalActive }) {
           <button
             type="button"
             onClick={() => {
+              if (projectData.projectTeam.includes(projectTeam)) {
+                setProjectTeam("");
+                return toast.error("User already added to project team.");
+              } else if (!projectTeam) {
+                return toast.error("Please enter an email address.");
+              }
               setProjectData({
                 ...projectData,
                 projectTeam: [...projectData.projectTeam, projectTeam],
@@ -120,7 +153,23 @@ export default function CreateProject({ modalActive }) {
             <UserPlusIcon className="h-6 w-6" aria-hidden="true" />
           </button>
         </div>
-        <button type="submit">Create Project</button>
+        <div className="flex gap-2 justify-end">
+          <button
+            className="bg-red-500 hover:bg-red-700 rounded-md px-2 py-1"
+            type="button"
+            onClick={() => {
+              modalActive(false);
+            }}
+          >
+            Cancel
+          </button>
+          <button
+            className="bg-green-500 hover:bg-green-700 rounded-md px-2 py-1"
+            type="submit"
+          >
+            Create Project
+          </button>
+        </div>
       </form>
     </div>
   );
