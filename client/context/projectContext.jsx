@@ -1,5 +1,6 @@
 import axios from "axios";
 import { createContext, useState, useEffect } from "react";
+import Loader from "../src/components/Loader";
 
 export const ProjectsContext = createContext();
 
@@ -27,7 +28,7 @@ export function ProjectsContextProvider({ children }) {
 
   return (
     <ProjectsContext.Provider value={{ projects, setProjects, loading }}>
-      {children}
+      {loading ? <Loader /> : children}
     </ProjectsContext.Provider>
   );
 }

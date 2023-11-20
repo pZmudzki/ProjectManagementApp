@@ -109,7 +109,10 @@ export default function CreateProjectModal({ modalActive }) {
             <span className="absolute text-xs italic">Email</span>
           </label>
           {projectData.projectTeam.map((teamMember) => (
-            <div className="bg-indigo-200 flex" key={teamMember}>
+            <div
+              className="bg-indigo-200 flex justify-between py-1 px-2 rounded-md mb-2"
+              key={teamMember}
+            >
               <p>{teamMember}</p>
               <button
                 type="button"
@@ -126,32 +129,35 @@ export default function CreateProjectModal({ modalActive }) {
               </button>
             </div>
           ))}
-          <input
-            className="text-black"
-            type="text"
-            name="projectTeam"
-            id="projectTeam"
-            value={projectTeam}
-            onChange={(e) => setProjectTeam(e.target.value)}
-          />
-          <button
-            type="button"
-            onClick={() => {
-              if (projectData.projectTeam.includes(projectTeam)) {
+          <div className="relative">
+            <input
+              className="text-black w-full"
+              type="text"
+              name="projectTeam"
+              id="projectTeam"
+              value={projectTeam}
+              onChange={(e) => setProjectTeam(e.target.value)}
+            />
+            <button
+              className="max-w-max absolute text-indigo-600 right-2 top-1/2 transform -translate-y-1/2"
+              type="button"
+              onClick={() => {
+                if (projectData.projectTeam.includes(projectTeam)) {
+                  setProjectTeam("");
+                  return toast.error("User already added to project team.");
+                } else if (!projectTeam) {
+                  return toast.error("Please enter an email address.");
+                }
+                setProjectData({
+                  ...projectData,
+                  projectTeam: [...projectData.projectTeam, projectTeam],
+                });
                 setProjectTeam("");
-                return toast.error("User already added to project team.");
-              } else if (!projectTeam) {
-                return toast.error("Please enter an email address.");
-              }
-              setProjectData({
-                ...projectData,
-                projectTeam: [...projectData.projectTeam, projectTeam],
-              });
-              setProjectTeam("");
-            }}
-          >
-            <UserPlusIcon className="h-6 w-6" aria-hidden="true" />
-          </button>
+              }}
+            >
+              <UserPlusIcon className="h-6 w-6" aria-hidden="true" />
+            </button>
+          </div>
         </div>
         <div className="flex gap-2 justify-end">
           <button
