@@ -3,7 +3,7 @@ import axios from "axios";
 import "./App.css";
 import { Toaster } from "react-hot-toast";
 
-// import ProtectedRoute from "./Routes/ProtectedRoutes";
+import ProtectedRoute from "./Routes/ProtectedRoutes";
 
 // components
 import HomePage from "./Pages/HomePage";
@@ -34,7 +34,6 @@ function App() {
         <Route exact path="/login" element={<LoginPage />} />
 
         {/* protected routes */}
-
         <Route path="dashboard" element={<Dashboard />}>
           <Route path="" element={<Overview />} />
           <Route path="projects" element={<Projects />} />

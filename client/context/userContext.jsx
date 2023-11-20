@@ -1,5 +1,6 @@
 import axios from "axios";
 import { createContext, useState, useEffect } from "react";
+import Loader from "../src/components/Loader";
 
 export const UserContext = createContext();
 
@@ -14,7 +15,7 @@ export function UserContextProvider({ children }) {
         setIsAuthenticated(res.data.isAuthenticated);
       });
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
     }
   };
 
@@ -26,7 +27,7 @@ export function UserContextProvider({ children }) {
     <UserContext.Provider
       value={{ user, setUser, isAuthenticated, setIsAuthenticated }}
     >
-      {isAuthenticated === null ? <div></div> : children}
+      {isAuthenticated === null ? <Loader /> : children}
     </UserContext.Provider>
   );
 }

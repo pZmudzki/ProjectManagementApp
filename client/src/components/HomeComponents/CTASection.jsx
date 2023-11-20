@@ -40,12 +40,12 @@ export default function CTASection() {
               >
                 Get started
               </Link>
-              <a
-                href="#hero"
+              <Link
+                to={"/login"}
                 className="text-sm font-semibold leading-6 text-white"
               >
-                Login <span aria-hidden="true">↑</span>
-              </a>
+                Login <span aria-hidden="true">&rarr;</span>
+              </Link>
             </div>
           </div>
           <div className="relative mt-16 h-80 lg:mt-8">

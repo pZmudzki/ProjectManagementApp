@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const cors = require("cors");
+
+// const { authCheck } = require("../middlewares/authMiddleware");
+
 const {
   createProject,
   getProjects,

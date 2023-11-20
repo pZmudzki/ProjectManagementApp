@@ -5,11 +5,13 @@ export const ProjectsContext = createContext();
 
 export function ProjectsContextProvider({ children }) {
   const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const getProjects = async () => {
     try {
       await axios.get("/api/project/getProjects").then((res) => {
         setProjects(res.data.projects);
+        setLoading(false);
         if (res.data.error) {
           console.log(res.data.error);
         }
@@ -24,7 +26,7 @@ export function ProjectsContextProvider({ children }) {
   }, []);
 
   return (
-    <ProjectsContext.Provider value={{ projects, setProjects }}>
+    <ProjectsContext.Provider value={{ projects, setProjects, loading }}>
       {children}
     </ProjectsContext.Provider>
   );

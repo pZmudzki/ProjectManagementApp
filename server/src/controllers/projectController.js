@@ -7,6 +7,8 @@ const jwt = require("jsonwebtoken");
 const getProjects = (req, res) => {
   try {
     const { token } = req.cookies;
+    if (!token) return res.json({ error: "Unauthorized" });
+
     jwt.verify(token, process.env.JWT_SECRET, {}, async (err, user) => {
       if (err) throw err;
 
