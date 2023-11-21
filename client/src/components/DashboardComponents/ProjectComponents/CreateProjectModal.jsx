@@ -50,6 +50,7 @@ export default function CreateProjectModal({ modalActive }) {
   }
 
   return (
+  <>
     <div className="modal  bg-indigo-600 text-white rounded-xl py-3 px-4">
       <h1 className="text-4xl text-center mb-4">New Project</h1>
       <form onSubmit={onSubmit}>
@@ -83,7 +84,7 @@ export default function CreateProjectModal({ modalActive }) {
             name="status"
             id="status"
             onChange={handleChange}
-          >
+            >
             <option value="Not Started">Not Started</option>
             <option value="In Progress">In Progress</option>
             <option value="Completed">Completed</option>
@@ -178,5 +179,8 @@ export default function CreateProjectModal({ modalActive }) {
         </div>
       </form>
     </div>
+  <div className="bg-modal">
+  </div>
+  </>
   );
 }

@@ -1,7 +1,8 @@
 import React, { useContext, useState } from "react";
-import { ProjectsContext } from "../../../context/projectContext";
 import CreateProjectModal from "./ProjectComponents/CreateProjectModal";
 
+// context 
+import { ProjectsContext } from "../../../context/projectContext";
 // icons
 import {
   FolderPlusIcon,
@@ -12,7 +13,6 @@ import {
 
 export default function Projects() {
   const { projects } = useContext(ProjectsContext);
-
   // for controlling a selected project
   const [projectSelected, setProjectSelected] = useState(projects[0]);
   // for controlling a modal
@@ -22,7 +22,6 @@ export default function Projects() {
 
   return (
     <div className="relative">
-      {!createProjectModal ? (
         <div>
           <div className="flex justify-between px-4">
             {/* dropdown here */}
@@ -95,7 +94,7 @@ export default function Projects() {
             <h2>{projectSelected.projectTeam}</h2>
           </section>
         </div>
-      ) : (
+      {createProjectModal && ( 
         <CreateProjectModal modalActive={setCreateProjectModal} />
       )}
     </div>
