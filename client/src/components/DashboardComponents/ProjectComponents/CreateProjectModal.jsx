@@ -3,11 +3,14 @@ import { UserPlusIcon, UserMinusIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import "../dashboard.css";
+import { useNavigate } from "react-router-dom";
 
 import { ProjectsContext } from "../../../../context/projectContext";
 import { UserContext } from "../../../../context/userContext";
 
 export default function CreateProjectModal({ modalActive }) {
+  const navigate = useNavigate();
+
   const { projects, setProjects } = useContext(ProjectsContext);
   const { user } = useContext(UserContext);
 
@@ -41,8 +44,8 @@ export default function CreateProjectModal({ modalActive }) {
         setProjects([...projects, data.newProject]);
         setProjectData({});
         modalActive(false);
+        navigate(`/dashboard/projects/${data.newProject._id}`);
         toast.success(data.message);
-        console.log(data.newProject);
       }
     } catch (error) {
       console.log(error.message);

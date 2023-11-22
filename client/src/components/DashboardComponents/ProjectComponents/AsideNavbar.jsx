@@ -4,7 +4,7 @@ import DeleteProjectModal from "./DeleteProjectModal";
 export default function AsideNavbar({ projectSelected }) {
   const [modalDeleteActive, setModalDeleteActive] = useState(false);
   return (
-    <div>
+    <div className="flex flex-col justify-between">
       <div>
         <p>Overview</p>
         <p>Tasks</p>

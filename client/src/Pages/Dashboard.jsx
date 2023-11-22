@@ -19,14 +19,12 @@ export default function Dashboard() {
 
   return (
     <>
-      <div className="min-h-full ">
+      <div className="min-h-full">
         <Navbar />
         <main>
-          <div className="">
-            <ProjectsContextProvider>
-              <Outlet />
-            </ProjectsContextProvider>
-          </div>
+          <ProjectsContextProvider>
+            <Outlet />
+          </ProjectsContextProvider>
         </main>
       </div>
     </>

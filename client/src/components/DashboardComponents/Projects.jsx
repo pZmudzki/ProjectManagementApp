@@ -6,14 +6,20 @@ import AsideNavbar from "./ProjectComponents/AsideNavbar";
 // context
 import { ProjectsContext } from "../../../context/projectContext";
 
-export default function Projects() {
+export default function Projects({ filterProject }) {
   const { projects } = useContext(ProjectsContext);
   // for controlling a selected project
   const [projectUserSelected, setProjectUserSelected] = useState(null);
 
+  // find the project that matches the id from the url
+  const findProject = projects.filter(
+    (project) => project._id === filterProject
+  );
+
   useEffect(() => {
-    setProjectUserSelected(projects[0]);
+    setProjectUserSelected(filterProject ? findProject[0] : projects[0]);
   }, []);
+
   return (
     <div className="relative">
       <div>

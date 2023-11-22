@@ -19,7 +19,7 @@ export default function Navbar() {
   const { isAuthenticated } = useContext(UserContext);
 
   return (
-    <header className=" inset-x-0 top-0 z-50 fixed w-full shadow-md">
+    <header className=" inset-x-0 top-0 z-50 fixed w-full shadow-md ">
       <nav
         className="flex items-center justify-between p-6 lg:px-8"
         aria-label="Global"

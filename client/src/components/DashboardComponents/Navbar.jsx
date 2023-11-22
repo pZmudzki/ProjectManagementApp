@@ -1,4 +1,5 @@
-import { useContext, Fragment } from "react";
+import { useContext, Fragment, useState } from "react";
+import { Link } from "react-router-dom";
 import { UserContext } from "../../../context/userContext";
 
 import { Disclosure, Menu, Transition } from "@headlessui/react";
@@ -6,13 +7,6 @@ import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 
 import LogoutButton from "../LogoutButton";
 
-const navigation = [
-  { name: "Overview", href: "/dashboard", current: true },
-  { name: "Team", href: "/dashboard/team", current: false },
-  { name: "Projects", href: "/dashboard/projects", current: false },
-  { name: "Calendar", href: "#", current: false },
-  { name: "Reports", href: "#", current: false },
-];
 const userNavigation = [
   { name: "Your Profile", href: "/profile" },
   { name: "Settings", href: "/usersettings" },
@@ -23,6 +17,17 @@ function classNames(...classes) {
 }
 
 export default function Navbar() {
+  const [currentPage, setCurrentPage] = useState("Overview");
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const navigation = [
+    { name: "Overview", href: "/dashboard" },
+    { name: "Team", href: "/dashboard/team" },
+    { name: "Projects", href: "/dashboard/projects" },
+    { name: "Calendar", href: "#" },
+    { name: "Reports", href: "#" },
+  ];
+
   const { user } = useContext(UserContext);
 
   return (
@@ -40,20 +45,21 @@ export default function Navbar() {
                         src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
                         alt="Your Company"
                       /> */}
-                      <a href="/dashboard" className="-m-1.5 p-1.5">
+                      <Link to="/dashboard" className="-m-1.5 p-1.5">
                         <h1 className="transition font-bold text-indigo-500 text-3xl italic hover:text-indigo-400 logo-text">
                           ProjectFlow
                         </h1>
-                      </a>
+                      </Link>
                     </div>
                     <div className="hidden md:block">
                       <div className="ml-10 flex items-baseline space-x-4">
                         {navigation.map((item) => (
-                          <a
+                          <Link
+                            onClick={() => setCurrentPage(item.name)}
                             key={item.name}
-                            href={item.href}
+                            to={item.href}
                             className={classNames(
-                              item.current
+                              currentPage === item.name
                                 ? "bg-gray-900 text-white"
                                 : "text-gray-300 hover:bg-gray-700 hover:text-white",
                               "rounded-md px-3 py-2 text-sm font-medium"
@@ -61,7 +67,7 @@ export default function Navbar() {
                             aria-current={item.current ? "page" : undefined}
                           >
                             {item.name}
-                          </a>
+                          </Link>
                         ))}
                       </div>
                     </div>
@@ -105,21 +111,21 @@ export default function Navbar() {
                             {userNavigation.map((item) => (
                               <Menu.Item key={item.name}>
                                 {({ active }) => (
-                                  <a
-                                    href={item.href}
+                                  <Link
+                                    to={item.href}
                                     className={classNames(
                                       active ? "bg-gray-100" : "",
                                       "block px-4 py-2 text-sm text-gray-700"
                                     )}
                                   >
                                     {item.name}
-                                  </a>
+                                  </Link>
                                 )}
                               </Menu.Item>
                             ))}
                             <LogoutButton
                               className={
-                                "block px-4 py-2 text-sm text-gray-700"
+                                "block px-4 py-2 text-sm text-gray-700 w-full text-left hover:bg-gray-100"
                               }
                             />
                           </Menu.Items>
@@ -152,11 +158,12 @@ export default function Navbar() {
                 <div className="space-y-1 px-2 pb-3 pt-2 sm:px-3">
                   {navigation.map((item) => (
                     <Disclosure.Button
+                      onClick={() => setCurrentPage(item.name)}
                       key={item.name}
                       as="a"
                       href={item.href}
                       className={classNames(
-                        item.current
+                        currentPage === item.name
                           ? "bg-gray-900 text-white"
                           : "text-gray-300 hover:bg-gray-700 hover:text-white",
                         "block rounded-md px-3 py-2 text-base font-medium"
@@ -206,7 +213,7 @@ export default function Navbar() {
                         {item.name}
                       </Disclosure.Button>
                     ))}
-                    <LogoutButton className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white" />
+                    <LogoutButton className="block rounded-md text-left w-full px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white" />
                   </div>
                 </div>
               </Disclosure.Panel>
@@ -214,17 +221,6 @@ export default function Navbar() {
           )}
         </Disclosure>
       </div>
-      {/* <header className="bg-white shadow">
-        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900">
-            {navigation.map((item) => {
-              if (item.current) {
-                return item.name;
-              }
-            })}
-          </h1>
-        </div>
-      </header> */}
     </>
   );
 }

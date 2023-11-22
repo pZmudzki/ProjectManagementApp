@@ -1,11 +1,14 @@
 import React, { useState, useContext } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 // context
 import { ProjectsContext } from "../../../../context/projectContext";
 
 export default function DeleteProjectModal({ project, setActive }) {
+  const navigate = useNavigate();
+
   const [typedName, setTypedName] = useState("");
   const { projects, setProjects } = useContext(ProjectsContext);
 
@@ -16,17 +19,20 @@ export default function DeleteProjectModal({ project, setActive }) {
   async function deleteProject(e) {
     try {
       e.preventDefault();
-      const { data } = await axios.delete(
-        `/api/project/deleteProject/${project._id}`
-      );
-      if (data.error) {
-        toast.error(data.error);
-      } else {
-        setProjects(projects.filter((project) => project._id !== data._id));
-        console.log(projects);
-        setActive(false);
-        toast.success(data.message);
-      }
+      await axios
+        .delete(`/api/project/deleteProject/${project._id}`)
+        .then((res) => {
+          if (res.data.error) {
+            toast.error(res.data.error);
+          } else {
+            setProjects(
+              projects.filter((project) => project._id !== res.data._id)
+            );
+            setActive(false);
+            navigate("/dashboard/projects");
+            toast.success(res.data.message);
+          }
+        });
     } catch (error) {
       console.log(error.message);
     }
@@ -47,7 +53,9 @@ export default function DeleteProjectModal({ project, setActive }) {
             value={typedName}
           />
           <div>
-            <button onClick={() => setActive(false)}>Cancel</button>
+            <button type="button" onClick={() => setActive(false)}>
+              Cancel
+            </button>
             {typedName === project.projectName ? (
               <button className="bg-red-500 text-white" type="submit">
                 Delete
