@@ -40,13 +40,13 @@ export default function DeleteProjectModal({ project, setActive }) {
 
   return (
     <>
-      <div className="modal">
-        <h1>
+      <div className="modal bg-gray-300 rounded-xl border-4 border-indigo-700 py-3 px-4">
+        <h1 className="text-2xl">
           To delete this project type{" "}
           <span className="text-red-500">{project.projectName}</span>
         </h1>
         <form onSubmit={deleteProject}>
-          <input
+          <input 
             onChange={handleChange}
             type="text"
             name="projectName"

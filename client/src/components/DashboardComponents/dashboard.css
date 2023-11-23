@@ -27,12 +27,12 @@
 }
 /* Modal for CreateProjectModal.jsx*/
 .modal {
-  position: absolute;
-  top: 50%;
+  position: fixed;
   left: 50%;
+  top: 50%;
   /* filter: blur(none); */
   z-index: 9999;
-  transform: translate(-50%, 0);
+  transform: translate(-50%, -50%);
   box-shadow: 50px, 20px, 40px, rgba(0, 0, 0, 0.275);
   animation: modalAnim 0.2s ease-in;
   /* overflow: hidden; */
@@ -45,4 +45,16 @@
   100% {
     opacity: 1;
   }
+}
+
+
+/* grid container for projects page */
+
+.grid-container{
+  height: calc(100vh - 81px);
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  grid-template-rows: 40px calc(100vw - 40px);
+  /* justify-items: center;
+  align-items: center; */
 }
