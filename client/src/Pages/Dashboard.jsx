@@ -4,6 +4,7 @@ import { useNavigate, Outlet } from "react-router-dom";
 // context
 import { UserContext } from "../../context/userContext";
 import { ProjectsContextProvider } from "../../context/projectContext";
+import { SelectedProjectContextProvider } from "../../context/selectedProjectContext";
 
 import Navbar from "../components/DashboardComponents/Navbar";
 
@@ -23,7 +24,9 @@ export default function Dashboard() {
         <Navbar />
         <main>
           <ProjectsContextProvider>
-            <Outlet />
+            <SelectedProjectContextProvider>
+              <Outlet />
+            </SelectedProjectContextProvider>
           </ProjectsContextProvider>
         </main>
       </div>

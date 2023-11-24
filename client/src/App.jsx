@@ -13,7 +13,6 @@ import Dashboard from "./Pages/Dashboard";
 import Overview from "./components/DashboardComponents/Overview";
 import Team from "./components/DashboardComponents/Team";
 import Projects from "./components/DashboardComponents/Projects";
-import ProjectWrapper from "./Routes/ProjectWrapper";
 
 // axios config
 axios.defaults.baseURL = "http://localhost:5000";
@@ -35,7 +34,6 @@ function App() {
         <Route path="dashboard" element={<Dashboard />}>
           <Route path="" element={<Overview />} />
           <Route path="projects" element={<Projects />} />
-          <Route path="projects/:id" element={<ProjectWrapper />} />
           <Route path="team" element={<Team />} />
         </Route>
       </Routes>

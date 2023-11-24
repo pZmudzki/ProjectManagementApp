@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { ArrowSmallDownIcon } from "@heroicons/react/24/outline";
 
@@ -7,9 +8,12 @@ import CreateProjectModal from "./ProjectComponents/CreateProjectModal";
 
 // context
 import { ProjectsContext } from "../../../context/projectContext";
+import { SelectedProjectContext } from "../../../context/selectedProjectContext";
 
 export default function Overview() {
+  const navigate = useNavigate();
   const { projects } = useContext(ProjectsContext);
+  const { setSelectedProject } = useContext(SelectedProjectContext);
   const [createProjectModal, setCreateProjectModal] = useState(false);
   return (
     <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">

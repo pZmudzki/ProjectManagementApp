@@ -6,11 +6,13 @@ import "../dashboard.css";
 import { useNavigate } from "react-router-dom";
 
 import { ProjectsContext } from "../../../../context/projectContext";
+import { SelectedProjectContext } from "../../../../context/selectedProjectContext";
 import { UserContext } from "../../../../context/userContext";
 
 export default function CreateProjectModal({ modalActive }) {
   const navigate = useNavigate();
 
+  const { setSelectedProject } = useContext(SelectedProjectContext);
   const { projects, setProjects } = useContext(ProjectsContext);
   const { user } = useContext(UserContext);
 
@@ -42,9 +44,10 @@ export default function CreateProjectModal({ modalActive }) {
         toast.error(data.error);
       } else {
         setProjects([...projects, data.newProject]);
+        setSelectedProject(data.newProject);
         setProjectData({});
         modalActive(false);
-        navigate(`/dashboard/projects/${data.newProject._id}`);
+        navigate("/dashboard/projects");
         toast.success(data.message);
       }
     } catch (error) {

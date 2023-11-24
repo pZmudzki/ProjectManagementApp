@@ -1,12 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowRightIcon } from "@heroicons/react/24/outline";
+
+import { SelectedProjectContext } from "../../../../context/selectedProjectContext";
 
 export default function ProjectCard({ project }) {
   const navigate = useNavigate();
 
+  const { setSelectedProject } = useContext(SelectedProjectContext);
+
   function handleProjectClick() {
-    navigate(`/dashboard/projects/${project._id}`);
+    setSelectedProject(project);
+    navigate("/dashboard/projects");
   }
 
   function projectStatus() {

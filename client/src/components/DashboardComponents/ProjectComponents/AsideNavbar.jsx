@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import DeleteProjectModal from "./DeleteProjectModal";
 import { Link } from "react-router-dom";
+
+// context
+// import { SelectedProjectContext } from "../../../../context/selectedProjectContext";
 
 import {
   ArchiveBoxXMarkIcon,
@@ -10,7 +13,9 @@ import {
   ChevronRightIcon,
 } from "@heroicons/react/24/outline";
 
-export default function AsideNavbar({ projectSelected }) {
+export default function AsideNavbar() {
+  // const { selectedProject } = useContext(SelectedProjectContext);
+
   const [modalDeleteActive, setModalDeleteActive] = useState(false);
   const [isNavOpen, setIsNavOpen] = useState(false);
   return (
@@ -47,7 +52,7 @@ export default function AsideNavbar({ projectSelected }) {
         <ChevronRightIcon
           className={
             "h-5 w-5 sm:h-8 sm:w-8 " +
-            (isNavOpen ? "rotate-180 transition-all" : "")
+            (isNavOpen ? "rotate-180 transition-all duration-700" : "")
           }
           aria-hidden="true"
         />
@@ -77,10 +82,7 @@ export default function AsideNavbar({ projectSelected }) {
         </button>
       </div>
       {modalDeleteActive && (
-        <DeleteProjectModal
-          project={projectSelected}
-          setActive={setModalDeleteActive}
-        />
+        <DeleteProjectModal setActive={setModalDeleteActive} />
       )}
     </div>
   );

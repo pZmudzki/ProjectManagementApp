@@ -3,6 +3,7 @@ import CreateProjectModal from "./CreateProjectModal";
 
 // context
 import { ProjectsContext } from "../../../../context/projectContext";
+import { SelectedProjectContext } from "../../../../context/selectedProjectContext";
 
 // icons
 import {
@@ -13,8 +14,11 @@ import {
   ArrowRightIcon,
 } from "@heroicons/react/24/solid";
 
-export default function SecondNavbar({ setProjectSelected, projectSelected }) {
+export default function SecondNavbar() {
   const { projects } = useContext(ProjectsContext);
+  const { selectedProject, setSelectedProject } = useContext(
+    SelectedProjectContext
+  );
   // for controlling a modal
   const [createProjectModal, setCreateProjectModal] = useState(false);
   // for controlling a dropdown
@@ -24,7 +28,7 @@ export default function SecondNavbar({ setProjectSelected, projectSelected }) {
     <div>
       <nav className="flex justify-between px-4 py-2 bg-gray-100">
         {/* dropdown here */}
-        {projectSelected ? (
+        {selectedProject ? (
           <div className="relative">
             <button
               type="button"
@@ -39,7 +43,7 @@ export default function SecondNavbar({ setProjectSelected, projectSelected }) {
                   aria-hidden="true"
                 />
 
-                <span>{projectSelected.projectName}</span>
+                <span>{selectedProject.projectName}</span>
               </div>
               <ChevronDownIcon
                 className={`h-4 w-4 text-indigo-600 transform ${
@@ -57,7 +61,7 @@ export default function SecondNavbar({ setProjectSelected, projectSelected }) {
                         type="button"
                         className="w-full flex gap-2 px-1 py-1 font-bold text-xs hover:bg-gray-200"
                         onClick={(e) => {
-                          setProjectSelected(projects[idx]);
+                          setSelectedProject(projects[idx]);
                           setDropDown(false);
                         }}
                       >
