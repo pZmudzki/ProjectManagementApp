@@ -4,17 +4,16 @@
     1px 1px 0 #fff;
 }
 
-.bg-modal{
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1040;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.2);
-    backdrop-filter: blur(8px);
-    animation: bg-blur 0.2s ease-in;
-
+.bg-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1040;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(8px);
+  animation: bg-blur 0.2s ease-in;
 }
 
 @keyframes bg-blur {
@@ -47,14 +46,13 @@
   }
 }
 
-
 /* grid container for projects page */
 
-.grid-container{
-  height: calc(100vh - 81px);
+.grid-container {
+  height: calc(100vh - 64px);
   display: grid;
-  grid-template-columns: 100px 1fr;
-  grid-template-rows: 40px calc(100vw - 40px);
+  grid-template-columns: 60px 1fr;
+  grid-template-rows: 40px 1fr;
   /* justify-items: center;
   align-items: center; */
 }

@@ -22,7 +22,7 @@ export default function SecondNavbar({ setProjectSelected, projectSelected }) {
 
   return (
     <div>
-      <nav className="flex justify-between px-4 py-2">
+      <nav className="flex justify-between px-4 py-2 bg-gray-100">
         {/* dropdown here */}
         {projectSelected ? (
           <div className="relative">
@@ -49,7 +49,7 @@ export default function SecondNavbar({ setProjectSelected, projectSelected }) {
               />
             </button>
             {dropDown ? (
-              <div className="absolute top-7 w-40 bg-white shadow-md rounded-md">
+              <div className="absolute top-7 w-40 bg-white shadow-md rounded-md z-50">
                 <ul className="flex flex-col border-2 rounded-md">
                   {projects.map((project, idx) => (
                     <li key={idx}>

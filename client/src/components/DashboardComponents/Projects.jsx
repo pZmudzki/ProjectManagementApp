@@ -26,20 +26,19 @@ export default function Projects({ filterProject }) {
     <div className="relative">
       <div className="grid-container overflow-y-hidden">
         <div className="col-span-full row-span-1">
-        <SecondNavbar 
-          projectSelected={projectUserSelected}
-          setProjectSelected={setProjectUserSelected}
+          <SecondNavbar
+            projectSelected={projectUserSelected}
+            setProjectSelected={setProjectUserSelected}
           />
         </div>
         {projectUserSelected && (
-        <div className="col-span-1 row-span2">
-          <AsideNavbar projectSelected={projectUserSelected} />
-        </div>
+          <div className="col-span-1 row-span2 relative">
+            <AsideNavbar projectSelected={projectUserSelected} />
+          </div>
         )}
-        <section className="col-start-2 col-end-3 row-span-2" >
+        <section className="col-start-2 col-end-3 row-span-2">
           {projectUserSelected && (
             <>
-
               <h2>{projectUserSelected._id}</h2>
               <h2>{projectUserSelected.projectName}</h2>
               <h2>{projectUserSelected.projectDescription}</h2>
