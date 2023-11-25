@@ -52,7 +52,7 @@
   height: calc(100vh - 64px);
   display: grid;
   grid-template-columns: 60px 1fr;
-  grid-template-rows: 40px 1fr;
+  grid-template-rows: 32px 1fr;
   /* justify-items: center;
   align-items: center; */
 }

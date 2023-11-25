@@ -29,10 +29,11 @@ export default function DeleteProjectModal({ setActive }) {
           if (res.data.error) {
             toast.error(res.data.error);
           } else {
-            setProjects(
+            setProjects(() =>
               projects.filter((project) => project._id !== res.data._id)
             );
             setSelectedProject(projects[0]);
+            navigate("/dashboard/projects");
             setActive(false);
             toast.success(res.data.message);
           }

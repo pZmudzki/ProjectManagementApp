@@ -13,18 +13,25 @@ import {
   ChevronRightIcon,
 } from "@heroicons/react/24/outline";
 
-export default function AsideNavbar() {
-  // const { selectedProject } = useContext(SelectedProjectContext);
-
+export default function AsideNavbar({
+  projectViewOpened,
+  setProjectViewOpened,
+}) {
   const [modalDeleteActive, setModalDeleteActive] = useState(false);
   const [isNavOpen, setIsNavOpen] = useState(false);
   return (
     <div className="flex flex-col justify-between h-full w-max bg-gray-100 absolute p-2 sm:p-3">
       <div className="w-full">
         <button
-          onClick={() => setIsNavOpen(false)}
+          onClick={() => {
+            setProjectViewOpened("overview");
+            setIsNavOpen(false);
+          }}
           type="button"
-          className="flex justify-between items-center w-full hover:bg-gray-200"
+          className={
+            "flex justify-between items-center w-full hover:bg-gray-200 " +
+            (projectViewOpened === "overview" ? "bg-gray-300" : "")
+          }
         >
           {isNavOpen && <h2>Overview</h2>}
           <DocumentMagnifyingGlassIcon
@@ -33,9 +40,15 @@ export default function AsideNavbar() {
           />
         </button>
         <button
-          onClick={() => setIsNavOpen(false)}
+          onClick={() => {
+            setProjectViewOpened("tasks");
+            setIsNavOpen(false);
+          }}
           type="button"
-          className="flex justify-between items-center w-full hover:bg-gray-200"
+          className={
+            "flex justify-between items-center w-full hover:bg-gray-200 " +
+            (projectViewOpened === "tasks" ? "bg-gray-300" : "")
+          }
         >
           {isNavOpen && <h2>Tasks</h2>}
           <ClipboardDocumentListIcon
@@ -73,16 +86,25 @@ export default function AsideNavbar() {
           />
         </button>
         <button
-          onClick={() => setIsNavOpen(false)}
+          onClick={() => {
+            setProjectViewOpened("settings");
+            setIsNavOpen(false);
+          }}
           type="button"
-          className="flex justify-between items-center w-full hover:bg-gray-200"
+          className={
+            "flex justify-between items-center w-full hover:bg-gray-200 " +
+            (projectViewOpened === "settings" ? "bg-gray-300" : "")
+          }
         >
           {isNavOpen && <h2>Settings</h2>}
           <Cog6ToothIcon className="h-5 w-5 sm:h-8 sm:w-8" aria-hidden="true" />
         </button>
       </div>
       {modalDeleteActive && (
-        <DeleteProjectModal setActive={setModalDeleteActive} />
+        <DeleteProjectModal
+          setProjectViewOpened={setProjectViewOpened}
+          setActive={setModalDeleteActive}
+        />
       )}
     </div>
   );

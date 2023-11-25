@@ -14,7 +14,7 @@ import {
   ArrowRightIcon,
 } from "@heroicons/react/24/solid";
 
-export default function SecondNavbar() {
+export default function SecondNavbar({ setProjectViewOpened }) {
   const { projects } = useContext(ProjectsContext);
   const { selectedProject, setSelectedProject } = useContext(
     SelectedProjectContext
@@ -26,13 +26,13 @@ export default function SecondNavbar() {
 
   return (
     <div>
-      <nav className="flex justify-between px-4 py-2 bg-gray-100">
+      <nav className="flex justify-between px-3 py-1 bg-gray-100">
         {/* dropdown here */}
         {selectedProject ? (
           <div className="relative">
             <button
               type="button"
-              className="w-40 flex items-center justify-between px-1 py-1 outline outline-offset-2 outline-2 outline-indigo-600 font-bold text-xs rounded-md shadow-sm hover:outline-4"
+              className="w-40 flex items-center justify-between px-1 py-1 outline outline-offset-1 outline-1 outline-indigo-600 font-bold text-xs rounded-md shadow-sm hover:outline-2"
               onClick={() => {
                 setDropDown(!dropDown);
               }}
@@ -63,6 +63,7 @@ export default function SecondNavbar() {
                         onClick={(e) => {
                           setSelectedProject(projects[idx]);
                           setDropDown(false);
+                          setProjectViewOpened("overview");
                         }}
                       >
                         <FolderIcon
@@ -91,7 +92,7 @@ export default function SecondNavbar() {
           }}
         >
           <FolderPlusIcon
-            className="h-6 w-6 text-green-500"
+            className="h-5 w-5 text-green-500"
             aria-hidden="true"
           />
         </button>
