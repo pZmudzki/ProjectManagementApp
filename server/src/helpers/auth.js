@@ -1,5 +1,4 @@
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 
 const hashPassword = (password) => {
   return new Promise((resolve, reject) => {

@@ -1,22 +1,14 @@
 // const mongoose = require("mongoose");
 const Project = require("../models/projectSchema.js");
 const User = require("../models/userSchema.js");
-const jwt = require("jsonwebtoken");
 
 // Get projects API Endpoint
-const getProjects = (req, res) => {
+const getProjects = async (req, res) => {
   try {
-    const { token } = req.cookies;
-    if (!token) return res.json({ error: "Unauthorized" });
-
-    jwt.verify(token, process.env.JWT_SECRET, {}, async (err, user) => {
-      if (err) throw err;
-
-      const projects = await Project.find({
-        $or: [{ projectManager: user._id }, { projectTeam: user.email }],
-      });
-      res.json({ projects });
+    const projects = await Project.find({
+      $or: [{ projectManager: req.user._id }, { projectTeam: req.user.email }],
     });
+    res.json({ projects });
   } catch (error) {
     console.log(error.message);
     return res.json({ error: "Error getting projects" });
@@ -83,14 +75,17 @@ const updateProject = async (req, res) => {
 
     const projectExists = await Project.findById(id);
     if (!projectExists) return res.json({ error: "Project does not exist" });
-
-    const updatedProject = await Project.findByIdAndUpdate(id, {
-      projectName,
-      projectDescription,
-      status,
-      projectManager,
-      projectTeam,
+    if (projectExists.projectManager != req.user._id) {
+      return res.json({ error: "Only project manager can update a project" });
+    }
+    await Project.findByIdAndUpdate(id, {
+      projectName: projectName,
+      projectDescription: projectDescription,
+      status: status,
+      projectManager: projectManager,
+      projectTeam: projectTeam,
     });
+    const updatedProject = await Project.findById(id);
     res.json({ message: "Project updated successfully", updatedProject });
   } catch (error) {
     console.log(error.message);
@@ -102,8 +97,18 @@ const updateProject = async (req, res) => {
 const deleteProject = async (req, res) => {
   const projectID = req.params.id;
   try {
-    await Project.findByIdAndDelete(projectID);
-    res.json({ message: "Project deleted successfully", _id: projectID });
+    const projectExists = await Project.findById(projectID);
+    if (!projectExists) {
+      return res.json({ error: "Project does not exist" });
+    }
+    if (projectExists.projectManager != req.user._id) {
+      return res.json({ error: "Only project manager can delete a project" });
+    }
+    const deletedProject = await Project.findByIdAndDelete(projectID);
+    const projects = await Project.find({
+      $or: [{ projectManager: req.user._id }, { projectTeam: req.user.email }],
+    });
+    res.json({ message: "Project deleted successfully", projects: projects });
   } catch (error) {
     console.log(error.message);
     return res.json({ error: "Error deleting project" });

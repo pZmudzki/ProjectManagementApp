@@ -7,7 +7,10 @@ import { useNavigate } from "react-router-dom";
 import { ProjectsContext } from "../../../../context/projectContext";
 import { SelectedProjectContext } from "../../../../context/selectedProjectContext";
 
-export default function DeleteProjectModal({ setActive }) {
+export default function DeleteProjectModal({
+  setActive,
+  setProjectViewOpened,
+}) {
   const navigate = useNavigate();
 
   const [typedName, setTypedName] = useState("");
@@ -29,11 +32,10 @@ export default function DeleteProjectModal({ setActive }) {
           if (res.data.error) {
             toast.error(res.data.error);
           } else {
-            setProjects(() =>
-              projects.filter((project) => project._id !== res.data._id)
-            );
+            console.log(res.data.projects);
+            setProjects(res.data.projects);
             setSelectedProject(projects[0]);
-            navigate("/dashboard/projects");
+            setProjectViewOpened("overview");
             setActive(false);
             toast.success(res.data.message);
           }

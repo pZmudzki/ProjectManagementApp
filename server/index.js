@@ -11,9 +11,10 @@ const port = process.env.PORT || 5000;
 // Parse JSON bodies (as sent by API clients)
 app.use(cookieParser());
 app.use(express.json());
-app.use("/", require("./src/routes/authRoutes"));
-app.use("/api/project", require("./src/routes/dashboardRoutes"));
 app.use(express.urlencoded({ extended: true }));
+
+app.use("/", require("./src/routes/authenticationRoutes"));
+app.use("/api/project", require("./src/routes/dashboardRoutes"));
 
 // The server will start right after the connection to the database is established.
 mongoose

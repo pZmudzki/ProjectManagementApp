@@ -5,7 +5,16 @@ export const SelectedProjectContext = createContext();
 
 export function SelectedProjectContextProvider({ children }) {
   const { projects } = useContext(ProjectsContext);
-  const [selectedProject, setSelectedProject] = useState(projects[0]);
+  const [selectedProject, setSelectedProject] = useState(() => {
+    // Retrieve the selected project from local storage
+    const storedProject = localStorage.getItem("selectedProject");
+    return storedProject ? JSON.parse(storedProject) : projects[0];
+  });
+
+  // Update local storage whenever the selected project changes
+  useEffect(() => {
+    localStorage.setItem("selectedProject", JSON.stringify(selectedProject));
+  }, [selectedProject]);
 
   return (
     <SelectedProjectContext.Provider

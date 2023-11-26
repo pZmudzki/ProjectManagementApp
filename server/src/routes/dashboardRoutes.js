@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const cors = require("cors");
 
-// const { authCheck } = require("../middlewares/authMiddleware");
+const auth = require("../middleware/authorization");
 
 const {
   createProject,
@@ -19,9 +19,9 @@ router.use(
   })
 );
 
-router.post("/createProject", createProject);
-router.get("/getProjects", getProjects);
-router.post("/updateProject/:id", updateProject);
-router.delete("/deleteProject/:id", deleteProject);
+router.post("/createProject", auth, createProject);
+router.get("/getProjects", auth, getProjects);
+router.post("/updateProject/:id", auth, updateProject);
+router.delete("/deleteProject/:id", auth, deleteProject);
 
 module.exports = router;

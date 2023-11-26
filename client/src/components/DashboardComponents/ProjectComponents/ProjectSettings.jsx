@@ -42,6 +42,13 @@ export default function ProjectSettings({ setProjectViewOpened }) {
           if (res.data.error) {
             toast.error(res.data.error);
           } else {
+            setProjects((projects) => {
+              return projects.map((project) =>
+                project._id === res.data.updatedProject._id
+                  ? res.data.updatedProject
+                  : project
+              );
+            });
             setSelectedProject(res.data.updatedProject);
             navigate("/dashboard/projects");
             toast.success(res.data.message);
