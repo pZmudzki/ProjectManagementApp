@@ -11,6 +11,11 @@ const {
   deleteProject,
 } = require("../controllers/projectController");
 
+const {
+  getTasks,
+  createTask
+} = require("../controllers/taskController");
+
 // middlewares
 router.use(
   cors({
@@ -23,5 +28,8 @@ router.post("/createProject", auth, createProject);
 router.get("/getProjects", auth, getProjects);
 router.post("/updateProject/:id", auth, updateProject);
 router.delete("/deleteProject/:id", auth, deleteProject);
+
+router.post("/createTask", auth, createTask);
+router.get("/getTasks", auth, getTasks);
 
 module.exports = router;

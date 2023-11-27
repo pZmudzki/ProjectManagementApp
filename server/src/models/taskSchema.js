@@ -2,16 +2,23 @@ const mongoose = require("mongoose");
 
 // Define the schema for the Tasks collection
 const taskSchema = new mongoose.Schema({
-  taskName: String,
+  taskName: {
+    type: String,
+    required: true,
+  },
   description: String,
   status: String,
+  createdDate: {
+    type: Date,
+    default: Date.now,
+  }, 
   dueDate: Date,
   project: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Project",
   },
   assignedTo: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     ref: "User",
   },
 });

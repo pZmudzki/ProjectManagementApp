@@ -13,7 +13,7 @@ import { SelectedProjectContext } from "../../../context/selectedProjectContext"
 export default function Overview() {
   const navigate = useNavigate();
   const { projects } = useContext(ProjectsContext);
-  console.log(projects);
+  // console.log(projects);
   const { setSelectedProject } = useContext(SelectedProjectContext);
   const [createProjectModal, setCreateProjectModal] = useState(false);
   return (
