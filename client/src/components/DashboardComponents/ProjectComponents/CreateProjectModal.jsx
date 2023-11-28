@@ -26,6 +26,13 @@ export default function CreateProjectModal({ modalActive }) {
 
   const [projectTeam, setProjectTeam] = useState([]);
 
+  // helper function to validate email address
+  function validateTeamEmail(email) {
+    return email.match(
+      /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    );
+  }
+
   function handleChange(e) {
     setProjectData({
       ...projectData,
@@ -154,6 +161,14 @@ export default function CreateProjectModal({ modalActive }) {
                     return toast.error("User already added to project team.");
                   } else if (!projectTeam) {
                     return toast.error("Please enter an email address.");
+                  } else if (!validateTeamEmail(projectTeam)) {
+                    setProjectTeam("");
+                    return toast.error("Please enter a valid email address.");
+                  } else if (projectTeam === projectData.projectManager) {
+                    setProjectTeam("");
+                    return toast.error(
+                      "Project Manager cannot be added to project team."
+                    );
                   }
                   setProjectData({
                     ...projectData,

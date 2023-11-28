@@ -62,6 +62,7 @@ const createProject = async (req, res) => {
   }
 };
 
+// Update Project API Endpoint
 const updateProject = async (req, res) => {
   try {
     const {

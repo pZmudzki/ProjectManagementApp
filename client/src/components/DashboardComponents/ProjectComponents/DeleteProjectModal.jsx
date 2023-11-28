@@ -32,9 +32,8 @@ export default function DeleteProjectModal({
           if (res.data.error) {
             toast.error(res.data.error);
           } else {
-            console.log(res.data.projects);
             setProjects(res.data.projects);
-            setSelectedProject(projects[0]);
+            setSelectedProject(res.data.projects[0]);
             setProjectViewOpened("overview");
             setActive(false);
             toast.success(res.data.message);
