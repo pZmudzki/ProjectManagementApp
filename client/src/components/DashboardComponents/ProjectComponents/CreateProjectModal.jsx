@@ -24,7 +24,7 @@ export default function CreateProjectModal({ modalActive }) {
     projectTeam: [],
   });
 
-  const [projectTeam, setProjectTeam] = useState([]);
+  const [projectTeamMember, setProjectTeamMember] = useState("");
 
   // helper function to validate email address
   function validateTeamEmail(email) {
@@ -81,7 +81,7 @@ export default function CreateProjectModal({ modalActive }) {
           <div className="mb-3 flex flex-col">
             <label htmlFor="projectDescription">Project Description</label>
             <textarea
-              className="text-black"
+              className="text-black resize-none"
               name="projectDescription"
               id="projectDescription"
               cols="30"
@@ -149,32 +149,38 @@ export default function CreateProjectModal({ modalActive }) {
                 type="text"
                 name="projectTeam"
                 id="projectTeam"
-                value={projectTeam}
-                onChange={(e) => setProjectTeam(e.target.value)}
+                value={projectTeamMember}
+                onChange={(e) => setProjectTeamMember(e.target.value)}
               />
               <button
                 className="max-w-max absolute text-indigo-600 right-2 top-1/2 transform -translate-y-1/2"
                 type="button"
                 onClick={() => {
-                  if (projectData.projectTeam.includes(projectTeam)) {
-                    setProjectTeam("");
+                  if (projectData.projectTeam.includes(projectTeamMember)) {
+                    setProjectTeamMember("");
                     return toast.error("User already added to project team.");
-                  } else if (!projectTeam) {
+                  } else if (
+                    projectTeamMember == null ||
+                    projectTeamMember === ""
+                  ) {
                     return toast.error("Please enter an email address.");
-                  } else if (!validateTeamEmail(projectTeam)) {
-                    setProjectTeam("");
+                  } else if (!validateTeamEmail(projectTeamMember)) {
+                    setProjectTeamMember("");
                     return toast.error("Please enter a valid email address.");
-                  } else if (projectTeam === projectData.projectManager) {
-                    setProjectTeam("");
+                  } else if (projectTeamMember === projectData.projectManager) {
+                    setProjectTeamMember("");
                     return toast.error(
                       "Project Manager cannot be added to project team."
                     );
                   }
                   setProjectData({
                     ...projectData,
-                    projectTeam: [...projectData.projectTeam, projectTeam],
+                    projectTeam: [
+                      ...projectData.projectTeam,
+                      projectTeamMember,
+                    ],
                   });
-                  setProjectTeam("");
+                  setProjectTeamMember("");
                 }}
               >
                 <UserPlusIcon className="h-6 w-6" aria-hidden="true" />

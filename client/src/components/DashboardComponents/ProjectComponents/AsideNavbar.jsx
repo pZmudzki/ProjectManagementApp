@@ -20,7 +20,7 @@ export default function AsideNavbar({
   const [modalDeleteActive, setModalDeleteActive] = useState(false);
   const [isNavOpen, setIsNavOpen] = useState(false);
   return (
-    <div className="flex flex-col justify-between h-full w-max bg-gray-100 absolute p-3">
+    <div className="flex flex-col justify-between h-full w-max bg-gray-100 absolute p-3 z-30">
       <div className="w-full">
         <button
           onClick={() => {
