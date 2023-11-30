@@ -8,15 +8,23 @@ import { UserContext } from "../../../../context/userContext";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import dayjs from "dayjs";
 
-export default function CreateTask() {
+import "../dashboard.css";
+
+// tomorrows date
+const today = new Date();
+const tomorrow = new Date(today);
+tomorrow.setDate(tomorrow.getDate() + 1);
+
+export default function CreateTask({ setCreateTaskModalActive }) {
   const { setTasks } = useContext(TasksContext);
   const { selectedProject } = useContext(SelectedProjectContext);
   const { user } = useContext(UserContext);
+
   const [task, setTask] = useState({
     taskName: "",
     description: "",
     status: "Not Started",
-    dueDate: new Date(),
+    dueDate: tomorrow,
     project: selectedProject._id,
     assignedTo: user.email,
   });
@@ -45,7 +53,7 @@ export default function CreateTask() {
               taskName: "",
               description: "",
               status: "Not Started",
-              dueDate: new Date(),
+              dueDate: tomorrow,
               project: selectedProject._id,
               assignedTo: user.email,
             });
@@ -60,69 +68,85 @@ export default function CreateTask() {
   }
 
   return (
-    <div className="border-2">
-      <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row">
-        <div className="flex flex-col">
-          <label htmlFor="taskName">Task Name</label>
-          <input
-            onChange={handleChange}
-            type="text"
-            id="taskName"
-            name="taskName"
-            value={task.taskName}
-            className="border-2 border-black rounded"
-          />
-          <label htmlFor="description">Description</label>
-          <textarea
-            onChange={handleChange}
-            cols="20"
-            rows="3"
-            id="description"
-            name="description"
-            value={task.description}
-            className="resize-none border-2 border-black rounded"
-          />
-        </div>
-        <div className="flex flex-col">
-          <label htmlFor="assignedTo">Assigned To</label>
-          <input
-            onChange={handleChange}
-            type="text"
-            id="assignedTo"
-            name="assignedTo"
-            value={task.assignedTo}
-            className="border-2 border-black rounded"
-          />
-          <label htmlFor="status">Status</label>
-          <select
-            onChange={handleChange}
-            id="status"
-            name="status"
-            value={task.status}
-            className="border-2 border-black rounded"
-          >
-            <option value="Not Started">Not Started</option>
-            <option value="In Progress">In Progress</option>
-            <option value="Completed">Completed</option>
-          </select>
-          <label htmlFor="dueDate">Due date</label>
-
-          <DateTimePicker
-            disablePast={true}
-            value={dayjs(task.dueDate)}
-            onChange={(newDate) => {
-              setTask(() => {
-                return { ...task, dueDate: dayjs(newDate) };
-              });
-              console.log(task);
-            }}
-          />
-
-          <button type="submit" className="border-2 border-black rounded">
-            Create Task
-          </button>
-        </div>
-      </form>
-    </div>
+    <>
+      <div className="border-2 border-black modal px-4 py-2 rounded-lg bg-indigo-300">
+        <form onSubmit={handleSubmit} className="flex flex-col">
+          <div className="flex flex-col">
+            <label htmlFor="taskName">Task Name</label>
+            <input
+              onChange={handleChange}
+              type="text"
+              id="taskName"
+              name="taskName"
+              value={task.taskName}
+              className="border-2 border-black rounded"
+            />
+            <label htmlFor="description">Description</label>
+            <textarea
+              onChange={handleChange}
+              cols="20"
+              rows="3"
+              id="description"
+              name="description"
+              value={task.description}
+              className="resize-none border-2 border-black rounded"
+            />
+          </div>
+          <div className="flex flex-col">
+            <label htmlFor="assignedTo">Assigned To</label>
+            <input
+              onChange={handleChange}
+              type="text"
+              id="assignedTo"
+              name="assignedTo"
+              value={task.assignedTo}
+              className="border-2 border-black rounded"
+            />
+            <label htmlFor="status">Status</label>
+            <select
+              onChange={handleChange}
+              id="status"
+              name="status"
+              value={task.status}
+              className="border-2 border-black rounded"
+            >
+              <option value="Not Started">Not Started</option>
+              <option value="In Progress">In Progress</option>
+              <option value="Completed">Completed</option>
+            </select>
+            <label htmlFor="dueDate">Due date</label>
+            <div className="z-50">
+              <DateTimePicker
+                disablePast={true}
+                value={dayjs(task.dueDate)}
+                onChange={(newDate) => {
+                  setTask(() => {
+                    return { ...task, dueDate: dayjs(newDate) };
+                  });
+                  console.log(task);
+                }}
+              />
+            </div>
+          </div>
+          <div className="flex justify-between">
+            <button
+              type="button"
+              onClick={() => setCreateTaskModalActive(false)}
+              className="border-2 border-red rounded"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              onClick={() => setCreateTaskModalActive(false)}
+              className="border-2 border-black rounded"
+            >
+              Create Task
+            </button>
+          </div>
+        </form>
+      </div>
+      <div className="bg-modal"></div>
+    </>
   );
 }

@@ -24,7 +24,6 @@ export default function Navbar() {
     { name: "Overview", href: "/dashboard" },
     { name: "Team", href: "/dashboard/team" },
     { name: "Projects", href: "/dashboard/projects" },
-    { name: "Calendar", href: "#" },
     { name: "Reports", href: "#" },
   ];
 

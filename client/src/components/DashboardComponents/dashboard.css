@@ -8,7 +8,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1040;
+  z-index: 39;
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.2);
@@ -30,7 +30,7 @@
   left: 50%;
   top: 50%;
   /* filter: blur(none); */
-  z-index: 9999;
+  z-index: 40;
   transform: translate(-50%, -50%);
   box-shadow: 50px, 20px, 40px, rgba(0, 0, 0, 0.275);
   animation: modalAnim 0.2s ease-in;
@@ -51,7 +51,7 @@
 .grid-container {
   height: calc(100vh - 64px);
   display: grid;
-  grid-template-columns: 60px 1fr;
+  grid-template-columns: 56px 1fr;
   grid-template-rows: 32px 1fr;
   /* justify-items: center;
   align-items: center; */
