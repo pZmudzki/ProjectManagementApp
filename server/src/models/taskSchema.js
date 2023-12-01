@@ -16,7 +16,8 @@ const taskSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  dueDate: Date,
+  fromDate: Date,
+  toDate: Date,
   project: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Project",

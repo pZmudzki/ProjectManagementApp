@@ -206,7 +206,7 @@ export default function CreateProjectModal({ modalActive }) {
           </div>
         </form>
       </div>
-      <div className="bg-modal"></div>
+      <div onClick={() => modalActive(false)} className="bg-modal"></div>
     </>
   );
 }

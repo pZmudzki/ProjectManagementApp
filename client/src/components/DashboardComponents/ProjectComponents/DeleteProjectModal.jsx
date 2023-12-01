@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import "../dashboard.css";
 
 // context
 import { ProjectsContext } from "../../../../context/projectContext";
@@ -74,7 +75,7 @@ export default function DeleteProjectModal({
           </div>
         </form>
       </div>
-      <div className="bg-modal"></div>
+      <div onClick={() => setActive(false)} className="bg-modal"></div>
     </>
   );
 }

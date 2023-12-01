@@ -10,12 +10,10 @@ import dayjs from "dayjs";
 
 import "../dashboard.css";
 
-// tomorrows date
-const today = new Date();
-const tomorrow = new Date(today);
-tomorrow.setDate(tomorrow.getDate() + 1);
+import { setDefaultOptions } from "date-fns";
+setDefaultOptions({ weekStartsOn: 1 });
 
-export default function CreateTask({ setCreateTaskModalActive }) {
+export default function CreateTask({ setCreateTaskModalActive, selectedDay }) {
   const { setTasks } = useContext(TasksContext);
   const { selectedProject } = useContext(SelectedProjectContext);
   const { user } = useContext(UserContext);
@@ -24,10 +22,18 @@ export default function CreateTask({ setCreateTaskModalActive }) {
     taskName: "",
     description: "",
     status: "Not Started",
-    dueDate: tomorrow,
+    fromDate: new Date(selectedDay),
+    toDate: getTwoHoursFromNow(selectedDay),
     project: selectedProject._id,
     assignedTo: user.email,
   });
+
+  // helper for getting a date 2 hours from now
+  function getTwoHoursFromNow(date) {
+    const newDate = new Date(date);
+    newDate.setHours(newDate.getHours() + 2);
+    return newDate;
+  }
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -53,7 +59,8 @@ export default function CreateTask({ setCreateTaskModalActive }) {
               taskName: "",
               description: "",
               status: "Not Started",
-              dueDate: tomorrow,
+              fromDate: new Date(selectedDay),
+              toDate: getTwoHoursFromNow(selectedDay),
               project: selectedProject._id,
               assignedTo: user.email,
             });
@@ -114,14 +121,27 @@ export default function CreateTask({ setCreateTaskModalActive }) {
               <option value="In Progress">In Progress</option>
               <option value="Completed">Completed</option>
             </select>
-            <label htmlFor="dueDate">Due date</label>
+            <label htmlFor="fromDate">From date</label>
             <div className="z-50">
               <DateTimePicker
                 disablePast={true}
-                value={dayjs(task.dueDate)}
+                value={dayjs(task.fromDate)}
                 onChange={(newDate) => {
                   setTask(() => {
-                    return { ...task, dueDate: dayjs(newDate) };
+                    return { ...task, fromDate: dayjs(newDate) };
+                  });
+                  console.log(task);
+                }}
+              />
+            </div>
+            <label htmlFor="toDate">To date</label>
+            <div className="z-50">
+              <DateTimePicker
+                disablePast={true}
+                value={dayjs(task.toDate)}
+                onChange={(newDate) => {
+                  setTask(() => {
+                    return { ...task, toDate: dayjs(newDate) };
                   });
                   console.log(task);
                 }}
@@ -146,7 +166,10 @@ export default function CreateTask({ setCreateTaskModalActive }) {
           </div>
         </form>
       </div>
-      <div className="bg-modal"></div>
+      <div
+        onClick={() => setCreateTaskModalActive(false)}
+        className="bg-modal"
+      ></div>
     </>
   );
 }

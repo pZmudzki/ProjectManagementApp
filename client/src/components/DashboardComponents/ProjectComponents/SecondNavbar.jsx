@@ -53,7 +53,7 @@ export default function SecondNavbar({ setProjectViewOpened }) {
               />
             </button>
             {dropDown ? (
-              <div className="absolute top-7 w-40 bg-white shadow-md rounded-md z-50">
+              <div className="absolute top-7 w-40 bg-white shadow-md rounded-md z-30">
                 <ul className="flex flex-col border-2 rounded-md">
                   {projects.map((project, idx) => (
                     <li key={idx}>
