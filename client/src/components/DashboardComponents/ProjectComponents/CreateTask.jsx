@@ -13,17 +13,38 @@ import "../dashboard.css";
 import { setDefaultOptions } from "date-fns";
 setDefaultOptions({ weekStartsOn: 1 });
 
-export default function CreateTask({ setCreateTaskModalActive, selectedDay }) {
+export default function CreateTask({
+  setCreateTaskModalActive,
+  selectedDate,
+  selectedTime,
+}) {
   const { setTasks } = useContext(TasksContext);
   const { selectedProject } = useContext(SelectedProjectContext);
   const { user } = useContext(UserContext);
+
+  console.log(selectedDate, selectedTime);
+  // helper for appending date and time
+  function appendDateAndTime() {
+    var hour = parseInt(selectedTime.hour);
+    if (selectedTime.ampm === "PM") {
+      hour = hour + 12;
+    }
+    var date = new Date(
+      selectedDate.date.year,
+      selectedDate.date.month,
+      selectedDate.date.day,
+      hour,
+      selectedTime.minute
+    );
+    return date;
+  }
 
   const [task, setTask] = useState({
     taskName: "",
     description: "",
     status: "Not Started",
-    fromDate: new Date(selectedDay),
-    toDate: getTwoHoursFromNow(selectedDay),
+    fromDate: new Date(appendDateAndTime()),
+    toDate: getTwoHoursFromNow(appendDateAndTime()),
     project: selectedProject._id,
     assignedTo: user.email,
   });
@@ -59,8 +80,8 @@ export default function CreateTask({ setCreateTaskModalActive, selectedDay }) {
               taskName: "",
               description: "",
               status: "Not Started",
-              fromDate: new Date(selectedDay),
-              toDate: getTwoHoursFromNow(selectedDay),
+              fromDate: new Date(appendDateAndTime),
+              toDate: getTwoHoursFromNow(appendDateAndTime),
               project: selectedProject._id,
               assignedTo: user.email,
             });
@@ -74,6 +95,7 @@ export default function CreateTask({ setCreateTaskModalActive, selectedDay }) {
     }
   }
 
+  console.log(task);
   return (
     <>
       <div className="border-2 border-black modal px-4 py-2 rounded-lg bg-indigo-300">
