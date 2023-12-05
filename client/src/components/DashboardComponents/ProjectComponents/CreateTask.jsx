@@ -85,6 +85,7 @@ export default function CreateTask({
               project: selectedProject._id,
               assignedTo: user.email,
             });
+            setCreateTaskModalActive(false);
           }
         })
         .catch((err) => {
@@ -180,7 +181,6 @@ export default function CreateTask({
             </button>
             <button
               type="submit"
-              onClick={() => setCreateTaskModalActive(false)}
               className="border-2 border-black rounded"
             >
               Create Task

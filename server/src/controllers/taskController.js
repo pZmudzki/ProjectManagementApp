@@ -17,7 +17,7 @@ const getTasks = async (req, res) => {
 
 const createTask = async (req, res) => {
   try {
-    const { taskName, description, status, dueDate, project, assignedTo } =
+    const { taskName, description, status, fromDate, toDate, project, assignedTo } =
       req.body;
 
     if (!taskName) {
@@ -37,7 +37,8 @@ const createTask = async (req, res) => {
       taskName: taskName,
       description: description,
       status: status,
-      dueDate: dueDate,
+      fromDate: fromDate,
+      toDate: toDate,
       project: project,
       assignedTo: assignedTo,
     });

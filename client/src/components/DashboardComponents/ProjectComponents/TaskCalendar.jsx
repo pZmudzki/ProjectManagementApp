@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import CreateTask from "./CreateTask";
 
 import { LocalizationProvider } from "@mui/x-date-pickers";
@@ -13,6 +13,10 @@ import {
   ArrowRightIcon,
   CalendarDaysIcon,
 } from "@heroicons/react/24/outline";
+
+// context for tasks
+import { TasksContext } from "../../../../context/tasksContext";
+
 
 const hours = [
   "",
@@ -42,6 +46,8 @@ const hours = [
   "",
 ];
 
+const clickableMinutesOnCalendar = ["0", "15", "30", "45"];
+
 const dayNames = [
   "Sunday",
   "Monday",
@@ -53,6 +59,8 @@ const dayNames = [
 ];
 
 export default function TaskCalendar() {
+  const { tasks } = useContext(TasksContext);
+
   const [createTaskModalActive, setCreateTaskModalActive] = useState(false);
   const [week, setWeek] = useState([]);
   const [weekOffset, setWeekOffset] = useState(0); // 0 = current week, 1 = next week, -1 = previous week
@@ -72,7 +80,7 @@ export default function TaskCalendar() {
   });
 
   // setting previous/current/next week Default: current week
-  function setWeekPrevCurrNext() {
+  function handleWeekPrevCurrNext() {
     const today = new Date();
     const offsetToday = addWeeks(new Date(), weekOffset);
     const monday = startOfWeek(offsetToday, { weekStartsOn: 1 });
@@ -80,7 +88,7 @@ export default function TaskCalendar() {
     // console.log(monday);
     // console.log(sunday);
     // set first and last day of the week
-    handleFirstAndLastDay({
+    setFirstAndLastDay({
       firstDay: {
         year: monday.getFullYear(),
         month: monday.getMonth(),
@@ -124,16 +132,18 @@ export default function TaskCalendar() {
 
   // getting current week days
   useEffect(() => {
-    handleFirstAndLastDay();
+    handleWeekPrevCurrNext();
   }, [weekOffset]);
 
   // setting selected time
   function handleTimeSelect(time) {
     let { hour, ampm, minute } = time;
+    
     if (hour === "") {
       hour = "0";
       ampm = "AM";
     }
+
     setSelectedTime({
       hour: hour,
       ampm: ampm,
@@ -238,71 +248,29 @@ export default function TaskCalendar() {
                           hour === "" ? " border-t-4 " : " border-t-2 "
                         } border-gray-300 w-full flex flex-col`}
                       >
-                        <button
-                          type="button"
-                          name="minute"
-                          className={`w-full grow hover:bg-gray-200 transition-all ${
-                            selectedDate.isInThePast === true
-                              ? " bg-gray-200 "
-                              : ""
-                          }`}
-                          onClick={() =>
-                            handleTimeSelect({
-                              hour: hour.slice(0, -3),
-                              ampm: hour.slice(-2),
-                              minute: "00",
-                            })
-                          }
-                          disabled={selectedDate.isInThePast}
-                        ></button>
-                        <button
-                          type="button"
-                          className={`w-full grow hover:bg-gray-200 transition-all ${
-                            selectedDate.isInThePast === true
-                              ? " bg-gray-200 "
-                              : ""
-                          }`}
-                          onClick={() =>
-                            handleTimeSelect({
-                              hour: hour.slice(0, -3),
-                              ampm: hour.slice(-2),
-                              minute: "15",
-                            })
-                          }
-                          disabled={selectedDate.isInThePast}
-                        ></button>
-                        <button
-                          type="button"
-                          className={`w-full grow hover:bg-gray-200 transition-all ${
-                            selectedDate.isInThePast === true
-                              ? " bg-gray-200 "
-                              : ""
-                          }`}
-                          onClick={() =>
-                            handleTimeSelect({
-                              hour: hour.slice(0, -3),
-                              ampm: hour.slice(-2),
-                              minute: "30",
-                            })
-                          }
-                          disabled={selectedDate.isInThePast}
-                        ></button>
-                        <button
-                          type="button"
-                          className={`w-full grow hover:bg-gray-200 transition-all ${
-                            selectedDate.isInThePast === true
-                              ? " bg-gray-200 "
-                              : ""
-                          }`}
-                          onClick={() =>
-                            handleTimeSelect({
-                              hour: hour.slice(0, -3),
-                              ampm: hour.slice(-2),
-                              minute: "45",
-                            })
-                          }
-                          disabled={selectedDate.isInThePast}
-                        ></button>
+                        {/* render buttons to pass the time and open create task modal */}
+                        {clickableMinutesOnCalendar.map((minute) => {
+                          return (
+                            <button
+                              key={minute}
+                              type="button"
+                              className={`w-full grow hover:bg-gray-200 transition-all ${
+                                selectedDate.isInThePast === true
+                                  ? " bg-gray-200 "
+                                  : ""
+                              }`}
+                              onClick={() =>
+                                handleTimeSelect({
+                                  hour: hour.slice(0, -3),
+                                  ampm: hour.slice(-2),
+                                  minute: minute,
+                                })
+                              }
+                              disabled={selectedDate.isInThePast}
+                            ></button>
+                          );
+                        })}
+                      
                       </div>
                     </div>
                   );

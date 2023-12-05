@@ -25,11 +25,11 @@ export default function Dashboard() {
         <Navbar />
         <main>
           <ProjectsContextProvider>
-            <TasksContextProvider>
-              <SelectedProjectContextProvider>
+            <SelectedProjectContextProvider>
+              <TasksContextProvider>
                 <Outlet />
-              </SelectedProjectContextProvider>
-            </TasksContextProvider>
+              </TasksContextProvider>
+            </SelectedProjectContextProvider>
           </ProjectsContextProvider>
         </main>
       </div>
