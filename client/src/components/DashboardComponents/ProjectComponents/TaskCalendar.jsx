@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
 import CreateTask from "./CreateTask";
+import TaskCard from "./TaskCard";
 
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
-import { startOfWeek } from "date-fns";
-import { endOfWeek } from "date-fns";
-import { addWeeks } from "date-fns";
+import { startOfWeek, compareAsc, endOfWeek, addWeeks } from "date-fns";
 
 import {
   ArrowLeftIcon,
@@ -16,7 +15,6 @@ import {
 
 // context for tasks
 import { TasksContext } from "../../../../context/tasksContext";
-
 
 const hours = [
   "",
@@ -60,7 +58,9 @@ const dayNames = [
 
 export default function TaskCalendar() {
   const { tasks } = useContext(TasksContext);
-
+  // taking tasks and filtering them for the selected date
+  const [tasksForSelectedDate, setTasksForSelectedDate] = useState([]);
+  // controlling create task modal
   const [createTaskModalActive, setCreateTaskModalActive] = useState(false);
   const [week, setWeek] = useState([]);
   const [weekOffset, setWeekOffset] = useState(0); // 0 = current week, 1 = next week, -1 = previous week
@@ -85,8 +85,11 @@ export default function TaskCalendar() {
     const offsetToday = addWeeks(new Date(), weekOffset);
     const monday = startOfWeek(offsetToday, { weekStartsOn: 1 });
     const sunday = endOfWeek(offsetToday, { weekStartsOn: 1 });
+
+    const weekHelper = [];
     // console.log(monday);
     // console.log(sunday);
+
     // set first and last day of the week
     setFirstAndLastDay({
       firstDay: {
@@ -100,7 +103,6 @@ export default function TaskCalendar() {
         day: sunday.getDate(),
       },
     });
-    const weekHelper = [];
     for (let i = 0; i < 7; i++) {
       const day = new Date(monday);
       day.setDate(day.getDate() + i);
@@ -118,6 +120,7 @@ export default function TaskCalendar() {
       });
     }
     setWeek(weekHelper);
+
     // helper function to select the date that is NOT in the past
     const filterForFutureDays = weekHelper.filter(
       (day) => day.isInThePast == false
@@ -135,10 +138,56 @@ export default function TaskCalendar() {
     handleWeekPrevCurrNext();
   }, [weekOffset]);
 
+  // setting tasks for selected date
+  function handleTasksForSelectedDate() {
+    if (tasks.length === 0) return;
+    if (selectedDate === undefined) return;
+
+    const tasksForSelectedDateHelper = tasks
+      .filter((task) => {
+        const taskDate = new Date(task.fromDate);
+        return (
+          selectedDate.date.year === taskDate.getFullYear() &&
+          selectedDate.date.month === taskDate.getMonth() &&
+          selectedDate.date.day === taskDate.getDate()
+        );
+      })
+      .map((task) => {
+        const fromDate = new Date(task.fromDate);
+        const toDate = new Date(task.toDate);
+
+        // formatting date to be able to use it in the calendar
+
+        return {
+          ...task,
+          fromDate: {
+            year: fromDate.getFullYear(),
+            month: fromDate.getMonth(),
+            day: fromDate.getDate(),
+            hour: fromDate.getHours(),
+            minute: fromDate.getMinutes(),
+          },
+          toDate: {
+            year: toDate.getFullYear(),
+            month: toDate.getMonth(),
+            day: toDate.getDate(),
+            hour: toDate.getHours(),
+            minute: toDate.getMinutes(),
+          },
+        };
+      });
+
+    setTasksForSelectedDate(tasksForSelectedDateHelper);
+  }
+
+  useEffect(() => {
+    handleTasksForSelectedDate();
+  }, [selectedDate]);
+
   // setting selected time
   function handleTimeSelect(time) {
     let { hour, ampm, minute } = time;
-    
+
     if (hour === "") {
       hour = "0";
       ampm = "AM";
@@ -152,10 +201,12 @@ export default function TaskCalendar() {
     setCreateTaskModalActive(true);
   }
 
+  console.log(tasksForSelectedDate);
+  // console.log("chuj");
   // console.log(firstAndLastDay);
-  // console.log(currWeek);
-  console.log(selectedDate);
+  // console.log(week);
   // console.log(selectedTime);
+  // console.log(weekOffset);
   return (
     <>
       {selectedDate ? (
@@ -224,9 +275,7 @@ export default function TaskCalendar() {
                               : "hover:outline outline-offset-2 hover:outline-2 hover:outline-gray-300"
                           } ${day.isInThePast ? "bg-gray-300" : "bg-gray-100"}`}
                         >
-                          <span className="py-1 px-2">
-                            {day.dayName.slice(0, 3)}
-                          </span>
+                          <span className="">{day.dayName.slice(0, 3)}</span>
                         </button>
                       );
                     })}
@@ -234,7 +283,7 @@ export default function TaskCalendar() {
                 </div>
               </div>
               {/* calendar hours */}
-              <div className="flex flex-col">
+              <div className="grid-cols-1">
                 {hours.map((hour, idx) => {
                   return (
                     <div key={idx} className="flex h-16 last:h-0">
@@ -249,11 +298,43 @@ export default function TaskCalendar() {
                         } border-gray-300 w-full flex flex-col`}
                       >
                         {/* render buttons to pass the time and open create task modal */}
+                        {/* each button is responsible for 15 minutes on calendar */}
                         {clickableMinutesOnCalendar.map((minute) => {
-                          return (
+                          tasksForSelectedDate.map((task) => {
+                            if (
+                              task.fromDate.hour === hour &&
+                              task.fromDate.minute === minute
+                            ) {
+                              console.log(hour, minute, "true");
+                              return <div>chjuj</div>;
+                            } else {
+                              return (
+                                <button
+                                  type="button"
+                                  key={minute}
+                                  className={`w-full grow hover:bg-gray-200 transition-all ${
+                                    selectedDate.isInThePast === true
+                                      ? " bg-gray-200 "
+                                      : ""
+                                  }`}
+                                  onClick={() =>
+                                    handleTimeSelect({
+                                      hour: hour.slice(0, -3),
+                                      ampm: hour.slice(-2),
+                                      minute: minute,
+                                    })
+                                  }
+                                  disabled={selectedDate.isInThePast}
+                                ></button>
+                              );
+                            }
+                          });
+                        })}
+
+                        {/* return (
                             <button
-                              key={minute}
                               type="button"
+                              key={minute}
                               className={`w-full grow hover:bg-gray-200 transition-all ${
                                 selectedDate.isInThePast === true
                                   ? " bg-gray-200 "
@@ -267,10 +348,7 @@ export default function TaskCalendar() {
                                 })
                               }
                               disabled={selectedDate.isInThePast}
-                            ></button>
-                          );
-                        })}
-                      
+                            ></button> */}
                       </div>
                     </div>
                   );

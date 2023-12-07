@@ -17,8 +17,15 @@ const getTasks = async (req, res) => {
 
 const createTask = async (req, res) => {
   try {
-    const { taskName, description, status, fromDate, toDate, project, assignedTo } =
-      req.body;
+    const {
+      taskName,
+      description,
+      status,
+      fromDate,
+      toDate,
+      project,
+      assignedTo,
+    } = req.body;
 
     if (!taskName) {
       return res.json({ error: "Task name has not been entered" });
