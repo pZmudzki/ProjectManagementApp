@@ -16,7 +16,7 @@ export default function Overview() {
   const { setSelectedProject } = useContext(SelectedProjectContext);
   const [createProjectModal, setCreateProjectModal] = useState(false);
   return (
-    <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+    <div className="mx-auto py-6 sm:px-6 lg:px-8">
       <div className="relative">
         {!createProjectModal ? (
           <>
@@ -25,7 +25,7 @@ export default function Overview() {
                 <h1 className="font-bold text-3xl text-indigo-600 border-b-2">
                   Projects
                 </h1>
-                <div className="flex flex-wrap gap-10 justify-center">
+                <div className="flex flex-wrap gap-10">
                   {projects.map((project) => (
                     <ProjectCard key={project._id} project={project} />
                   ))}

@@ -22,8 +22,9 @@ export default function Navbar() {
 
   const navigation = [
     { name: "Overview", href: "/dashboard" },
-    { name: "Team", href: "/dashboard/team" },
     { name: "Projects", href: "/dashboard/projects" },
+    { name: "Calendar", href: "/dashboard/calendar" },
+    { name: "Team", href: "/dashboard/team" },
     { name: "Reports", href: "#" },
   ];
 
@@ -35,7 +36,7 @@ export default function Navbar() {
         <Disclosure as="nav" className="bg-indigo-600">
           {({ open }) => (
             <>
-              <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+              <div className=" px-4 sm:px-6 lg:px-8">
                 <div className="flex h-16 items-center justify-between">
                   <div className="flex items-center">
                     <div className="flex-shrink-0">
@@ -106,7 +107,7 @@ export default function Navbar() {
                           leaveFrom="transform opacity-100 scale-100"
                           leaveTo="transform opacity-0 scale-95"
                         >
-                          <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                          <Menu.Items className="absolute right-0 z-[9999] mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                             {userNavigation.map((item) => (
                               <Menu.Item key={item.name}>
                                 {({ active }) => (

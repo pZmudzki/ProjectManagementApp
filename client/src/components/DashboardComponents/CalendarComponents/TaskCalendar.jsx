@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import CreateTask from "./CreateTask";
-import TaskCard from "./TaskCard";
+import TaskCard from "../ProjectComponents/TaskCard";
 
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";

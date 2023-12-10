@@ -34,7 +34,7 @@ export default function Projects() {
               />
             </div>
 
-            <section className="col-start-2 col-end-3 row-span-2 overflow-y-scroll">
+            <section className="col-start-2 col-end-3 row-span-2 overflow-y-scroll p-2">
               {projectViewOpened === "overview" && (
                 <>
                   <h2>{selectedProject._id}</h2>
