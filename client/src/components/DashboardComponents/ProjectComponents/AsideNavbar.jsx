@@ -20,8 +20,8 @@ export default function AsideNavbar({
   const [modalDeleteActive, setModalDeleteActive] = useState(false);
   const [isNavOpen, setIsNavOpen] = useState(false);
   return (
-    <div className="flex flex-col justify-between h-full w-max bg-gray-100 absolute p-3 z-20">
-      <div className="w-full">
+    <div className="flex flex-col justify-between w-max bg-indigo-600 p-3">
+      <div className="w-full flex flex-col gap-2">
         <button
           onClick={() => {
             setProjectViewOpened("overview");
@@ -29,8 +29,8 @@ export default function AsideNavbar({
           }}
           type="button"
           className={
-            "flex justify-between items-center w-full hover:bg-gray-200 " +
-            (projectViewOpened === "overview" ? "bg-gray-300" : "")
+            "flex justify-between items-center w-full text-white rounded-lg px-2 py-1 hover:bg-indigo-300 " +
+            (projectViewOpened === "overview" ? "bg-indigo-400" : "")
           }
         >
           {isNavOpen && <h2>Overview</h2>}
@@ -43,8 +43,8 @@ export default function AsideNavbar({
           }}
           type="button"
           className={
-            "flex justify-between items-center w-full hover:bg-gray-200 " +
-            (projectViewOpened === "tasks" ? "bg-gray-300" : "")
+            "flex justify-between items-center w-full text-white rounded-lg px-2 py-1 hover:hover:bg-indigo-300 " +
+            (projectViewOpened === "tasks" ? "bg-indigo-400" : "")
           }
         >
           {isNavOpen && <h2>Tasks</h2>}
@@ -54,31 +54,15 @@ export default function AsideNavbar({
       <button
         onClick={() => setIsNavOpen(!isNavOpen)}
         type="button"
-        className="grow self-end"
+        className="grow self-end text-white"
       >
         <ChevronRightIcon
-          className={
-            "h-8 w-8 " +
-            (isNavOpen ? "rotate-180 transition-all duration-700" : "")
-          }
+          className={`h-8 w-8 hover:scale-125 transition-scale duration-300 ease-in-out
+            ${isNavOpen ? "rotate-180 transition-rotate duration-700" : ""}`}
           aria-hidden="true"
         />
       </button>
-      <div className="w-full">
-        <button
-          type="button"
-          className="flex justify-between items-center gap-3 w-full hover:bg-gray-200"
-          onClick={() => {
-            setModalDeleteActive(true);
-            setIsNavOpen(false);
-          }}
-        >
-          {isNavOpen && <h2 className="shrink-0">Delete Project</h2>}
-          <ArchiveBoxXMarkIcon
-            className="h-8 w-8 text-red-700"
-            aria-hidden="true"
-          />
-        </button>
+      <div className="w-full flex flex-col gap-2">
         <button
           onClick={() => {
             setProjectViewOpened("settings");
@@ -86,12 +70,26 @@ export default function AsideNavbar({
           }}
           type="button"
           className={
-            "flex justify-between items-center w-full hover:bg-gray-200 " +
-            (projectViewOpened === "settings" ? "bg-gray-300" : "")
+            "flex justify-between items-center w-full text-white rounded-lg px-2 py-1 hover:bg-indigo-300 " +
+            (projectViewOpened === "settings" ? "bg-indigo-400" : "")
           }
         >
           {isNavOpen && <h2>Settings</h2>}
           <Cog6ToothIcon className="h-8 w-8" aria-hidden="true" />
+        </button>
+        <button
+          type="button"
+          className="flex justify-between items-center gap-3 w-full text-white rounded-lg px-2 py-1 hover:bg-indigo-300"
+          onClick={() => {
+            setModalDeleteActive(true);
+            setIsNavOpen(false);
+          }}
+        >
+          {isNavOpen && <h2 className="shrink-0">Delete Project</h2>}
+          <ArchiveBoxXMarkIcon
+            className="h-6 w-6 sm:h-8 sm:w-8"
+            aria-hidden="true"
+          />
         </button>
       </div>
       {modalDeleteActive && (

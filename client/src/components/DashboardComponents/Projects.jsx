@@ -7,6 +7,7 @@ import AsideNavbar from "./ProjectComponents/AsideNavbar";
 import ProjectSettings from "./ProjectComponents/ProjectSettings";
 import CreateProjectModal from "./ProjectComponents/CreateProjectModal";
 import Tasks from "./ProjectComponents/Tasks";
+import NoProjectsMessage from "./ProjectComponents/NoProjectsMessage";
 
 // context
 import { SelectedProjectContext } from "../../../context/selectedProjectContext";
@@ -21,20 +22,15 @@ export default function Projects() {
   return (
     <>
       {projects.length > 0 ? (
-        <div className="relative">
-          <div className="grid-container overflow-y-hidden">
-            <div className="col-span-full row-span-1">
-              <SecondNavbar setProjectViewOpened={setProjectViewOpened} />
-            </div>
+        <div className="h-full flex">
+          <AsideNavbar
+            setProjectViewOpened={setProjectViewOpened}
+            projectViewOpened={projectViewOpened}
+          />
 
-            <div className="col-span-1 row-span2 relative">
-              <AsideNavbar
-                setProjectViewOpened={setProjectViewOpened}
-                projectViewOpened={projectViewOpened}
-              />
-            </div>
-
-            <section className="col-start-2 col-end-3 row-span-2 overflow-y-scroll p-2">
+          <div className="flex flex-col w-full">
+            <SecondNavbar setProjectViewOpened={setProjectViewOpened} />
+            <section className="w-full over">
               {projectViewOpened === "overview" && (
                 <>
                   <h2>{selectedProject._id}</h2>
@@ -53,24 +49,7 @@ export default function Projects() {
           </div>
         </div>
       ) : (
-        <section className="flex flex-col items-center ">
-          <h1 className="text-lg font-bold mb-2 mt-10 sm:text-3xl">
-            Seems like you don't have any projects yet
-          </h1>
-          <h2 className="flex mb-7">
-            Get started by creating a project below{" "}
-            <ArrowSmallDownIcon className="h-6 w-6" aria-hidden="true" />
-          </h2>
-          <button
-            className="bg-indigo-600 text-white px-4 py-2 rounded-md max-w-max shadow-sm hover:shadow-lg hover:bg-indigo-700 hover:scale-105 transition-all ease-in-out"
-            onClick={() => setCreateProjectModal(true)}
-          >
-            Create New Project
-          </button>
-          {createProjectModal && (
-            <CreateProjectModal modalActive={setCreateProjectModal} />
-          )}
-        </section>
+        <NoProjectsMessage setCreateProjectModal={setCreateProjectModal} />
       )}
     </>
   );

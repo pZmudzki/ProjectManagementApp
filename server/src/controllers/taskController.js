@@ -21,6 +21,7 @@ const createTask = async (req, res) => {
       taskName,
       description,
       status,
+      priority,
       fromDate,
       toDate,
       project,
@@ -44,6 +45,7 @@ const createTask = async (req, res) => {
       taskName: taskName,
       description: description,
       status: status,
+      priority: priority,
       fromDate: fromDate,
       toDate: toDate,
       project: project,
@@ -62,8 +64,15 @@ const createTask = async (req, res) => {
 const updateTask = async (req, res) => {
   try {
     const { id } = req.params;
-    const { taskName, description, status, dueDate, project, assignedTo } =
-      req.body;
+    const {
+      taskName,
+      description,
+      status,
+      priority,
+      dueDate,
+      project,
+      assignedTo,
+    } = req.body;
 
     const foundTask = await Task.exists({ _id: id });
     if (!foundTask) {
@@ -86,6 +95,7 @@ const updateTask = async (req, res) => {
         taskName: taskName,
         description: description,
         status: status,
+        priority: priority,
         dueDate: dueDate,
         project: project,
         assignedTo: assignedTo,

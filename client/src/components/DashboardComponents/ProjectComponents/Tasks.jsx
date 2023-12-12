@@ -1,7 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
+import CreateTaskModal from "./CreateTaskModal";
 
 import { TasksContext } from "../../../../context/tasksContext";
 import { SelectedProjectContext } from "../../../../context/selectedProjectContext";
+
+import TaskCard from "./TaskCard";
+
+import { DocumentPlusIcon } from "@heroicons/react/24/outline";
 
 const sortOptions = ["Latest Date", "Oldest Date", "Name A-Z", "Name Z-A"];
 const sortMethods = {
@@ -52,117 +57,87 @@ const sortMethods = {
 };
 
 export default function Tasks() {
+  const [createTaskModalActive, setCreateTaskModalActive] = useState(false);
   const { tasks } = useContext(TasksContext);
   const { selectedProject } = useContext(SelectedProjectContext);
   const [sortState, setSortState] = useState("Latest Date");
-  const [tasksForSelectedProject, setTasksForSelectedProject] = useState(() => {
-    const filteredTasks = tasks.filter(
-      (task) => task.project === selectedProject._id
-    );
-    return filteredTasks;
-  });
-  const [showDetails, setShowDetails] = useState([null]);
+  const [tasksForSelectedProject, setTasksForSelectedProject] = useState([]);
 
-  function formatDate(date) {
-    const dateObj = new Date(date);
-    const year = dateObj.getFullYear();
-    const month = dateObj.getMonth();
-    const day = dateObj.getDate();
-    const hours = dateObj.getHours();
-    const minutes = dateObj.getMinutes();
-    return `${day}-${month}-${year} ${hours}:${minutes}`;
-  }
-
-  function taskStatus(task) {
-    switch (task.status) {
-      case "Not Started":
-        return "bg-red-500";
-      case "In Progress":
-        return "bg-yellow-300";
-      case "Completed":
-        return "bg-green-300";
-      default:
-        return "bg-red-500";
-    }
-  }
+  useEffect(() => {
+    setTasksForSelectedProject(() => {
+      const filteredTasks = tasks.filter(
+        (task) => task.project === selectedProject._id
+      );
+      return filteredTasks;
+    });
+  }, [tasks]);
 
   return (
-    <div className="flex flex-col gap-2 px-7">
-      <div className="flex justify-between items-center">
-        <h1 className="text-3xl underline -underline-offset-1">Tasks</h1>
-        {/* sort tasks */}
-        <select
-          name="sort"
-          id="sort"
-          onChange={(e) => setSortState(e.target.value)}
-          className="border-2 rounded border-gray-400 self-end"
-        >
-          {sortOptions.map((option, idx) => {
-            return (
-              <option key={idx} value={option}>
-                {option}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-      <div>
-        {tasksForSelectedProject.length !== 0 ? (
-          <ul className="flex flex-col gap-2">
-            {tasksForSelectedProject
-              .sort(sortMethods[sortState].method)
-              .map((task) => {
+    <>
+      {tasksForSelectedProject.length > 0 ? (
+        <div className="flex flex-col gap-2 p-3 overflow-y-scroll w-full">
+          <div className="flex justify-between items-center">
+            <button
+              type="button"
+              className="border-2 flex items-center gap-2 rounded-lg px-2 py-1 hover:bg-indigo-300"
+              onClick={() => setCreateTaskModalActive(true)}
+            >
+              <span>Add new task</span>
+              <DocumentPlusIcon className="h-6 w-6" aria-hidden="true" />
+            </button>
+            {/* sort tasks */}
+            <select
+              name="sort"
+              id="sort"
+              onChange={(e) => setSortState(e.target.value)}
+              className="border-2 rounded border-gray-400 self-end"
+            >
+              {sortOptions.map((option, idx) => {
                 return (
-                  <li
-                    onClick={() =>
-                      setShowDetails({
-                        show: !showDetails.show,
-                        task: task._id,
-                      })
-                    }
-                    key={task._id}
-                    className={`border-2 flex flex-col rounded-lg hover:scale-[1.01] transition-all duration-200 ease-in-out cursor-pointer`}
-                  >
-                    <h3
-                      className={`${taskStatus(
-                        task
-                      )} flex items-center justify-center text-2xl px-4 border-b-2`}
-                    >
-                      {task.status}
-                    </h3>
-                    <div className="flex">
-                      <h1 className="text-3xl py-2 px-4 flex flex-col justify-between">
-                        <span className="text-sm">Title</span>
-                        <span>{task.taskName}</span>
-                      </h1>
-                      <h2 className="text-2xl py-2 px-4 flex flex-col justify-between">
-                        <span className="text-sm">Assigned to</span>
-                        <span>{task.assignedTo}</span>
-                      </h2>
-                      <div className="text-2xl py-2 px-4 flex flex-col justify-between">
-                        <span className="text-sm">Start</span>
-                        <span>{formatDate(task.fromDate)}</span>
-                      </div>
-                      <div className="text-2xl py-2 px-4 flex flex-col justify-between">
-                        <span className="text-sm">End</span>
-                        <span>{formatDate(task.toDate)}</span>
-                      </div>
-                    </div>
-
-                    {showDetails.show && showDetails.task === task._id && (
-                      <div className="text-2xl py-2 px-4 flex flex-col justify-between">
-                        <span className="text-sm">Description</span>
-                        <span>{task.description}</span>
-                      </div>
-                    )}
-                  </li>
+                  <option key={idx} value={option}>
+                    {option}
+                  </option>
                 );
               })}
-          </ul>
-        ) : (
-          <div>There are no tasks</div>
-        )}
-      </div>
-    </div>
+            </select>
+          </div>
+          <div>
+            {tasksForSelectedProject.length !== 0 ? (
+              <ul className="flex flex-col gap-2">
+                {tasksForSelectedProject
+                  .sort(sortMethods[sortState].method)
+                  .map((task) => {
+                    return <TaskCard key={task._id} task={task} />;
+                  })}
+              </ul>
+            ) : (
+              <div>There are no tasks</div>
+            )}
+          </div>
+          {createTaskModalActive && (
+            <CreateTaskModal
+              setCreateTaskModalActive={setCreateTaskModalActive}
+            />
+          )}
+        </div>
+      ) : (
+        <div className="flex items-center justify-center">
+          <h1 className="text-2xl">There are no tasks</h1>
+          <button
+            type="button"
+            className="border-2 flex items-center gap-2 rounded-lg px-2 py-1 hover:bg-indigo-300"
+            onClick={() => setCreateTaskModalActive(true)}
+          >
+            <span>Add new task</span>
+            <DocumentPlusIcon className="h-6 w-6" aria-hidden="true" />
+          </button>
+          {createTaskModalActive && (
+            <CreateTaskModal
+              setCreateTaskModalActive={setCreateTaskModalActive}
+            />
+          )}
+        </div>
+      )}
+    </>
   );
 }

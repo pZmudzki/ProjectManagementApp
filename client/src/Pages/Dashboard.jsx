@@ -21,9 +21,9 @@ export default function Dashboard() {
 
   return (
     <>
-      <div className="min-h-full">
+      <div className="h-screen flex flex-col">
         <Navbar />
-        <main>
+        <main className="grow">
           <ProjectsContextProvider>
             <SelectedProjectContextProvider>
               <TasksContextProvider>

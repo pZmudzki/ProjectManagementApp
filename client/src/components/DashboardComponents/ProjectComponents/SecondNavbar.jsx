@@ -25,11 +25,11 @@ export default function SecondNavbar({ setProjectViewOpened }) {
   const [dropDown, setDropDown] = useState(false);
 
   return (
-    <div>
-      <nav className="flex justify-between px-3 py-1 bg-gray-100">
+    <>
+      <nav className="flex justify-between px-3 py-2 bg-indigo-600">
         {/* dropdown here */}
         {selectedProject ? (
-          <div className="relative">
+          <div className="relative bg-white">
             <button
               type="button"
               className="w-40 flex items-center justify-between px-1 py-1 outline outline-offset-1 outline-1 outline-indigo-600 font-bold text-xs rounded-md shadow-sm hover:outline-2"
@@ -100,6 +100,6 @@ export default function SecondNavbar({ setProjectViewOpened }) {
       {createProjectModal && (
         <CreateProjectModal modalActive={setCreateProjectModal} />
       )}
-    </div>
+    </>
   );
 }

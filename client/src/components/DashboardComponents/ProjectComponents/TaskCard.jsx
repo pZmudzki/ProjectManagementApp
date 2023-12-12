@@ -1,27 +1,87 @@
-import React from "react";
+import React, { useState } from "react";
+
+import DeleteTaskButton from "./DeleteTaskButton";
 
 export default function TaskCard({ task }) {
-  const { title, describtion, status } = task;
+  const [showDetails, setShowDetails] = useState(false);
+
+  function taskStatus(task) {
+    switch (task.status) {
+      case "Not Started":
+        return "bg-red-500";
+      case "In Progress":
+        return "bg-yellow-300";
+      case "Completed":
+        return "bg-green-300";
+      default:
+        return "bg-red-500";
+    }
+  }
+
+  function formatDate(date) {
+    const dateObj = new Date(date);
+    const year = dateObj.getFullYear();
+    const month = dateObj.getMonth();
+    const day = dateObj.getDate();
+    const hours = dateObj.getHours();
+    const minutes = dateObj.getMinutes();
+    return (
+      <p>
+        {day}-{month}-{year} <span className="text-lg">at</span> {hours}:
+        {minutes}
+      </p>
+    );
+  }
+
+  function scaleIfDetails() {
+    if (showDetails) {
+      return "scale-[1.01]";
+    } else {
+      return "cursor-pointer hover:scale-[1.01] transition-all duration-200 ease-in-out";
+    }
+  }
+
   return (
-    <button type="button">
-      <div className="bg-white shadow overflow-hidden sm:rounded-lg">
-        <div className="px-4 py-5 sm:px-6">
-          <h3 className="text-lg leading-6 font-medium text-gray-900">
-            {title}
-          </h3>
-          <p className="mt-1 max-w-2xl text-sm text-gray-500">{describtion}</p>
+    <li
+      onClick={() => setShowDetails(!showDetails)}
+      key={task._id}
+      className={`border-2 flex flex-col rounded-lg ${scaleIfDetails()}`}
+    >
+      <h3
+        className={`${taskStatus(
+          task
+        )} flex items-center justify-center px-4 border-b-2`}
+      >
+        {task.status}
+      </h3>
+      <div className="flex flex-wrap">
+        <h1 className="text-2xl py-2 px-4 flex flex-col justify-between">
+          <span className="text-sm">Title</span>
+          <span>{task.taskName}</span>
+        </h1>
+        <h2 className="text-2xl py-2 px-4 flex flex-col justify-between">
+          <span className="text-sm">Assigned to</span>
+          <span>{task.assignedTo}</span>
+        </h2>
+        <div className="text-2xl py-2 px-4 flex flex-col justify-between">
+          <span className="text-sm">Start</span>
+          <span>{formatDate(task.fromDate)}</span>
         </div>
-        <div className="border-t border-gray-200">
-          <dl>
-            <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-              <dt className="text-sm font-medium text-gray-500">Status</dt>
-              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                {status}
-              </dd>
-            </div>
-          </dl>
+        <div className="text-2xl py-2 px-4 flex flex-col justify-between">
+          <span className="text-sm">End</span>
+          <span>{formatDate(task.toDate)}</span>
         </div>
       </div>
-    </button>
+
+      {showDetails && (
+        <div className="flex justify-between py-2 px-4">
+          <div className="text-xl flex flex-col justify-between font-normal">
+            <span className="text-sm">Description</span>
+            <span>{task.description}</span>
+          </div>
+          <DeleteTaskButton id={task._id} />
+        </div>
+      )}
+    </li>
   );
 }

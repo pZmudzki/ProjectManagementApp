@@ -32,7 +32,7 @@ export default function Navbar() {
 
   return (
     <>
-      <div className="min-h-full">
+      <div className="border-b-2 border-indigo-400">
         <Disclosure as="nav" className="bg-indigo-600">
           {({ open }) => (
             <>
