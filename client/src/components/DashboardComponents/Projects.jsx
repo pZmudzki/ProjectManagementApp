@@ -22,15 +22,16 @@ export default function Projects() {
   return (
     <>
       {projects.length > 0 ? (
-        <div className="h-full flex">
+        <div className="flex absolute top-[66px] right-0 bottom-0 left-0">
           <AsideNavbar
             setProjectViewOpened={setProjectViewOpened}
             projectViewOpened={projectViewOpened}
           />
 
-          <div className="flex flex-col w-full">
+          <div className="flex-1 flex flex-col">
             <SecondNavbar setProjectViewOpened={setProjectViewOpened} />
-            <section className="w-full over">
+            <section className="flex-1 flex overflow-y-scroll">
+              <div className="min-h-min w-full">
               {projectViewOpened === "overview" && (
                 <>
                   <h2>{selectedProject._id}</h2>
@@ -43,8 +44,9 @@ export default function Projects() {
               )}
               {projectViewOpened === "settings" && (
                 <ProjectSettings setProjectViewOpened={setProjectViewOpened} />
-              )}
+                )}
               {projectViewOpened === "tasks" && <Tasks />}
+                </div>
             </section>
           </div>
         </div>

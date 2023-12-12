@@ -21,17 +21,15 @@ export default function Dashboard() {
 
   return (
     <>
-      <div className="h-screen flex flex-col">
-        <Navbar />
-        <main className="grow">
-          <ProjectsContextProvider>
-            <SelectedProjectContextProvider>
-              <TasksContextProvider>
-                <Outlet />
-              </TasksContextProvider>
-            </SelectedProjectContextProvider>
-          </ProjectsContextProvider>
-        </main>
+      <div className="">
+        <ProjectsContextProvider>
+          <SelectedProjectContextProvider>
+            <TasksContextProvider>
+              <Navbar />
+              <Outlet />
+            </TasksContextProvider>
+          </SelectedProjectContextProvider>
+        </ProjectsContextProvider>
       </div>
     </>
   );

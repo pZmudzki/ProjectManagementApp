@@ -17,6 +17,19 @@ export default function TaskCard({ task }) {
         return "bg-red-500";
     }
   }
+  
+  function taskPriority(task) {
+    switch (task.priority) {
+      case "Low":
+        return "bg-green-300";
+      case "Medium":
+        return "bg-yellow-300";
+      case "High":
+        return "bg-red-500";
+      default:
+        return "bg-red-500";
+    }
+  }
 
   function formatDate(date) {
     const dateObj = new Date(date);
@@ -55,29 +68,35 @@ export default function TaskCard({ task }) {
         {task.status}
       </h3>
       <div className="flex flex-wrap">
-        <h1 className="text-2xl py-2 px-4 flex flex-col justify-between">
-          <span className="text-sm">Title</span>
-          <span>{task.taskName}</span>
+        <h1 className=" py-2 px-4 flex flex-col justify-between">
+          <span className="text-[12px] sm:text-sm">Title</span>
+          <span className="text-lg sm:text-2xl font-bold">{task.taskName}</span>
         </h1>
-        <h2 className="text-2xl py-2 px-4 flex flex-col justify-between">
-          <span className="text-sm">Assigned to</span>
-          <span>{task.assignedTo}</span>
+        <h2 className="py-2 px-4 flex flex-col justify-between">
+          <span className="text-[12px] sm:text-sm">Assigned to</span>
+          <span className="text-lg sm:text-2xl">{task.assignedTo}</span>
         </h2>
-        <div className="text-2xl py-2 px-4 flex flex-col justify-between">
-          <span className="text-sm">Start</span>
-          <span>{formatDate(task.fromDate)}</span>
+        <h3 className={`py-2 px-4 flex flex-col justify-between`}>
+          <span className="text-[12px] sm:text-sm">Priority</span>
+          <span className={`text-lg sm:text-2xl ${taskPriority(task)} py-1 px-2 rounded-full`}>{task.priority}</span>
+        </h3>
+        <div className="flex flex-wrap">
+        <div className=" py-2 px-4 flex flex-col justify-between">
+          <span className="text-[12px] sm:text-sm">Start</span>
+          <span className="text-lg sm:text-2xl">{formatDate(task.fromDate)}</span>
         </div>
-        <div className="text-2xl py-2 px-4 flex flex-col justify-between">
-          <span className="text-sm">End</span>
-          <span>{formatDate(task.toDate)}</span>
+        <div className=" py-2 px-4 flex flex-col justify-between">
+          <span className="text-[12px] sm:text-sm">End</span>
+          <span className="text-lg sm:text-2xl">{formatDate(task.toDate)}</span>
+        </div>
         </div>
       </div>
 
       {showDetails && (
         <div className="flex justify-between py-2 px-4">
-          <div className="text-xl flex flex-col justify-between font-normal">
-            <span className="text-sm">Description</span>
-            <span>{task.description}</span>
+          <div className=" flex flex-col justify-between font-normal">
+            <span className="text-[12px] sm:text-sm">Description</span>
+            <span className="text-md sm:text-lg">{task.description}</span>
           </div>
           <DeleteTaskButton id={task._id} />
         </div>

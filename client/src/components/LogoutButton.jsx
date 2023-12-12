@@ -1,10 +1,14 @@
 import axios from "axios";
 import { useContext } from "react";
 import { UserContext } from "../../context/userContext";
+import { SelectedProjectContext } from "../../context/selectedProjectContext";
 import { useNavigate } from "react-router-dom";
+
 
 export default function LogoutButton(props) {
   const navigate = useNavigate();
+  const { setSelectedProject } = useContext(SelectedProjectContext);  
+  
   const { setUser, setIsAuthenticated } = useContext(UserContext);
 
   const logout = async () => {
@@ -12,6 +16,7 @@ export default function LogoutButton(props) {
       await axios.get("/logout").then((res) => {
         setUser(res.data.user);
         setIsAuthenticated(res.data.isAuthenticated);
+        setSelectedProject(null);
         navigate("/login", { replace: true });
       });
     } catch (error) {

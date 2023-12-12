@@ -16,9 +16,7 @@ import {
 
 export default function SecondNavbar({ setProjectViewOpened }) {
   const { projects } = useContext(ProjectsContext);
-  const { selectedProject, setSelectedProject } = useContext(
-    SelectedProjectContext
-  );
+  const { selectedProject, setSelectedProject } = useContext(SelectedProjectContext);
   // for controlling a modal
   const [createProjectModal, setCreateProjectModal] = useState(false);
   // for controlling a dropdown
