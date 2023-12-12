@@ -102,16 +102,17 @@ export default function Tasks() {
       {tasksForSelectedProject.length > 0 ? (
       <>
         <div className="flex flex-col gap-2 p-3 h-full">
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center gap-2">
+            {/* new task button */}
             <button
               type="button"
-              className="border-2 flex items-center gap-2 rounded-lg px-2 py-1 hover:bg-indigo-300"
+              className="border-2 flex items-center gap-2 rounded-lg sm:px-2 sm:py-1 hover:bg-indigo-300"
               onClick={() => setCreateTaskModalActive(true)}
             >
-              <span>Add new task</span>
+              <span className="text-xs sm:text-md">New task</span>
               <DocumentPlusIcon className="h-6 w-6" aria-hidden="true" />
             </button>
-            <div className="flex gap-2">
+            <div className="flex text-xs sm:text-md">
             {/* filter tasks */}
             <select
               name="filter"

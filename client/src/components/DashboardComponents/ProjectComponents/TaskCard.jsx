@@ -68,7 +68,7 @@ export default function TaskCard({ task }) {
         {task.status}
       </h3>
       <div className="flex flex-wrap">
-        <h1 className=" py-2 px-4 flex flex-col justify-between">
+        <h1 className=" py-1 px-2 sm:py-2 sm:px-4 flex flex-col justify-between">
           <span className="text-[12px] sm:text-sm">Title</span>
           <span className="text-lg sm:text-2xl font-bold">{task.taskName}</span>
         </h1>
@@ -80,6 +80,7 @@ export default function TaskCard({ task }) {
           <span className="text-[12px] sm:text-sm">Priority</span>
           <span className={`text-lg sm:text-2xl ${taskPriority(task)} py-1 px-2 rounded-full`}>{task.priority}</span>
         </h3>
+        <div className="hidden sm:block">
         <div className="flex flex-wrap">
         <div className=" py-2 px-4 flex flex-col justify-between">
           <span className="text-[12px] sm:text-sm">Start</span>
@@ -88,6 +89,7 @@ export default function TaskCard({ task }) {
         <div className=" py-2 px-4 flex flex-col justify-between">
           <span className="text-[12px] sm:text-sm">End</span>
           <span className="text-lg sm:text-2xl">{formatDate(task.toDate)}</span>
+        </div>
         </div>
         </div>
       </div>

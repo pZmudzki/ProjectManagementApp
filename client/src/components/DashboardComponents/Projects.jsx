@@ -22,7 +22,7 @@ export default function Projects() {
   return (
     <>
       {projects.length > 0 ? (
-        <div className="flex absolute top-[66px] right-0 bottom-0 left-0">
+        <div className="flex absolute top-[66px] right-0 bottom-0 left-0 z-0">
           <AsideNavbar
             setProjectViewOpened={setProjectViewOpened}
             projectViewOpened={projectViewOpened}

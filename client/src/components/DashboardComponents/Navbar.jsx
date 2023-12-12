@@ -32,7 +32,7 @@ export default function Navbar() {
 
   return (
     <>
-      <div className="border-b-2 border-indigo-400">
+      <div className="border-b-2 border-indigo-400 w-full">
         <Disclosure as="nav" className="bg-indigo-600">
           {({ open }) => (
             <>
@@ -40,11 +40,6 @@ export default function Navbar() {
                 <div className="flex h-16 items-center justify-between">
                   <div className="flex items-center">
                     <div className="flex-shrink-0">
-                      {/* <img
-                        className="h-8 w-8"
-                        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                        alt="Your Company"
-                      /> */}
                       <Link to="/dashboard" className="-m-1.5 p-1.5">
                         <h1 className="transition font-bold text-indigo-500 text-3xl italic hover:text-indigo-400 logo-text">
                           ProjectFlow
@@ -154,7 +149,7 @@ export default function Navbar() {
                 </div>
               </div>
 
-              <Disclosure.Panel className="md:hidden">
+              <Disclosure.Panel className="md:hidden absolute z-[9999] bg-inherit w-full">
                 <div className="space-y-1 px-2 pb-3 pt-2 sm:px-3">
                   {navigation.map((item) => (
                     <Disclosure.Button
