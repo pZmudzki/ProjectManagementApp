@@ -8,8 +8,8 @@ import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import LogoutButton from "../LogoutButton";
 
 const userNavigation = [
-  { name: "Your Profile", href: "/profile" },
-  { name: "Settings", href: "/usersettings" },
+  { name: "Your Profile", href: "/user" },
+  { name: "Settings", href: "/user/settings" },
 ];
 
 function classNames(...classes) {
@@ -32,7 +32,7 @@ export default function Navbar() {
 
   return (
     <>
-      <div className="border-b-2 border-indigo-400 w-full">
+      <div className="border-b-2 border-indigo-400">
         <Disclosure as="nav" className="bg-indigo-600">
           {({ open }) => (
             <>
@@ -86,10 +86,8 @@ export default function Navbar() {
                             <span className="sr-only">Open user menu</span>
                             <img
                               className="h-8 w-8 rounded-full"
-                              src={
-                                "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                              }
-                              alt=""
+                              src={user.profilePicture}
+                              alt="user profile picture"
                             />
                           </Menu.Button>
                         </div>
@@ -149,7 +147,7 @@ export default function Navbar() {
                 </div>
               </div>
 
-              <Disclosure.Panel className="md:hidden absolute z-[9999] bg-inherit w-full">
+              <Disclosure.Panel className="md:hidden absolute z-[9999] bg-inherit w-full border-b-4 border-indigo-900">
                 <div className="space-y-1 px-2 pb-3 pt-2 sm:px-3">
                   {navigation.map((item) => (
                     <Disclosure.Button
@@ -175,9 +173,11 @@ export default function Navbar() {
                       <img
                         className="h-10 w-10 rounded-full"
                         src={
-                          "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                          user.profilePicture
+                            ? user.profilePicture
+                            : "blankImage.jpg"
                         }
-                        alt=""
+                        alt="user profile picture"
                       />
                     </div>
                     <div className="ml-3">
@@ -201,11 +201,11 @@ export default function Navbar() {
                     {userNavigation.map((item) => (
                       <Disclosure.Button
                         key={item.name}
-                        as="a"
-                        href={item.href}
-                        className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
+                        className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white text-left w-full"
                       >
-                        {item.name}
+                        <Link as="a" href={item.href}>
+                          {item.name}
+                        </Link>
                       </Disclosure.Button>
                     ))}
                     <LogoutButton className="block rounded-md text-left w-full px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white" />

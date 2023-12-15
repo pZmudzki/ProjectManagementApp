@@ -2,10 +2,26 @@ const User = require("../models/userSchema");
 const Task = require("../models/taskSchema");
 const Project = require("../models/projectSchema");
 
-// Get tasks API endpoint
+// Get tasks API endpoint (for an individual user)
 const getTasks = async (req, res) => {
   try {
     const tasks = await Task.find({ assignedTo: req.user.email });
+    res.json({ tasks });
+  } catch (error) {
+    console.log(error.message);
+    return res.json({ error: "Error getting tasks" });
+  }
+};
+
+// Get tasks API endpoint (for admin)
+
+const getTasksAdmin = async (req, res) => {
+  try {
+    const projectsWhereUserIsManager = await Project.find({
+      projectManager: req.user._id,
+    });
+    const projectIds = projectsWhereUserIsManager.map((project) => project._id);
+    const tasks = await Task.find({ project: { $in: projectIds } });
     res.json({ tasks });
   } catch (error) {
     console.log(error.message);
@@ -132,4 +148,5 @@ module.exports = {
   createTask,
   updateTask,
   deleteTask,
+  getTasksAdmin,
 };

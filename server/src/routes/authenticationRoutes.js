@@ -6,7 +6,12 @@ const {
   loginUser,
   logoutUser,
   isLoggedIn,
-} = require("../controllers/authController");
+} = require("../controllers/userController");
+const Multer = require("multer");
+
+// Multer config
+const storage = new Multer.memoryStorage();
+const upload = Multer({ storage: storage });
 
 // middlewares
 router.use(
@@ -16,7 +21,7 @@ router.use(
   })
 );
 
-router.post("/register", registerUser);
+router.post("/register", upload.single("profile_picture"), registerUser);
 router.post("/login", loginUser);
 router.get("/logout", logoutUser);
 router.get("/loggedIn", isLoggedIn);

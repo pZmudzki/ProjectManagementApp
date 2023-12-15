@@ -9,7 +9,7 @@ import { TasksContextProvider } from "../../context/tasksContext";
 
 import Navbar from "../components/DashboardComponents/Navbar";
 
-export default function Dashboard() {
+export default function User() {
   const navigate = useNavigate();
   const { isAuthenticated } = useContext(UserContext);
 

@@ -17,7 +17,7 @@ export default function TaskCard({ task }) {
         return "bg-red-500";
     }
   }
-  
+
   function taskPriority(task) {
     switch (task.priority) {
       case "Low":
@@ -40,7 +40,7 @@ export default function TaskCard({ task }) {
     const minutes = dateObj.getMinutes();
     return (
       <p>
-        {day}-{month}-{year} <span className="text-lg">at</span> {hours}:
+        {day}/{month}/{year} <span className="text-lg">at</span> {hours}:
         {minutes}
       </p>
     );
@@ -78,19 +78,29 @@ export default function TaskCard({ task }) {
         </h2>
         <h3 className={`py-2 px-4 flex flex-col justify-between`}>
           <span className="text-[12px] sm:text-sm">Priority</span>
-          <span className={`text-lg sm:text-2xl ${taskPriority(task)} py-1 px-2 rounded-full`}>{task.priority}</span>
+          <span
+            className={`text-lg sm:text-2xl ${taskPriority(
+              task
+            )} py-1 px-2 rounded-full`}
+          >
+            {task.priority}
+          </span>
         </h3>
         <div className="hidden sm:block">
-        <div className="flex flex-wrap">
-        <div className=" py-2 px-4 flex flex-col justify-between">
-          <span className="text-[12px] sm:text-sm">Start</span>
-          <span className="text-lg sm:text-2xl">{formatDate(task.fromDate)}</span>
-        </div>
-        <div className=" py-2 px-4 flex flex-col justify-between">
-          <span className="text-[12px] sm:text-sm">End</span>
-          <span className="text-lg sm:text-2xl">{formatDate(task.toDate)}</span>
-        </div>
-        </div>
+          <div className="flex flex-wrap">
+            <div className=" py-2 px-4 flex flex-col justify-between">
+              <span className="text-[12px] sm:text-sm">Start</span>
+              <span className="text-lg sm:text-2xl">
+                {formatDate(task.fromDate)}
+              </span>
+            </div>
+            <div className=" py-2 px-4 flex flex-col justify-between">
+              <span className="text-[12px] sm:text-sm">End</span>
+              <span className="text-lg sm:text-2xl">
+                {formatDate(task.toDate)}
+              </span>
+            </div>
+          </div>
         </div>
       </div>
 

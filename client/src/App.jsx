@@ -9,11 +9,15 @@ import ErrorPage from "./Pages/ErrorPage";
 import RegisterPage from "./Pages/authPages/RegisterPage";
 import LoginPage from "./Pages/authPages/LoginPage";
 import Dashboard from "./Pages/Dashboard";
+import User from "./Pages/User";
 
 import Overview from "./components/DashboardComponents/Overview";
 import Team from "./components/DashboardComponents/Team";
 import Projects from "./components/DashboardComponents/Projects";
 import Calendar from "./components/DashboardComponents/Calendar";
+
+import UserProfile from "./components/UserComponents.jsx/UserProfile";
+import UserSettings from "./components/UserComponents.jsx/UserSettings";
 
 // axios config
 axios.defaults.baseURL = "http://localhost:5000";
@@ -37,6 +41,11 @@ function App() {
           <Route path="projects" element={<Projects />} />
           <Route path="calendar" element={<Calendar />} />
           <Route path="team" element={<Team />} />
+        </Route>
+
+        <Route path="user" element={<User />}>
+          <Route path=":id" element={<UserProfile />} />
+          <Route path="settings" element={<UserSettings />} />
         </Route>
       </Routes>
     </Router>
