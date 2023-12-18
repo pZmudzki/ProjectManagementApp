@@ -32,26 +32,35 @@ export default function Projects() {
             <SecondNavbar setProjectViewOpened={setProjectViewOpened} />
             <section className="flex-1 flex overflow-y-scroll">
               <div className="min-h-min w-full">
-              {projectViewOpened === "overview" && (
-                <>
-                  <h2>{selectedProject._id}</h2>
-                  <h2>{selectedProject.projectName}</h2>
-                  <h2>{selectedProject.projectDescription}</h2>
-                  <h2>{selectedProject.projectManager}</h2>
-                  <h2>{selectedProject.status}</h2>
-                  <h2>{selectedProject.projectTeam}</h2>
-                </>
-              )}
-              {projectViewOpened === "settings" && (
-                <ProjectSettings setProjectViewOpened={setProjectViewOpened} />
+                {projectViewOpened === "overview" && (
+                  <>
+                    <h2>{selectedProject._id}</h2>
+                    <h2>{selectedProject.projectName}</h2>
+                    <h2>{selectedProject.projectDescription}</h2>
+                    <h2>{selectedProject.projectManager.username}</h2>
+                    <h2>{selectedProject.status}</h2>
+                    <h2>
+                      {selectedProject.projectTeam.map((member) => (
+                        <span>{member.username}</span>
+                      ))}
+                    </h2>
+                  </>
                 )}
-              {projectViewOpened === "tasks" && <Tasks />}
-                </div>
+                {projectViewOpened === "settings" && (
+                  <ProjectSettings
+                    setProjectViewOpened={setProjectViewOpened}
+                  />
+                )}
+                {projectViewOpened === "tasks" && <Tasks />}
+              </div>
             </section>
           </div>
         </div>
       ) : (
         <NoProjectsMessage setCreateProjectModal={setCreateProjectModal} />
+      )}
+      {createProjectModal && (
+        <CreateProjectModal modalActive={setCreateProjectModal} />
       )}
     </>
   );

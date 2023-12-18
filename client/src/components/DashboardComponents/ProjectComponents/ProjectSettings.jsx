@@ -8,7 +8,7 @@ import { ProjectsContext } from "../../../../context/projectContext";
 
 import { UserPlusIcon, UserMinusIcon } from "@heroicons/react/24/outline";
 
-export default function ProjectSettings({ setProjectViewOpened }) {
+export default function ProjectSettings() {
   const navigate = useNavigate();
 
   const { selectedProject, setSelectedProject } = useContext(
@@ -20,8 +20,8 @@ export default function ProjectSettings({ setProjectViewOpened }) {
     projectName: selectedProject.projectName,
     projectDescription: selectedProject.projectDescription,
     status: selectedProject.status,
-    projectManager: selectedProject.projectManager,
-    projectTeam: selectedProject.projectTeam,
+    projectManager: selectedProject.projectManager.email,
+    projectTeam: selectedProject.projectTeam.map((member) => member.email),
   });
 
   const [projectTeam, setProjectTeam] = useState([]);
@@ -35,6 +35,7 @@ export default function ProjectSettings({ setProjectViewOpened }) {
 
   async function Submit(e) {
     try {
+      console.log(projectData);
       e.preventDefault();
       await axios
         .post(`/api/project/updateProject/${selectedProject._id}`, projectData)
@@ -58,6 +59,8 @@ export default function ProjectSettings({ setProjectViewOpened }) {
       console.log(error.message);
     }
   }
+
+  console.log(projectData);
   return (
     <div>
       <form onSubmit={Submit}>
@@ -105,7 +108,7 @@ export default function ProjectSettings({ setProjectViewOpened }) {
                     setProjectData({
                       ...projectData,
                       projectTeam: projectData.projectTeam.filter(
-                        (name) => name !== member
+                        (email) => email !== member
                       ),
                     });
                   }}

@@ -6,9 +6,16 @@ const { handleUpload } = require("../helpers/cloudinaryUpload");
 // Register API Endpoint
 const registerUser = async (req, res) => {
   try {
-    const b64 = Buffer.from(req.file.buffer).toString("base64");
-    let dataURI = "data:" + req.file.mimetype + ";base64," + b64;
-    const cldRes = await handleUpload(dataURI);
+    var cldRes = undefined;
+    if (req.file !== undefined) {
+      const b64 = Buffer.from(req.file.buffer).toString("base64");
+      let dataURI = "data:" + req.file.mimetype + ";base64," + b64;
+      const { secure_url } = await handleUpload(dataURI);
+      cldRes = secure_url;
+    } else {
+      cldRes =
+        "https://res.cloudinary.com/dxsyxo3em/image/upload/v1702754500/jlo7ofvr5ew9vfctd0ki.jpg";
+    }
 
     const { username, email, password } = req.body;
     if (!username) {
@@ -34,7 +41,7 @@ const registerUser = async (req, res) => {
       username,
       email,
       password: await hashPassword(password),
-      profilePicture: cldRes.secure_url,
+      profilePicture: cldRes,
     });
     return res.json(newUser);
   } catch (error) {
@@ -63,7 +70,12 @@ const loginUser = async (req, res) => {
     const isMatch = await comparePassword(password, user.password);
     if (isMatch) {
       jwt.sign(
-        { _id: user._id, username: user.username, email: user.email },
+        {
+          _id: user._id,
+          username: user.username,
+          email: user.email,
+          profilePicture: user.profilePicture,
+        },
         process.env.JWT_SECRET,
         { expiresIn: "8h" },
         (err, token) => {
@@ -80,6 +92,57 @@ const loginUser = async (req, res) => {
     } else {
       return res.json({ error: "Invalid credentials." });
     }
+  } catch (error) {
+    console.log(error);
+    res.json({ error: error.message });
+  }
+};
+
+// Update Profile API Endpoint
+const updateUser = async (req, res) => {
+  try {
+    var cldRes = undefined;
+    if (req.file !== undefined) {
+      const b64 = Buffer.from(req.file.buffer).toString("base64");
+      let dataURI = "data:" + req.file.mimetype + ";base64," + b64;
+      const { secure_url } = await handleUpload(dataURI);
+      cldRes = secure_url;
+    } else {
+      cldRes =
+        "https://res.cloudinary.com/dxsyxo3em/image/upload/v1702754500/jlo7ofvr5ew9vfctd0ki.jpg";
+    }
+
+    const { username, email, password, id } = req.body;
+    if (!username) {
+      return res.json({ error: "Username has not been entered" });
+    }
+    if (!password) {
+      return res.json({ error: "Password has not been entered" });
+    }
+    if (password.length < 6) {
+      return res.json({
+        error: "The password needs to be at least 6 characters long.",
+      });
+    }
+    const userExists = await User.findOne({ email: email });
+    if (userExists) {
+      return res.json({
+        error: "An account with this email already exists.",
+      });
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(
+      id,
+      {
+        username: username,
+        email: email,
+        password: await hashPassword(password),
+        profilePicture: cldRes,
+      },
+      { new: true }
+    );
+
+    return res.json({ message: "Account updated!", updatedUser: updatedUser });
   } catch (error) {
     console.log(error);
     res.json({ error: error.message });
@@ -123,5 +186,6 @@ module.exports = {
   registerUser,
   loginUser,
   logoutUser,
+  updateUser,
   isLoggedIn,
 };

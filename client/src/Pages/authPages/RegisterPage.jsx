@@ -44,7 +44,6 @@ export default function RegisterPage() {
     formData.append("email", data.email);
     formData.append("password", data.password);
     formData.append("profile_picture", data.profile_picture);
-    console.log(formData);
     try {
       const response = await axios.post("/register", formData);
       if (response.data.error) {

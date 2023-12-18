@@ -7,11 +7,6 @@ import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 
 import LogoutButton from "../LogoutButton";
 
-const userNavigation = [
-  { name: "Your Profile", href: "/user" },
-  { name: "Settings", href: "/user/settings" },
-];
-
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
@@ -20,6 +15,13 @@ export default function Navbar() {
   const [currentPage, setCurrentPage] = useState("Overview");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  const { user } = useContext(UserContext);
+
+  const userNavigation = [
+    { name: "Your Profile", href: `./user/${user._id}` },
+    { name: "Settings", href: "./usersettings" },
+  ];
+
   const navigation = [
     { name: "Overview", href: "/dashboard" },
     { name: "Projects", href: "/dashboard/projects" },
@@ -27,9 +29,8 @@ export default function Navbar() {
     { name: "Team", href: "/dashboard/team" },
     { name: "Reports", href: "#" },
   ];
-
-  const { user } = useContext(UserContext);
-
+  // console.log(user);
+  // console.log(user.profilePicture);
   return (
     <>
       <div className="border-b-2 border-indigo-400">
@@ -172,11 +173,7 @@ export default function Navbar() {
                     <div className="flex-shrink-0">
                       <img
                         className="h-10 w-10 rounded-full"
-                        src={
-                          user.profilePicture
-                            ? user.profilePicture
-                            : "blankImage.jpg"
-                        }
+                        src={user.profilePicture}
                         alt="user profile picture"
                       />
                     </div>
@@ -201,11 +198,11 @@ export default function Navbar() {
                     {userNavigation.map((item) => (
                       <Disclosure.Button
                         key={item.name}
+                        as="a"
+                        href={item.href}
                         className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white text-left w-full"
                       >
-                        <Link as="a" href={item.href}>
-                          {item.name}
-                        </Link>
+                        {item.name}
                       </Disclosure.Button>
                     ))}
                     <LogoutButton className="block rounded-md text-left w-full px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white" />

@@ -9,7 +9,6 @@ import ErrorPage from "./Pages/ErrorPage";
 import RegisterPage from "./Pages/authPages/RegisterPage";
 import LoginPage from "./Pages/authPages/LoginPage";
 import Dashboard from "./Pages/Dashboard";
-import User from "./Pages/User";
 
 import Overview from "./components/DashboardComponents/Overview";
 import Team from "./components/DashboardComponents/Team";
@@ -41,11 +40,8 @@ function App() {
           <Route path="projects" element={<Projects />} />
           <Route path="calendar" element={<Calendar />} />
           <Route path="team" element={<Team />} />
-        </Route>
-
-        <Route path="user" element={<User />}>
-          <Route path=":id" element={<UserProfile />} />
-          <Route path="settings" element={<UserSettings />} />
+          <Route path="user/:id" element={<UserProfile />} />
+          <Route path="usersettings" element={<UserSettings />} />
         </Route>
       </Routes>
     </Router>

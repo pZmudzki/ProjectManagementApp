@@ -6,9 +6,13 @@ const User = require("../models/userSchema.js");
 const getProjects = async (req, res) => {
   try {
     const projects = await Project.find({
-      $or: [{ projectManager: req.user._id }, { projectTeam: req.user.email }],
-    });
-    res.json({ projects });
+      $or: [{ projectManager: req.user._id }, { projectTeam: req.user._id }],
+    })
+      .populate("projectManager", "username email profilePicture")
+      .populate("projectTeam", "username email profilePicture");
+
+    console.log(projects);
+    res.json({ projects: projects });
   } catch (error) {
     console.log(error.message);
     return res.json({ error: "Error getting projects" });
@@ -47,12 +51,25 @@ const createProject = async (req, res) => {
         error: "User provided as project manager does not exist",
       });
     }
+    // Check if each user project team exists and retrieve their ID
+    const foundProjectTeam = await Promise.all(
+      projectTeam.map(async (user) => {
+        const foundUser = await User.exists({ email: user });
+        if (!foundUser) {
+          return res.json({
+            error: `User provided as project team member does not exist: ${user}`,
+          });
+        }
+        return foundUser;
+      })
+    );
+
     const newProject = await Project.create({
       projectName: projectName,
       projectDescription: projectDescription,
       status: status,
       projectManager: foundProjectManager,
-      projectTeam: projectTeam,
+      projectTeam: foundProjectTeam,
     });
 
     res.json({ message: "Project created successfully", newProject });
@@ -79,14 +96,39 @@ const updateProject = async (req, res) => {
     if (projectExists.projectManager != req.user._id) {
       return res.json({ error: "Only project manager can update a project" });
     }
+
+    // Check if project manager exists and retrieve their ID
+    const foundProjectManager = await User.exists({ email: projectManager });
+    if (!foundProjectManager) {
+      return res.json({
+        error: "User provided as project manager does not exist",
+      });
+    }
+    // Check if each user project team exists and retrieve their ID
+    const foundProjectTeam = await Promise.all(
+      projectTeam.map(async (user) => {
+        const foundUser = await User.exists({ email: user });
+        if (!foundUser) {
+          return res.json({
+            error: `User provided as project team member does not exist: ${user}`,
+          });
+        }
+        return foundUser;
+      })
+    );
+
     await Project.findByIdAndUpdate(id, {
       projectName: projectName,
       projectDescription: projectDescription,
       status: status,
-      projectManager: projectManager,
-      projectTeam: projectTeam,
+      projectManager: foundProjectManager,
+      projectTeam: foundProjectTeam,
     });
-    const updatedProject = await Project.findById(id);
+
+    const updatedProject = await Project.findById(id)
+      .populate("projectManager", "username email profilePicture")
+      .populate("projectTeam", "username email profilePicture");
+
     res.json({ message: "Project updated successfully", updatedProject });
   } catch (error) {
     console.log(error.message);

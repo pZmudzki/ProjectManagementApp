@@ -2,13 +2,11 @@ import axios from "axios";
 import { createContext, useContext, useState, useEffect } from "react";
 import Loader from "../src/components/Loader";
 
-
 export const ProjectsContext = createContext();
 
 export function ProjectsContextProvider({ children }) {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
-
 
   const getProjects = async () => {
     try {
@@ -25,15 +23,11 @@ export function ProjectsContextProvider({ children }) {
   };
 
   useEffect(() => {
-      getProjects();
+    getProjects();
   }, []);
-  
-
 
   return (
-    <ProjectsContext.Provider
-      value={{ projects, setProjects, loading }}
-    >
+    <ProjectsContext.Provider value={{ projects, setProjects, loading }}>
       {loading ? <Loader /> : children}
     </ProjectsContext.Provider>
   );

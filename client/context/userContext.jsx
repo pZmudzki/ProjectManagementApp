@@ -12,7 +12,9 @@ export function UserContextProvider({ children }) {
     try {
       await axios.get("/loggedIn").then((res) => {
         setUser(res.data.user);
+        // console.log(res.data.user);
         setIsAuthenticated(res.data.isAuthenticated);
+        // console.log(res.data.isAuthenticated);
       });
     } catch (error) {
       console.log(error.message);
