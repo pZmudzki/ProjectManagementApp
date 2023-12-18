@@ -41,7 +41,7 @@ export default function Projects() {
                     <h2>{selectedProject.status}</h2>
                     <h2>
                       {selectedProject.projectTeam.map((member) => (
-                        <span>{member.username}</span>
+                        <span key={member._id}>{member.username}</span>
                       ))}
                     </h2>
                   </>

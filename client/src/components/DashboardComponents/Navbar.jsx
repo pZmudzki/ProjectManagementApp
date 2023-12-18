@@ -86,7 +86,7 @@ export default function Navbar() {
                             <span className="absolute -inset-1.5" />
                             <span className="sr-only">Open user menu</span>
                             <img
-                              className="h-8 w-8 rounded-full"
+                              className="h-8 w-8 rounded-full object-cover"
                               src={user.profilePicture}
                               alt="user profile picture"
                             />
@@ -172,7 +172,7 @@ export default function Navbar() {
                   <div className="flex items-center px-5">
                     <div className="flex-shrink-0">
                       <img
-                        className="h-10 w-10 rounded-full"
+                        className="h-10 w-10 rounded-full object-cover"
                         src={user.profilePicture}
                         alt="user profile picture"
                       />

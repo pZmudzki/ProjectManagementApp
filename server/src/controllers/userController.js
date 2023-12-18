@@ -101,48 +101,53 @@ const loginUser = async (req, res) => {
 // Update Profile API Endpoint
 const updateUser = async (req, res) => {
   try {
-    var cldRes = undefined;
+    const { username, email, password, id } = req.body;
+    const currentUserData = await User.findById(id);
+
+    let updateFields = {
+      username: username,
+      email: email,
+    };
+
     if (req.file !== undefined) {
       const b64 = Buffer.from(req.file.buffer).toString("base64");
       let dataURI = "data:" + req.file.mimetype + ";base64," + b64;
       const { secure_url } = await handleUpload(dataURI);
       cldRes = secure_url;
-    } else {
-      cldRes =
-        "https://res.cloudinary.com/dxsyxo3em/image/upload/v1702754500/jlo7ofvr5ew9vfctd0ki.jpg";
+      updateFields.profilePicture = cldRes;
     }
 
-    const { username, email, password, id } = req.body;
     if (!username) {
-      return res.json({ error: "Username has not been entered" });
-    }
-    if (!password) {
-      return res.json({ error: "Password has not been entered" });
-    }
-    if (password.length < 6) {
-      return res.json({
-        error: "The password needs to be at least 6 characters long.",
-      });
-    }
-    const userExists = await User.findOne({ email: email });
-    if (userExists) {
-      return res.json({
-        error: "An account with this email already exists.",
-      });
+      return res.json({ error: "Username has not been entered." });
     }
 
-    const updatedUser = await User.findByIdAndUpdate(
-      id,
-      {
-        username: username,
-        email: email,
-        password: await hashPassword(password),
-        profilePicture: cldRes,
-      },
-      { new: true }
-    );
+    if (email !== currentUserData.email) {
+      const userExists = await User.findOne({ email: email });
+      if (userExists) {
+        return res.json({
+          error: "An account with this email already exists.",
+        });
+      }
+    }
 
-    return res.json({ message: "Account updated!", updatedUser: updatedUser });
+    if (password !== "null") {
+      if (await comparePassword(password, currentUserData.password)) {
+        return res.json({
+          error: "Previous password has been entered.",
+        });
+      }
+      updateFields.password = await hashPassword(password);
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(id, updateFields, {
+      new: true,
+      omitUndefined: true,
+    });
+
+    return res.json({
+      message: "Account updated!",
+      updatedUser: updatedUser,
+    });
   } catch (error) {
     console.log(error);
     res.json({ error: error.message });

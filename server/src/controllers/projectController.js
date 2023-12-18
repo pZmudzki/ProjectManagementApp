@@ -11,7 +11,6 @@ const getProjects = async (req, res) => {
       .populate("projectManager", "username email profilePicture")
       .populate("projectTeam", "username email profilePicture");
 
-    console.log(projects);
     res.json({ projects: projects });
   } catch (error) {
     console.log(error.message);

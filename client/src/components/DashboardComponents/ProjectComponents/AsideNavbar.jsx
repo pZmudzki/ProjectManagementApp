@@ -34,7 +34,10 @@ export default function AsideNavbar({
           }
         >
           {isNavOpen && <h2>Overview</h2>}
-          <DocumentMagnifyingGlassIcon className="h-6 w-6 sm:h-8 sm:w-8" aria-hidden="true" />
+          <DocumentMagnifyingGlassIcon
+            className="h-6 w-6 sm:h-8 sm:w-8"
+            aria-hidden="true"
+          />
         </button>
         <button
           onClick={() => {
@@ -48,7 +51,10 @@ export default function AsideNavbar({
           }
         >
           {isNavOpen && <h2>Tasks</h2>}
-          <ClipboardDocumentListIcon className="h-6 w-6 sm:h-8 sm:w-8" aria-hidden="true" />
+          <ClipboardDocumentListIcon
+            className="h-6 w-6 sm:h-8 sm:w-8"
+            aria-hidden="true"
+          />
         </button>
       </div>
       <button
@@ -87,7 +93,7 @@ export default function AsideNavbar({
         >
           {isNavOpen && <h2 className="shrink-0">Delete Project</h2>}
           <ArchiveBoxXMarkIcon
-            className="h-6 w-6 sm:h-8 sm:w-8"
+            className="h-6 w-6 text-red-500 sm:h-8 sm:w-8"
             aria-hidden="true"
           />
         </button>

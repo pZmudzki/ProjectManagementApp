@@ -4,11 +4,10 @@ import { UserContext } from "../../context/userContext";
 import { SelectedProjectContext } from "../../context/selectedProjectContext";
 import { useNavigate } from "react-router-dom";
 
-
 export default function LogoutButton(props) {
   const navigate = useNavigate();
-  const { setSelectedProject } = useContext(SelectedProjectContext);  
-  
+  const { setSelectedProject } = useContext(SelectedProjectContext);
+
   const { setUser, setIsAuthenticated } = useContext(UserContext);
 
   const logout = async () => {
@@ -17,6 +16,7 @@ export default function LogoutButton(props) {
         setUser(res.data.user);
         setIsAuthenticated(res.data.isAuthenticated);
         setSelectedProject(null);
+        localStorage.clear();
         navigate("/login", { replace: true });
       });
     } catch (error) {

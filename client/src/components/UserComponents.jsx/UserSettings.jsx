@@ -17,8 +17,8 @@ export default function UserSettings() {
   const [imagePreview, setImagePreview] = useState(null);
 
   const [newPassword, setNewPassword] = useState({
-    newpassword: "",
-    confirmpassword: "",
+    newpassword: null,
+    confirmpassword: null,
   });
   const [data, setData] = useState({
     username: user.username,
@@ -75,6 +75,7 @@ export default function UserSettings() {
         setUser(res.data.user);
         setIsAuthenticated(res.data.isAuthenticated);
         setSelectedProject(null);
+        localStorage.clear();
         toast.success("Please login again.");
         navigate("/login", { replace: true });
       });
@@ -85,7 +86,7 @@ export default function UserSettings() {
 
   return (
     <div className="p-5 flex flex-col gap-3 h-full">
-      <h1 className="text-3xl">User Settings</h1>
+      <h1 className="text-md text-gray-500">User Settings</h1>
       <form onSubmit={updateUser} className="flex flex-col gap-2 w-fit">
         <div>
           <label
@@ -95,7 +96,7 @@ export default function UserSettings() {
             <img
               src={image ? imagePreview : user.profilePicture}
               alt="upload image"
-              className="h-16 w-16 rounded-full border-2 border-indigo-600 hover:border-indigo-500"
+              className="h-32 w-32 rounded-full border-2 object-cover	 border-indigo-600 hover:border-indigo-500"
             />
             {/* {image && <img src={imagePreview} />} */}
           </label>

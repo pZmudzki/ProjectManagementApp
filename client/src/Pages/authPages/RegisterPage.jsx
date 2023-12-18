@@ -76,7 +76,7 @@ export default function RegisterPage() {
                 <img
                   src={image ? imagePreview : "uploadImage.jpg"}
                   alt="upload image"
-                  className="h-16 w-16 rounded-full border-2 border-indigo-600 hover:border-indigo-500"
+                  className="h-16 w-16 rounded-full border-2 object-cover border-indigo-600 hover:border-indigo-500"
                 />
                 {/* {image && <img src={imagePreview} />} */}
               </label>

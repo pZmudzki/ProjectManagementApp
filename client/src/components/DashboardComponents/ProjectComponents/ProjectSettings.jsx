@@ -60,67 +60,70 @@ export default function ProjectSettings() {
     }
   }
 
-  console.log(projectData);
   return (
-    <div>
-      <form onSubmit={Submit}>
-        <div className="flex flex-col">
-          <label htmlFor="projectName">Project Name</label>
-          <input
-            onChange={handleChange}
-            type="text"
-            name="projectName"
-            id="projectName"
-            value={projectData.projectName}
-            className="border-2 border-gray-300 rounded-md"
-          />
-        </div>
-        <div className="flex flex-col">
-          <label htmlFor="projectDescription">Project Description</label>
-          <textarea
-            onChange={handleChange}
-            name="projectDescription"
-            id="projectDescription"
-            value={projectData.projectDescription}
-            className="border-2 border-gray-300 rounded-md"
-          ></textarea>
-        </div>
-        <div className="flex flex-col">
-          <label htmlFor="projectManager">Project Manager</label>
-          <input
-            onChange={handleChange}
-            type="text"
-            name="projectManager"
-            id="projectManager"
-            value={projectData.projectManager}
-            className="border-2 border-gray-300 rounded-md"
-          />
-        </div>
-        <div className="flex flex-col">
-          <label htmlFor="projectTeam">Project Team</label>
-          {projectData.projectTeam.map((member) => {
-            return (
-              <div key={member} className="flex gap-5">
-                <p>{member}</p>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setProjectData({
-                      ...projectData,
-                      projectTeam: projectData.projectTeam.filter(
-                        (email) => email !== member
-                      ),
-                    });
-                  }}
-                >
-                  <UserMinusIcon className="h-6 w-6" aria-hidden="true" />
-                </button>
-              </div>
-            );
-          })}
-          <div className="relative border-2 border-gray-300 rounded-md">
+    <form onSubmit={Submit} className="flex flex-col justify-around p-3 h-full">
+      <div className="flex gap-2 items-center">
+        <label htmlFor="projectName" className="text-gray-500">
+          Project Name
+        </label>
+        <input
+          onChange={handleChange}
+          type="text"
+          name="projectName"
+          id="projectName"
+          value={projectData.projectName}
+          className="border-2 border-gray-400 rounded-lg p-1"
+        />
+      </div>
+      <div className="flex flex-col">
+        <label htmlFor="projectDescription" className="text-gray-500">
+          Project Description
+        </label>
+        <textarea
+          onChange={handleChange}
+          name="projectDescription"
+          id="projectDescription"
+          value={projectData.projectDescription}
+          className="border-2 border-gray-400 rounded-lg p-1"
+        ></textarea>
+      </div>
+      <div className="flex gap-2 items-center">
+        <label htmlFor="status" className="text-gray-500">
+          Status
+        </label>
+        <select
+          onChange={handleChange}
+          name="status"
+          id="status"
+          value={projectData.status}
+          className="border-2 border-gray-400 rounded-lg p-1"
+        >
+          <option value="Not Started">Not Started</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Completed">Completed</option>
+        </select>
+      </div>
+      <div className="flex gap-2 items-center">
+        <label htmlFor="projectManager" className="text-gray-500">
+          Project Manager
+        </label>
+        <input
+          onChange={handleChange}
+          type="text"
+          name="projectManager"
+          id="projectManager"
+          value={projectData.projectManager}
+          className="border-2 border-gray-400 rounded-lg p-1"
+        />
+      </div>
+      <div className="flex flex-col gap-2">
+        <div className="flex gap-2 items-center">
+          <label htmlFor="projectTeam" className="text-gray-500">
+            Project Team
+          </label>
+          <div className="relative ">
             <input
-              className="text-black w-full"
+              className="text-black w-full border-2 border-gray-400 rounded-lg p-1"
               type="text"
               name="projectTeam"
               id="projectTeam"
@@ -148,22 +151,39 @@ export default function ProjectSettings() {
             </button>
           </div>
         </div>
-        <div className="flex flex-col">
-          <label htmlFor="status">Status</label>
-          <select
-            onChange={handleChange}
-            name="status"
-            id="status"
-            value={projectData.status}
-            className="border-2 border-gray-300 rounded-md"
-          >
-            <option value="Not Started">Not Started</option>
-            <option value="In Progress">In Progress</option>
-            <option value="Completed">Completed</option>
-          </select>
+        <div className="flex flex-wrap gap-1">
+          {projectData.projectTeam.map((member, idx) => {
+            return (
+              <div
+                key={idx}
+                className="flex items-center gap-2 p-1 pl-2 border-2 border-indigo-500 rounded-full"
+              >
+                <p>{member}</p>
+                <button
+                  type="button"
+                  className="rounded-full bg-indigo-300 p-1 hover:bg-red-400 hover:scale-105 transition-all duration-300 ease-in-out"
+                  onClick={() => {
+                    setProjectData({
+                      ...projectData,
+                      projectTeam: projectData.projectTeam.filter(
+                        (email) => email !== member
+                      ),
+                    });
+                  }}
+                >
+                  <UserMinusIcon className="h-6 w-6" aria-hidden="true" />
+                </button>
+              </div>
+            );
+          })}
         </div>
-        <button type="submit">Save</button>
-      </form>
-    </div>
+      </div>
+      <button
+        type="submit"
+        className="py-2 px-4 bg-indigo-600 text-white text-2xl self-center justify-self-end w-2/3 rounded-full shadow-lg hover:bg-indigo-500 transition duration-200 ease-in-out"
+      >
+        Save
+      </button>
+    </form>
   );
 }
