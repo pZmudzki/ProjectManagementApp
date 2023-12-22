@@ -61,7 +61,6 @@ export default function SecondNavbar({ setProjectViewOpened }) {
                         type="button"
                         className="w-full flex gap-2 px-1 py-1 font-bold text-xs hover:bg-gray-200"
                         onClick={(e) => {
-                          console.log(projects[idx]);
                           setSelectedProject(projects[idx]);
                           setDropDown(false);
                           setProjectViewOpened("overview");

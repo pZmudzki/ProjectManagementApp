@@ -19,9 +19,9 @@ export default function Navbar() {
   const { isAuthenticated } = useContext(UserContext);
 
   return (
-    <header className=" inset-x-0 top-0 z-50 fixed w-full shadow-md ">
+    <header className=" inset-x-0 top-0 z-50 fixed w-full shadow-md backdrop-blur-md backdrop-brightness-95">
       <nav
-        className="flex items-center justify-between p-6 lg:px-8"
+        className="flex items-center justify-between p-4 lg:px-8"
         aria-label="Global"
       >
         <div className="flex lg:flex-1">
@@ -46,7 +46,7 @@ export default function Navbar() {
             <a
               key={item.name}
               href={item.href}
-              className="text-sm font-semibold leading-6 text-gray-900 bg-white rounded-full px-2 hover:bg-indigo-500 hover:text-white transition-all"
+              className="text-md font-semibold leading-6 text-gray-900 bg-white px-6 py-3 rounded-lg hover:bg-indigo-500 hover:text-white transition-all"
             >
               {item.name}
             </a>

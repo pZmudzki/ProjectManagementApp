@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const cors = require("cors");
 
 const auth = require("../middleware/authorization");
 
@@ -18,14 +17,6 @@ const {
   deleteTask,
   getTasksAdmin,
 } = require("../controllers/taskController");
-
-// middlewares
-router.use(
-  cors({
-    credentials: true,
-    origin: "http://localhost:5173",
-  })
-);
 
 router.post("/createProject", auth, createProject);
 router.get("/getProjects", auth, getProjects);

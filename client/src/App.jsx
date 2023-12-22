@@ -15,7 +15,9 @@ import Team from "./components/DashboardComponents/Team";
 import Projects from "./components/DashboardComponents/Projects";
 import Calendar from "./components/DashboardComponents/Calendar";
 
-import UserProfile from "./components/UserComponents.jsx/UserProfile";
+import ProfileView from "./components/DashboardComponents/TeamComponents/ProfileView";
+import ChatView from "./components/DashboardComponents/TeamComponents/ChatView";
+
 import UserSettings from "./components/UserComponents.jsx/UserSettings";
 
 // axios config
@@ -39,8 +41,11 @@ function App() {
           <Route path="" element={<Overview />} />
           <Route path="projects" element={<Projects />} />
           <Route path="calendar" element={<Calendar />} />
-          <Route path="team" element={<Team />} />
-          <Route path="user/:id" element={<UserProfile />} />
+          <Route path="team" element={<Team />}>
+            <Route path="user" element={<ProfileView />} />
+            <Route path="chat" element={<ChatView />} />
+          </Route>
+
           <Route path="usersettings" element={<UserSettings />} />
         </Route>
       </Routes>

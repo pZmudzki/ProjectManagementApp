@@ -63,13 +63,19 @@ const createProject = async (req, res) => {
       })
     );
 
-    const newProject = await Project.create({
+    const createdProject = await Project.create({
       projectName: projectName,
       projectDescription: projectDescription,
       status: status,
       projectManager: foundProjectManager,
       projectTeam: foundProjectTeam,
     });
+
+    const newProject = await Project.findById(createdProject._id)
+      .populate("projectManager", "username email profilePicture")
+      .populate("projectTeam", "username email profilePicture");
+
+    console.log(newProject);
 
     res.json({ message: "Project created successfully", newProject });
   } catch (error) {
@@ -148,8 +154,11 @@ const deleteProject = async (req, res) => {
     }
     const deletedProject = await Project.findByIdAndDelete(projectID);
     const projects = await Project.find({
-      $or: [{ projectManager: req.user._id }, { projectTeam: req.user.email }],
-    });
+      $or: [{ projectManager: req.user._id }, { projectTeam: req.user._id }],
+    })
+      .populate("projectManager", "username email profilePicture")
+      .populate("projectTeam", "username email profilePicture");
+
     res.json({ message: "Project deleted successfully", projects: projects });
   } catch (error) {
     console.log(error.message);

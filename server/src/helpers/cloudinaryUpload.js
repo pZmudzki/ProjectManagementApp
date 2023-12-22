@@ -10,8 +10,6 @@ cloudinary.config({
 const handleUpload = async (file) => {
   const res = await cloudinary.uploader.upload(file, {
     quality: 60,
-    width: 500,
-    height: 500,
     resource_type: "image",
   });
   return res;
