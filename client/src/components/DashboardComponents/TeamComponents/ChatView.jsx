@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import axios from "axios";
 import { useOutletContext } from "react-router-dom";
 import { PaperAirplaneIcon } from "@heroicons/react/24/outline";
@@ -20,17 +20,31 @@ export default function ChatView() {
   function handleSendMessage(e) {
     e.preventDefault();
     if (message !== "") {
-      // socket.emit("chat message", message);
-      // setMessage("");
+      setMessage("");
       axios
         .post(`api/messages/${selectedUser._id}`, { message })
         .then((res) => {
-          console.log(res.data);
           setMessage("");
+          socket.emit("sendMessage", selectedUser._id, res.data);
+          setMessages((prev) => [...prev, res.data]);
         });
     }
   }
 
+  useEffect(() => {
+    socket.emit("userConnected", user._id);
+
+    socket.on("receiveMessage", (msg) => {
+      setMessages((prev) => [...prev, msg]);
+    });
+
+    // Cleanup function to remove the listener when the component unmounts
+    return () => {
+      socket.off("receiveMessage");
+    };
+  }, []);
+
+  // get messages for from database
   const getMessages = async () => {
     await axios.get(`api/messages/${selectedUser._id}`).then((res) => {
       setMessages(res.data);
@@ -42,6 +56,16 @@ export default function ChatView() {
     getMessages();
   }, [selectedUser]);
 
+  // scroll to the bottom of the chat
+  const messagesEndRef = useRef(null);
+  function scrollToBottom() {
+    messagesEndRef.current.scrollIntoView();
+  }
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  // format date to time
   function formatDateToTime(date) {
     const time = new Date(date);
     const hours = time.getHours();
@@ -66,7 +90,7 @@ export default function ChatView() {
           </div>
         </div>
         {/* chat body */}
-        <div className="flex flex-col justify-end flex-grow px-3 py-2 space-y-2 overflow-y-auto">
+        <div className="flex flex-col flex-grow px-3 py-2 space-y-2 overflow-y-auto">
           {/* chat message */}
           {loadingMessages ? (
             <Loader />
@@ -114,6 +138,7 @@ export default function ChatView() {
               );
             })
           )}
+          <div ref={messagesEndRef} />
         </div>
         {/* chat footer */}
         <div className="flex items-center justify-center p-3 border-t border-gray-300 bg-gray-200">

@@ -188,7 +188,7 @@ export default function Tasks() {
           )}
         </>
       ) : (
-        <div className="flex items-center justify-center">
+        <div className="h-full flex flex-col gap-2 items-center justify-center">
           <h1 className="text-2xl">There are no tasks</h1>
           <button
             type="button"

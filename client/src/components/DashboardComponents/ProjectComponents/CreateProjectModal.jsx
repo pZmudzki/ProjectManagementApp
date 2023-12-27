@@ -5,6 +5,8 @@ import { toast } from "react-hot-toast";
 import "../dashboard.css";
 import { useNavigate } from "react-router-dom";
 
+import { PencilSquareIcon, XMarkIcon } from "@heroicons/react/24/outline";
+
 import { ProjectsContext } from "../../../../context/projectContext";
 import { SelectedProjectContext } from "../../../../context/selectedProjectContext";
 import { UserContext } from "../../../../context/userContext";
@@ -64,146 +66,171 @@ export default function CreateProjectModal({ modalActive }) {
 
   return (
     <>
-      <div className="modal  bg-indigo-600 text-white rounded-xl py-3 px-4">
-        <h1 className="text-4xl text-center mb-4">New Project</h1>
+      <div className="modal bg-indigo-50 border-4 border-indigo-600 rounded-xl py-3 px-4">
+        <div>
+          <div className="flex items-center mb-4 font-bold gap-2">
+            <PencilSquareIcon className="h-8 w-8 text-indigo-600" />
+            <h1 className="text-md">New Project</h1>
+          </div>
+          <XMarkIcon
+            className="h-6 w-6 text-white bg-red-500 rounded-lg absolute right-2 top-2 cursor-pointer hover:bg-red-600 transition duration-300 ease-in-out"
+            onClick={() => modalActive(false)}
+          />
+        </div>
         <form onSubmit={onSubmit}>
-          <div className="mb-3 flex flex-col">
-            <label htmlFor="projectName">Project Name</label>
-            <input
-              className="text-black"
-              type="text"
-              name="projectName"
-              id="projectName"
-              value={projectData.projectName}
-              onChange={handleChange}
-            />
+          <div className="flex gap-2">
+            <div className="mb-3 flex flex-col">
+              <label htmlFor="projectName" className="text-xs">
+                Project Name
+              </label>
+              <input
+                className="text-black border-2 border-indigo-300 rounded-md px-1"
+                type="text"
+                name="projectName"
+                id="projectName"
+                value={projectData.projectName}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="mb-3 flex flex-col">
+              <label htmlFor="status" className="text-xs">
+                Status
+              </label>
+              <select
+                className="text-black border-2 border-indigo-300 rounded-md px-1 text-lg"
+                name="status"
+                id="status"
+                onChange={handleChange}
+              >
+                <option value="Not Started">Not Started</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Completed">Completed</option>
+              </select>
+            </div>
           </div>
           <div className="mb-3 flex flex-col">
-            <label htmlFor="projectDescription">Project Description</label>
+            <label htmlFor="projectDescription" className="text-xs">
+              Project Description
+            </label>
             <textarea
-              className="text-black resize-none"
+              className="text-black resize-none border-2 border-indigo-300 rounded-md px-1 text-lg"
               name="projectDescription"
               id="projectDescription"
               cols="30"
-              rows="5"
+              rows="4"
               value={projectData.projectDescription}
               onChange={handleChange}
             ></textarea>
           </div>
-          <div className="mb-3">
-            <label htmlFor="status">Status</label>
-            <select
-              className="text-black"
-              name="status"
-              id="status"
-              onChange={handleChange}
-            >
-              <option value="Not Started">Not Started</option>
-              <option value="In Progress">In Progress</option>
-              <option value="Completed">Completed</option>
-            </select>
-          </div>
-          <div className="mb-3 flex flex-col">
-            <label htmlFor="projectManager" className="relative">
-              Project Manager{" "}
-              <span className="absolute text-xs italic">Email</span>
-            </label>
-            <input
-              className="text-black"
-              type="email"
-              name="projectManager"
-              id="projectManager"
-              value={projectData.projectManager}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="mb-3 flex flex-col">
-            <label htmlFor="projectTeam" className="relative">
-              Project Team Members{" "}
-              <span className="absolute text-xs italic">Email</span>
-            </label>
-            {projectData.projectTeam.map((teamMember) => (
-              <div
-                className="bg-indigo-200 flex justify-between py-1 px-2 rounded-md mb-2"
-                key={teamMember}
-              >
-                <p>{teamMember}</p>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setProjectData({
-                      ...projectData,
-                      projectTeam: projectData.projectTeam.filter(
-                        (team) => team !== teamMember
-                      ),
-                    });
-                  }}
-                >
-                  <UserMinusIcon className="h-6 w-6" aria-hidden="true" />
-                </button>
-              </div>
-            ))}
-            <div className="relative">
+
+          <div className="flex gap-2">
+            <div className="mb-3 flex flex-col">
+              <label htmlFor="projectManager" className="relative ">
+                Project Manager{" "}
+                <span className="absolute text-xs italic">Email</span>
+              </label>
               <input
-                className="text-black w-full"
-                type="text"
-                name="projectTeam"
-                id="projectTeam"
-                value={projectTeamMember}
-                onChange={(e) => setProjectTeamMember(e.target.value)}
+                className="text-black border-2 border-indigo-300 rounded-md px-1 text-lg"
+                type="email"
+                name="projectManager"
+                id="projectManager"
+                value={projectData.projectManager}
+                onChange={handleChange}
               />
-              <button
-                className="max-w-max absolute text-indigo-600 right-2 top-1/2 transform -translate-y-1/2"
-                type="button"
-                onClick={() => {
-                  if (projectData.projectTeam.includes(projectTeamMember)) {
-                    setProjectTeamMember("");
-                    return toast.error("User already added to project team.");
-                  } else if (
-                    projectTeamMember == null ||
-                    projectTeamMember === ""
-                  ) {
-                    return toast.error("Please enter an email address.");
-                  } else if (!validateTeamEmail(projectTeamMember)) {
-                    setProjectTeamMember("");
-                    return toast.error("Please enter a valid email address.");
-                  } else if (projectTeamMember === projectData.projectManager) {
-                    setProjectTeamMember("");
-                    return toast.error(
-                      "Project Manager cannot be added to project team."
-                    );
-                  }
-                  setProjectData({
-                    ...projectData,
-                    projectTeam: [
-                      ...projectData.projectTeam,
-                      projectTeamMember,
-                    ],
-                  });
-                  setProjectTeamMember("");
-                }}
-              >
-                <UserPlusIcon className="h-6 w-6" aria-hidden="true" />
-              </button>
+            </div>
+            <div className="mb-3">
+              <label htmlFor="projectTeam" className="relative">
+                Project Team Members{" "}
+                <span className="absolute text-xs italic">Email</span>
+              </label>
+              <div className="flex flex-col gap-2">
+                <div className="relative">
+                  <input
+                    className="text-black w-full border-2 border-indigo-300 rounded-md px-1 text-lg"
+                    type="text"
+                    name="projectTeam"
+                    id="projectTeam"
+                    value={projectTeamMember}
+                    onChange={(e) => setProjectTeamMember(e.target.value)}
+                  />
+                  <button
+                    className="max-w-max absolute text-indigo-600 right-2 top-1/2 transform -translate-y-1/2"
+                    type="button"
+                    onClick={() => {
+                      if (projectData.projectTeam.includes(projectTeamMember)) {
+                        setProjectTeamMember("");
+                        return toast.error(
+                          "User already added to project team."
+                        );
+                      } else if (
+                        projectTeamMember == null ||
+                        projectTeamMember === ""
+                      ) {
+                        return toast.error("Please enter an email address.");
+                      } else if (!validateTeamEmail(projectTeamMember)) {
+                        setProjectTeamMember("");
+                        return toast.error(
+                          "Please enter a valid email address."
+                        );
+                      } else if (
+                        projectTeamMember === projectData.projectManager
+                      ) {
+                        setProjectTeamMember("");
+                        return toast.error(
+                          "Project Manager cannot be added to project team."
+                        );
+                      }
+                      setProjectData({
+                        ...projectData,
+                        projectTeam: [
+                          ...projectData.projectTeam,
+                          projectTeamMember,
+                        ],
+                      });
+                      setProjectTeamMember("");
+                    }}
+                  >
+                    <UserPlusIcon
+                      className="h-6 w-6 hover:scale-110 transition duration-100 ease-in-out"
+                      aria-hidden="true"
+                    />
+                  </button>
+                </div>
+                <div className="flex flex-col gap-1 max-h-40 overflow-y-auto">
+                  {projectData.projectTeam.map((teamMember) => (
+                    <div
+                      className="bg-indigo-200 flex justify-between py-1 px-2 rounded-md"
+                      key={teamMember}
+                    >
+                      <p>{teamMember}</p>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setProjectData({
+                            ...projectData,
+                            projectTeam: projectData.projectTeam.filter(
+                              (team) => team !== teamMember
+                            ),
+                          });
+                        }}
+                      >
+                        <UserMinusIcon
+                          className="h-6 w-6 hover:scale-110 transition duration-100 ease-in-out"
+                          aria-hidden="true"
+                        />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
-          <div className="flex gap-2 justify-end">
-            <button
-              className="bg-red-500 hover:bg-red-700 rounded-md px-2 py-1"
-              type="button"
-              onClick={() => {
-                modalActive(false);
-              }}
-            >
-              Cancel
-            </button>
-            <button
-              className="bg-green-500 hover:bg-green-700 rounded-md px-2 py-1"
-              type="submit"
-            >
-              Create Project
-            </button>
-          </div>
+          <button
+            className="bg-green-500 hover:bg-green-600 rounded-md px-2 py-1 w-full text-white transition duration-200 ease-in-out"
+            type="submit"
+          >
+            Create Project
+          </button>
         </form>
       </div>
       <div onClick={() => modalActive(false)} className="bg-modal"></div>

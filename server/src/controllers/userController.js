@@ -1,4 +1,5 @@
 const User = require("../models/userSchema");
+const Notification = require("../models/notificationSchema");
 const { hashPassword, comparePassword } = require("../helpers/auth");
 const jwt = require("jsonwebtoken");
 const { handleUpload } = require("../helpers/cloudinaryUpload");
@@ -142,6 +143,13 @@ const updateUser = async (req, res) => {
     const updatedUser = await User.findByIdAndUpdate(id, updateFields, {
       new: true,
       omitUndefined: true,
+    });
+
+    const notification = await Notification.create({
+      notificationType: "User",
+      sender: id,
+      receivers: [id],
+      message: "Your account has been updated succesfully.",
     });
 
     return res.json({

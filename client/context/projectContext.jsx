@@ -1,5 +1,5 @@
 import axios from "axios";
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect } from "react";
 import Loader from "../src/components/Loader";
 
 export const ProjectsContext = createContext();

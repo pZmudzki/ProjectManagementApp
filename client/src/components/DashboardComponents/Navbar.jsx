@@ -1,5 +1,6 @@
-import { useContext, Fragment, useState } from "react";
+import { useContext, Fragment, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import { UserContext } from "../../../context/userContext";
 
 import { Disclosure, Menu, Transition } from "@headlessui/react";
@@ -12,10 +13,10 @@ function classNames(...classes) {
 }
 
 export default function Navbar() {
-  const [currentPage, setCurrentPage] = useState("Overview");
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
   const { user } = useContext(UserContext);
+
+  const [currentPage, setCurrentPage] = useState("Overview");
+  const [notifications, setNotifications] = useState([]);
 
   const userNavigation = [
     { name: "Your Profile", href: `./user/${user._id}` },
@@ -29,8 +30,55 @@ export default function Navbar() {
     { name: "Team", href: "/dashboard/team" },
     { name: "Reports", href: "#" },
   ];
-  // console.log(user);
-  // console.log(user.profilePicture);
+
+  function pageChange() {
+    setCurrentPage(() => {
+      switch (window.location.pathname) {
+        case "/dashboard":
+          return "Overview";
+        case "/dashboard/projects":
+          return "Projects";
+        case "/dashboard/calendar":
+          return "Calendar";
+        case "/dashboard/team":
+          return "Team";
+        case "/dashboard/reports":
+          return "Reports";
+        default:
+          return "Overview";
+      }
+    });
+  }
+
+  function getDate(date) {
+    const dateObj = new Date(date);
+    const day = dateObj.getDate();
+    const month = dateObj.getMonth() + 1;
+    const year = dateObj.getFullYear();
+    const hours = dateObj.getHours();
+    const minutes = dateObj.getMinutes();
+    const seconds = dateObj.getSeconds();
+    return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+  }
+
+  useEffect(() => {
+    try {
+      axios
+        .get("/api/notifications/getNotifications")
+        .then((res) => {
+          setNotifications(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } catch (error) {
+      console.log(error.message);
+    }
+  }, []);
+
+  useEffect(() => {
+    pageChange();
+  }, [window.location.pathname]);
   return (
     <>
       <div className="border-b-2 border-indigo-400">
@@ -51,7 +99,6 @@ export default function Navbar() {
                       <div className="ml-10 flex items-baseline space-x-4">
                         {navigation.map((item) => (
                           <Link
-                            onClick={() => setCurrentPage(item.name)}
                             key={item.name}
                             to={item.href}
                             className={classNames(
@@ -70,14 +117,71 @@ export default function Navbar() {
                   </div>
                   <div className="hidden md:block">
                     <div className="ml-4 flex items-center md:ml-6">
-                      <button
-                        type="button"
-                        className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                      >
-                        <span className="absolute -inset-1.5" />
-                        <span className="sr-only">View notifications</span>
-                        <BellIcon className="h-6 w-6" aria-hidden="true" />
-                      </button>
+                      {/* Notification dropdown */}
+                      <Menu as="div" className="relative ml-3">
+                        <div>
+                          <Menu.Button className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                            <span className="absolute -inset-1.5" />
+                            <span className="sr-only">View notifications</span>
+                            <BellIcon className="h-6 w-6" aria-hidden="true" />
+                          </Menu.Button>
+                        </div>
+                        <Transition
+                          as={Fragment}
+                          enter="transition ease-out duration-100"
+                          enterFrom="transform opacity-0 scale-95"
+                          enterTo="transform opacity-100 scale-100"
+                          leave="transition ease-in duration-75"
+                          leaveFrom="transform opacity-100 scale-100"
+                          leaveTo="transform opacity-0 scale-95"
+                        >
+                          <Menu.Items className="absolute right-0 z-[9999] mt-2 w-60 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none overflow-hidden">
+                            {notifications.length > 0 ? (
+                              <div className="flex flex-col">
+                                <div>
+                                  {notifications
+                                    .filter(
+                                      (notification) => !notification.read
+                                    )
+                                    .map((notification) => (
+                                      <Menu.Item key={notification._id}>
+                                        <div className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 border-b-2 border-gray-200">
+                                          <div className="flex flex-col">
+                                            <div className="flex justify-between items-center">
+                                              <span className="text-xs">
+                                                {notification.notificationType}
+                                              </span>
+                                              <span className="text-xs">
+                                                {getDate(notification.date)}
+                                              </span>
+                                            </div>
+                                            <span className="text-md font-bold">
+                                              {notification.message}
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </Menu.Item>
+                                    ))}
+                                </div>
+                                <Menu.Item>
+                                  <Link
+                                    to="/dashboard/notifications"
+                                    className="block px-4 py-1 text-sm text-gray-700 text-center bg-indigo-200"
+                                  >
+                                    View all notifications
+                                  </Link>
+                                </Menu.Item>
+                              </div>
+                            ) : (
+                              <Menu.Item>
+                                <div className="px-4 py-2 text-sm text-gray-700">
+                                  No new notifications
+                                </div>
+                              </Menu.Item>
+                            )}
+                          </Menu.Items>
+                        </Transition>
+                      </Menu>
 
                       {/* Profile dropdown */}
                       <Menu as="div" className="relative ml-3">
@@ -152,7 +256,6 @@ export default function Navbar() {
                 <div className="space-y-1 px-2 pb-3 pt-2 sm:px-3">
                   {navigation.map((item) => (
                     <Disclosure.Button
-                      onClick={() => setCurrentPage(item.name)}
                       key={item.name}
                       as="a"
                       href={item.href}
@@ -199,7 +302,7 @@ export default function Navbar() {
                       <Disclosure.Button
                         key={item.name}
                         as="a"
-                        href={item.href}
+                        href={`/dashboard/${item.href}`}
                         className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white text-left w-full"
                       >
                         {item.name}

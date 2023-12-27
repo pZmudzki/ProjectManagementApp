@@ -9,7 +9,11 @@ export function SelectedProjectContextProvider({ children }) {
   const [selectedProject, setSelectedProject] = useState(() => {
     // Retrieve the selected project from local storage
     const storedProject = localStorage.getItem("selectedProject");
-    return storedProject ? JSON.parse(storedProject) : projects[0];
+    return storedProject
+      ? JSON.parse(storedProject)
+      : projects.length > 0
+      ? projects[0]
+      : null;
   });
 
   // Update local storage whenever the selected project changes

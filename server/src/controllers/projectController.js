@@ -1,6 +1,8 @@
 // const mongoose = require("mongoose");
 const Project = require("../models/projectSchema.js");
 const User = require("../models/userSchema.js");
+const Task = require("../models/taskSchema.js");
+const Notification = require("../models/notificationSchema.js");
 
 // Get projects API Endpoint
 const getProjects = async (req, res) => {
@@ -51,17 +53,25 @@ const createProject = async (req, res) => {
       });
     }
     // Check if each user project team exists and retrieve their ID
+    var isValid = true;
+    var notValidUser = "";
+
     const foundProjectTeam = await Promise.all(
       projectTeam.map(async (user) => {
         const foundUser = await User.exists({ email: user });
         if (!foundUser) {
-          return res.json({
-            error: `User provided as project team member does not exist: ${user}`,
-          });
+          isValid = false;
+          notValidUser = user;
         }
         return foundUser;
       })
     );
+
+    if (!isValid) {
+      return res.json({
+        error: `User provided as project team member does not exist: ${notValidUser}`,
+      });
+    }
 
     const createdProject = await Project.create({
       projectName: projectName,
@@ -75,7 +85,13 @@ const createProject = async (req, res) => {
       .populate("projectManager", "username email profilePicture")
       .populate("projectTeam", "username email profilePicture");
 
-    console.log(newProject);
+    const notification = await Notification.create({
+      notificationType: "Project",
+      sender: foundProjectManager,
+      receivers: foundProjectTeam,
+      project: newProject._id,
+      message: `You have been added to the project: ${projectName}`,
+    });
 
     res.json({ message: "Project created successfully", newProject });
   } catch (error) {
@@ -134,6 +150,14 @@ const updateProject = async (req, res) => {
       .populate("projectManager", "username email profilePicture")
       .populate("projectTeam", "username email profilePicture");
 
+    const notification = await Notification.create({
+      notificationType: "Project",
+      sender: foundProjectManager,
+      receivers: foundProjectTeam,
+      project: updatedProject._id,
+      message: `You have been added to the project: ${projectName}`,
+    });
+
     res.json({ message: "Project updated successfully", updatedProject });
   } catch (error) {
     console.log(error.message);
@@ -153,11 +177,24 @@ const deleteProject = async (req, res) => {
       return res.json({ error: "Only project manager can delete a project" });
     }
     const deletedProject = await Project.findByIdAndDelete(projectID);
+
+    const deleteTasksRelatedToProject = await Task.deleteMany({
+      project: projectID,
+    });
+
     const projects = await Project.find({
       $or: [{ projectManager: req.user._id }, { projectTeam: req.user._id }],
     })
       .populate("projectManager", "username email profilePicture")
       .populate("projectTeam", "username email profilePicture");
+
+    const notification = await Notification.create({
+      notificationType: "Project",
+      sender: projectExists.projectManager,
+      receivers: projectExists.projectTeam,
+      project: projectID,
+      message: `The project: ${projectExists.projectName} has been deleted`,
+    });
 
     res.json({ message: "Project deleted successfully", projects: projects });
   } catch (error) {

@@ -32,18 +32,24 @@ app.use(
 
 app.use("/", require("./src/routes/authenticationRoutes"));
 app.use("/api/project", require("./src/routes/dashboardRoutes"));
+app.use("/api/notifications", require("./src/routes/notificationRoutes"));
 app.use("/api/messages", require("./src/routes/messagesRoutes"));
 
-// // socket.io connection
-// io.on("connection", (socket) => {
-//   console.log("a user connected");
-//   socket.on("chat message", (msg) => {
-//     console.log("message: " + msg);
-//   });
-//   socket.on("disconnect", () => {
-//     console.log("user disconnected");
-//   });
-// });
+// socket.io connection
+let users = {};
+io.on("connection", (socket) => {
+  // When a user connects, store their user ID and socket ID
+  socket.on("userConnected", (userId) => {
+    users[userId] = socket.id;
+  });
+
+  // When you want to send a message to a specific user
+  socket.on("sendMessage", (receiverId, message) => {
+    if (users[receiverId]) {
+      io.to(users[receiverId]).emit("receiveMessage", message);
+    }
+  });
+});
 
 // The server will start right after the connection to the database is established.
 mongoose

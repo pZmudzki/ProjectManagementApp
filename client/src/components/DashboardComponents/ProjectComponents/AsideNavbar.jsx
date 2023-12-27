@@ -1,9 +1,9 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import DeleteProjectModal from "./DeleteProjectModal";
-import { Link } from "react-router-dom";
 
-// context
-// import { SelectedProjectContext } from "../../../../context/selectedProjectContext";
+//context
+import { SelectedProjectContext } from "../../../../context/selectedProjectContext";
+import { UserContext } from "../../../../context/userContext";
 
 import {
   ArchiveBoxXMarkIcon,
@@ -17,8 +17,21 @@ export default function AsideNavbar({
   projectViewOpened,
   setProjectViewOpened,
 }) {
+  const { selectedProject } = useContext(SelectedProjectContext);
+  const { user } = useContext(UserContext);
+
+  const [isUserManager, setIsUserManager] = useState(false);
+
   const [modalDeleteActive, setModalDeleteActive] = useState(false);
   const [isNavOpen, setIsNavOpen] = useState(false);
+
+  useEffect(() => {
+    if (selectedProject) {
+      setIsUserManager(() =>
+        user._id === selectedProject.projectManager._id ? true : false
+      );
+    }
+  }, [selectedProject]);
   return (
     <div className="flex flex-col justify-between items-center w-max bg-indigo-600 p-1 sm:p-3">
       <div className="w-full flex flex-col gap-2">
@@ -69,34 +82,73 @@ export default function AsideNavbar({
         />
       </button>
       <div className="w-full flex flex-col gap-2">
-        <button
-          onClick={() => {
-            setProjectViewOpened("settings");
-            setIsNavOpen(false);
-          }}
-          type="button"
-          className={
-            "flex justify-between items-center w-full text-white rounded-lg px-2 py-1 hover:bg-indigo-300 " +
-            (projectViewOpened === "settings" ? "bg-indigo-400" : "")
-          }
-        >
-          {isNavOpen && <h2>Settings</h2>}
-          <Cog6ToothIcon className="h-6 w-6 sm:h-8 sm:w-8" aria-hidden="true" />
-        </button>
-        <button
-          type="button"
-          className="flex justify-between items-center gap-3 w-full text-white rounded-lg px-2 py-1 hover:bg-indigo-300"
-          onClick={() => {
-            setModalDeleteActive(true);
-            setIsNavOpen(false);
-          }}
-        >
-          {isNavOpen && <h2 className="shrink-0">Delete Project</h2>}
-          <ArchiveBoxXMarkIcon
-            className="h-6 w-6 text-red-500 sm:h-8 sm:w-8"
-            aria-hidden="true"
-          />
-        </button>
+        {
+          isUserManager && (
+            <>
+              <button
+                onClick={() => {
+                  setProjectViewOpened("settings");
+                  setIsNavOpen(false);
+                }}
+                type="button"
+                className={
+                  "flex justify-between items-center w-full text-white rounded-lg px-2 py-1 hover:bg-indigo-300 " +
+                  (projectViewOpened === "settings" ? "bg-indigo-400" : "")
+                }
+              >
+                {isNavOpen && <h2>Settings</h2>}
+                <Cog6ToothIcon
+                  className="h-6 w-6 sm:h-8 sm:w-8"
+                  aria-hidden="true"
+                />
+              </button>
+              <button
+                type="button"
+                className="flex justify-between items-center gap-3 w-full text-white rounded-lg px-2 py-1 hover:bg-indigo-300"
+                onClick={() => {
+                  setModalDeleteActive(true);
+                  setIsNavOpen(false);
+                }}
+              >
+                {isNavOpen && <h2 className="shrink-0">Delete Project</h2>}
+                <ArchiveBoxXMarkIcon
+                  className="h-6 w-6 text-red-500 sm:h-8 sm:w-8"
+                  aria-hidden="true"
+                />
+              </button>
+            </>
+          )
+          /*
+         : (
+          <>
+            <button
+              type="button"
+              className={
+                "flex justify-between items-center w-full text-white rounded-lg px-2 py-1 bg-gray-300"
+              }
+              disabled
+            >
+              {isNavOpen && <h2>Settings</h2>}
+              <Cog6ToothIcon
+                className="h-6 w-6 sm:h-8 sm:w-8"
+                aria-hidden="true"
+              />
+            </button>
+            <button
+              type="button"
+              className="flex justify-between items-center gap-3 w-full text-white rounded-lg px-2 py-1 bg-gray-300"
+              disabled
+            >
+              {isNavOpen && <h2 className="shrink-0">Delete Project</h2>}
+              <ArchiveBoxXMarkIcon
+                className="h-6 w-6 text-red-500 sm:h-8 sm:w-8"
+                aria-hidden="true"
+              />
+            </button>
+          </>
+        )
+        */
+        }
       </div>
       {modalDeleteActive && (
         <DeleteProjectModal
