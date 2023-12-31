@@ -83,40 +83,30 @@ const sortMethods = {
 
 export default function Tasks() {
   const [createTaskModalActive, setCreateTaskModalActive] = useState(false);
-  const { tasks, tasksAdmin } = useContext(TasksContext);
+  const { tasks } = useContext(TasksContext);
   const { selectedProject } = useContext(SelectedProjectContext);
   const { user } = useContext(UserContext);
+  // sorting options
   const [sortState, setSortState] = useState("Latest Date");
+  // filtering options
   const [filterState, setFilterState] = useState("All");
-  const [tasksForSelectedProject, setTasksForSelectedProject] = useState([]);
   // show all tasks that are relatable to project
-  const [showAdminTasks, setShowAdminTasks] = useState(false);
-
-  useEffect(() => {
-    setTasksForSelectedProject(() => {
-      if (user._id === selectedProject.projectManager && showAdminTasks) {
-        return tasksAdmin.filter(
-          (task) => task.project === selectedProject._id
-        );
-      } else {
-        return tasks.filter((task) => task.project === selectedProject._id);
-      }
-    });
-  }, [tasks, showAdminTasks, selectedProject, tasksAdmin]);
+  const [showOnlyUsersTasks, setShowOnlyUsersTasks] = useState(false);
 
   return (
     <>
-      {tasksForSelectedProject.length > 0 ? (
+      {tasks.length > 0 ? (
         <>
           <div className="flex flex-col gap-2 p-3 h-full">
             <div className="flex flex-col">
-              {user._id === selectedProject.projectManager && (
+              {user._id === selectedProject.projectManager._id && (
                 <div className="flex gap-1 text-xs items-center justify-end">
-                  <label>Show all tasks</label>
+                  <label>Show only your tasks</label>
                   <input
                     type="checkbox"
-                    value={showAdminTasks}
-                    onChange={() => setShowAdminTasks(!showAdminTasks)}
+                    checked={showOnlyUsersTasks}
+                    value={showOnlyUsersTasks}
+                    onChange={() => setShowOnlyUsersTasks(!showOnlyUsersTasks)}
                   />
                 </div>
               )}
@@ -124,11 +114,14 @@ export default function Tasks() {
                 {/* new task button */}
                 <button
                   type="button"
-                  className="border-2 flex items-center gap-2 rounded-lg sm:px-2 sm:py-1 hover:bg-indigo-300"
+                  className="border-2 flex items-center gap-2 rounded-lg p-1 sm:px-2 sm:py-1 hover:bg-indigo-300"
                   onClick={() => setCreateTaskModalActive(true)}
                 >
                   <span className="text-xs sm:text-lg">New task</span>
-                  <DocumentPlusIcon className="h-6 w-6" aria-hidden="true" />
+                  <DocumentPlusIcon
+                    className="h-4 w-4 sm:h-6 sm:w-6"
+                    aria-hidden="true"
+                  />
                 </button>
                 <div className="flex text-xs sm:text-lg">
                   {/* filter tasks */}
@@ -167,17 +160,24 @@ export default function Tasks() {
               </div>
             </div>
             <div>
-              {tasksForSelectedProject.length !== 0 ? (
+              {tasks.length !== 0 ? (
                 <ul className="flex flex-col gap-2">
-                  {tasksForSelectedProject
+                  {tasks
                     .filter(filterMethods[filterState].method)
+                    .filter((task) => {
+                      if (showOnlyUsersTasks) {
+                        return task.assignedTo === user.email;
+                      } else {
+                        return task;
+                      }
+                    })
                     .sort(sortMethods[sortState].method)
                     .map((task) => {
                       return <TaskCard key={task._id} task={task} />;
                     })}
                 </ul>
               ) : (
-                <div>There are no tasks</div>
+                <div className="text-2xl text-center">You have no tasks</div>
               )}
             </div>
           </div>

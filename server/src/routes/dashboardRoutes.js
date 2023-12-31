@@ -8,6 +8,7 @@ const {
   getProjects,
   updateProject,
   deleteProject,
+  getUserInfo,
 } = require("../controllers/projectController");
 
 const {
@@ -15,13 +16,7 @@ const {
   createTask,
   updateTask,
   deleteTask,
-  getTasksAdmin,
 } = require("../controllers/taskController");
-
-const {
-  getNotifications,
-  updateNotification,
-} = require("../controllers/notificationController");
 
 router.post("/createProject", auth, createProject);
 router.get("/getProjects", auth, getProjects);
@@ -29,12 +24,10 @@ router.post("/updateProject/:id", auth, updateProject);
 router.delete("/deleteProject/:id", auth, deleteProject);
 
 router.post("/createTask", auth, createTask);
-router.get("/getTasks", auth, getTasks);
-router.get("/getTasksAdmin", auth, getTasksAdmin);
-router.post("/updateTask/:id", auth, updateTask);
-router.delete("/deleteTask/:id", auth, deleteTask);
+router.get("/:id/getTasks", auth, getTasks);
+router.put("/updateTask/:taskId", auth, updateTask);
+router.delete("/:id/deleteTask/:taskId", auth, deleteTask);
 
-router.get("/getNotifications", auth, getNotifications);
-router.post("/updateNotification/:id", auth, updateNotification);
+router.get("/getUserInfo/:id", auth, getUserInfo);
 
 module.exports = router;

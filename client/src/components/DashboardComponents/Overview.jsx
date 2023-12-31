@@ -16,19 +16,14 @@ export default function Overview() {
   // const { setSelectedProject } = useContext(SelectedProjectContext);
   const [createProjectModal, setCreateProjectModal] = useState(false);
   return (
-    <div>
+    <div className="p-6">
       {!createProjectModal ? (
         <>
           {projects.length > 0 ? (
-            <section className="flex flex-col gap-8">
-              <h1 className="font-bold text-3xl text-indigo-600 border-b-2">
-                Projects
-              </h1>
-              <div className="flex flex-wrap gap-10">
-                {projects.map((project) => (
-                  <ProjectCard key={project._id} project={project} />
-                ))}
-              </div>
+            <section className="flex flex-wrap gap-10">
+              {projects.map((project) => (
+                <ProjectCard key={project._id} project={project} />
+              ))}
             </section>
           ) : (
             <NoProjectsMessage setCreateProjectModal={setCreateProjectModal} />

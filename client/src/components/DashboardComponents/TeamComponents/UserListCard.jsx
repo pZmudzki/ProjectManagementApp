@@ -10,6 +10,7 @@ import {
 import { UserContext } from "../../../../context/userContext";
 
 export default function UserListCard({
+  setIsSidebarOpen,
   displayedUser,
   selectedUser,
   setSelectedUser,
@@ -44,6 +45,7 @@ export default function UserListCard({
             setSelectedUser(
               displayedUser._id === selectedUser?._id ? null : displayedUser
             );
+            setIsSidebarOpen(false);
             navigate(`/dashboard/team/user`);
           }}
         >
@@ -55,6 +57,7 @@ export default function UserListCard({
             setSelectedUser(
               displayedUser._id === selectedUser?._id ? null : displayedUser
             );
+            setIsSidebarOpen(false);
             navigate(`/dashboard/team/chat`);
           }}
         >

@@ -5,10 +5,10 @@ const auth = require("../middleware/authorization");
 
 const {
   getNotifications,
-  updateNotification,
+  updateNotifications,
 } = require("../controllers/notificationController");
 
 router.get("/getNotifications", auth, getNotifications);
-router.post("/updateNotification/:id", auth, updateNotification);
+router.post("/updateNotifications", auth, updateNotifications);
 
 module.exports = router;

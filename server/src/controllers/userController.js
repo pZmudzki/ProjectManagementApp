@@ -131,7 +131,7 @@ const updateUser = async (req, res) => {
       }
     }
 
-    if (password !== "null") {
+    if (password !== "") {
       if (await comparePassword(password, currentUserData.password)) {
         return res.json({
           error: "Previous password has been entered.",

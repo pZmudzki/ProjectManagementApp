@@ -5,22 +5,24 @@ import { DocumentMinusIcon } from "@heroicons/react/24/outline";
 
 // context
 import { TasksContext } from "../../../../context/tasksContext";
+import { SelectedProjectContext } from "../../../../context/selectedProjectContext";
 
 export default function DeleteTaskButton({ id }) {
-  const { setTasks } = useContext(TasksContext);
+  const { selectedProject } = useContext(SelectedProjectContext);
+  const { setTasks, tasks } = useContext(TasksContext);
 
   const handleDeleteTask = async () => {
     try {
-      await axios.delete(`/api/project/deleteTask/${id}`).then((res) => {
-        if (res.data.error) {
-          toast.error(res.data.error);
-        } else {
-          setTasks((prevTasks) => {
-            return prevTasks.filter((task) => task._id !== id);
-          });
-          toast.success(res.data.message);
-        }
-      });
+      await axios
+        .delete(`/api/project/${selectedProject._id}/deleteTask/${id}`)
+        .then((res) => {
+          if (res.data.error) {
+            toast.error(res.data.error);
+          } else {
+            setTasks(res.data.tasks);
+            toast.success(res.data.message);
+          }
+        });
     } catch (error) {
       console.log(error.message);
     }

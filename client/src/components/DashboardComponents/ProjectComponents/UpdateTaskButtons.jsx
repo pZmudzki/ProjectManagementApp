@@ -1,0 +1,64 @@
+import React, { useState } from "react";
+import axios from "axios";
+import { toast } from "react-hot-toast";
+
+const statusOptions = ["Not Started", "In Progress", "Completed"];
+
+export default function UpdateTaskButtons({ task }) {
+  const [statusState, setStatusState] = useState(task.status);
+
+  const handleUpdateTaskStatus = async (status) => {
+    try {
+      await axios
+        .put(`/api/project/updateTask/${task._id}`, {
+          status: status,
+        })
+        .then((res) => {
+          if (res.data.error) {
+            toast.error(res.data.error);
+          } else {
+            setStatusState(res.data.updatedTask.status);
+            toast.success(res.data.message);
+          }
+        });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  function taskStatus(status) {
+    if (statusState === status)
+      return "bg-indigo-600 text-white outline outline-2 outline-indigo-600 outline-offset-2";
+    switch (status) {
+      case "Not Started":
+        return "bg-red-500";
+      case "In Progress":
+        return "bg-yellow-300";
+      case "Completed":
+        return "bg-green-300";
+      default:
+        return "bg-red-500";
+    }
+  }
+
+  return (
+    <div className="flex gap-2">
+      {statusOptions.map((status) => {
+        return (
+          <button
+            key={status}
+            type="button"
+            className={`px-2 rounded text-xs md:text-base text-gray-900 hover:opacity-80 border border-indigo-400 ${taskStatus(
+              status
+            )}`}
+            onClick={() => {
+              handleUpdateTaskStatus(status);
+            }}
+          >
+            {status}
+          </button>
+        );
+      })}
+    </div>
+  );
+}

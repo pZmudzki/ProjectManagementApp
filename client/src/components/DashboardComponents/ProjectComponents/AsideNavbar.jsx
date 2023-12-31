@@ -82,51 +82,18 @@ export default function AsideNavbar({
         />
       </button>
       <div className="w-full flex flex-col gap-2">
-        {
-          isUserManager && (
-            <>
-              <button
-                onClick={() => {
-                  setProjectViewOpened("settings");
-                  setIsNavOpen(false);
-                }}
-                type="button"
-                className={
-                  "flex justify-between items-center w-full text-white rounded-lg px-2 py-1 hover:bg-indigo-300 " +
-                  (projectViewOpened === "settings" ? "bg-indigo-400" : "")
-                }
-              >
-                {isNavOpen && <h2>Settings</h2>}
-                <Cog6ToothIcon
-                  className="h-6 w-6 sm:h-8 sm:w-8"
-                  aria-hidden="true"
-                />
-              </button>
-              <button
-                type="button"
-                className="flex justify-between items-center gap-3 w-full text-white rounded-lg px-2 py-1 hover:bg-indigo-300"
-                onClick={() => {
-                  setModalDeleteActive(true);
-                  setIsNavOpen(false);
-                }}
-              >
-                {isNavOpen && <h2 className="shrink-0">Delete Project</h2>}
-                <ArchiveBoxXMarkIcon
-                  className="h-6 w-6 text-red-500 sm:h-8 sm:w-8"
-                  aria-hidden="true"
-                />
-              </button>
-            </>
-          )
-          /*
-         : (
+        {isUserManager && (
           <>
             <button
+              onClick={() => {
+                setProjectViewOpened("settings");
+                setIsNavOpen(false);
+              }}
               type="button"
               className={
-                "flex justify-between items-center w-full text-white rounded-lg px-2 py-1 bg-gray-300"
+                "flex justify-between items-center w-full text-white rounded-lg px-2 py-1 hover:bg-indigo-300 " +
+                (projectViewOpened === "settings" ? "bg-indigo-400" : "")
               }
-              disabled
             >
               {isNavOpen && <h2>Settings</h2>}
               <Cog6ToothIcon
@@ -136,8 +103,11 @@ export default function AsideNavbar({
             </button>
             <button
               type="button"
-              className="flex justify-between items-center gap-3 w-full text-white rounded-lg px-2 py-1 bg-gray-300"
-              disabled
+              className="flex justify-between items-center gap-3 w-full text-white rounded-lg px-2 py-1 hover:bg-indigo-300"
+              onClick={() => {
+                setModalDeleteActive(true);
+                setIsNavOpen(false);
+              }}
             >
               {isNavOpen && <h2 className="shrink-0">Delete Project</h2>}
               <ArchiveBoxXMarkIcon
@@ -146,9 +116,7 @@ export default function AsideNavbar({
               />
             </button>
           </>
-        )
-        */
-        }
+        )}
       </div>
       {modalDeleteActive && (
         <DeleteProjectModal

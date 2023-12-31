@@ -1,6 +1,10 @@
 import React, { useState, useContext } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+
+import { PencilSquareIcon, XMarkIcon } from "@heroicons/react/24/outline";
+
+// context
 import { TasksContext } from "../../../../context/tasksContext";
 import { SelectedProjectContext } from "../../../../context/selectedProjectContext";
 import { UserContext } from "../../../../context/userContext";
@@ -89,19 +93,50 @@ export default function CreateTaskModal({ setCreateTaskModalActive }) {
   return (
     <>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <div className="border-2 border-black modal px-4 py-2 rounded-lg bg-indigo-300">
-          <form onSubmit={handleSubmit} className="flex flex-col">
+        <div className="modal bg-indigo-50 border-4 border-indigo-600 px-4 py-2 rounded-lg">
+          <div>
+            <div className="flex items-center mb-4 font-bold gap-2">
+              <PencilSquareIcon className="h-8 w-8 text-indigo-600" />
+              <h1 className="text-base sm:text-lg font-bold">New Task</h1>
+            </div>
+            <XMarkIcon
+              className="h-6 w-6 text-white bg-red-500 rounded-lg absolute right-2 top-2 cursor-pointer hover:bg-red-600 transition duration-300 ease-in-out"
+              onClick={() => setCreateTaskModalActive(false)}
+            />
+          </div>
+          <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+            <div className="flex justify-between flex-wrap gap-4">
+              <div className="flex flex-col grow">
+                <label htmlFor="taskName" className="text-xs sm:text-base">
+                  Task Name
+                </label>
+                <input
+                  onChange={handleChange}
+                  type="text"
+                  id="taskName"
+                  name="taskName"
+                  value={task.taskName}
+                  className="border-2 border-indigo-300 rounded-md px-1"
+                />
+              </div>
+              <div className="flex flex-col grow">
+                <label htmlFor="assignedTo" className="text-xs sm:text-base">
+                  Assigned To
+                </label>
+                <input
+                  onChange={handleChange}
+                  type="email"
+                  id="assignedTo"
+                  name="assignedTo"
+                  value={task.assignedTo}
+                  className="border-2 border-indigo-300 rounded-md px-1"
+                />
+              </div>
+            </div>
             <div className="flex flex-col">
-              <label htmlFor="taskName">Task Name</label>
-              <input
-                onChange={handleChange}
-                type="text"
-                id="taskName"
-                name="taskName"
-                value={task.taskName}
-                className="border-2 border-black rounded"
-              />
-              <label htmlFor="description">Description</label>
+              <label htmlFor="description" className="text-xs sm:text-base">
+                Description
+              </label>
               <textarea
                 onChange={handleChange}
                 cols="20"
@@ -109,79 +144,78 @@ export default function CreateTaskModal({ setCreateTaskModalActive }) {
                 id="description"
                 name="description"
                 value={task.description}
-                className="resize-none border-2 border-black rounded"
+                className="resize-none border-2 border-indigo-300 rounded-md px-1"
               />
             </div>
-            <div className="flex flex-col">
-              <label htmlFor="assignedTo">Assigned To</label>
-              <input
-                onChange={handleChange}
-                type="text"
-                id="assignedTo"
-                name="assignedTo"
-                value={task.assignedTo}
-                className="border-2 border-black rounded"
-              />
-              <label htmlFor="status">Status</label>
-              <select
-                onChange={handleChange}
-                id="status"
-                name="status"
-                value={task.status}
-                className="border-2 border-black rounded"
-              >
-                <option value="Not Started">Not Started</option>
-                <option value="In Progress">In Progress</option>
-                <option value="Completed">Completed</option>
-              </select>
-              <label htmlFor="priority">Priority</label>
-              <select
-                onChange={handleChange}
-                id="priority"
-                name="priority"
-                value={task.priority}
-                className="border-2 border-black rounded"
-              >
-                <option value="Low">Low</option>
-                <option value="Medium">Medium</option>
-                <option value="High">High</option>
-              </select>
-              <label htmlFor="fromDate">From date</label>
-              <div className="z-50">
-                <DateTimePicker
-                  disablePast={true}
-                  value={dayjs(task.fromDate)}
-                  onChange={(newDate) => {
-                    setTask(() => {
-                      return { ...task, fromDate: dayjs(newDate) };
-                    });
-                    console.log(task);
-                  }}
-                />
+            <div className="flex justify-between flex-wrap gap-4">
+              <div className="flex flex-col grow">
+                <label htmlFor="status" className="text-xs sm:text-base">
+                  Status
+                </label>
+                <select
+                  onChange={handleChange}
+                  id="status"
+                  name="status"
+                  value={task.status}
+                  className="border-2 border-indigo-300 rounded-md px-1"
+                >
+                  <option value="Not Started">Not Started</option>
+                  <option value="In Progress">In Progress</option>
+                  <option value="Completed">Completed</option>
+                </select>
               </div>
-              <label htmlFor="toDate">To date</label>
-              <div className="z-50">
-                <DateTimePicker
-                  disablePast={true}
-                  value={dayjs(task.toDate)}
-                  onChange={(newDate) => {
-                    setTask(() => {
-                      return { ...task, toDate: dayjs(newDate) };
-                    });
-                    console.log(task);
-                  }}
-                />
+              <div className="flex flex-col grow">
+                <label htmlFor="priority" className="text-xs sm:text-base">
+                  Priority
+                </label>
+                <select
+                  onChange={handleChange}
+                  id="priority"
+                  name="priority"
+                  value={task.priority}
+                  className="border-2 border-indigo-300 rounded-md px-1"
+                >
+                  <option value="Low">Low</option>
+                  <option value="Medium">Medium</option>
+                  <option value="High">High</option>
+                </select>
+              </div>
+            </div>
+            <div className="flex flex-wrap mb-3">
+              <div className="flex flex-col">
+                <p className="text-xs sm:text-base">From date</p>
+                <div className="z-50">
+                  <DateTimePicker
+                    disablePast={true}
+                    value={dayjs(task.fromDate)}
+                    onChange={(newDate) => {
+                      setTask(() => {
+                        return { ...task, fromDate: dayjs(newDate) };
+                      });
+                    }}
+                  />
+                </div>
+              </div>
+              <div className="flex flex-col">
+                <p className="text-xs sm:text-base">To date</p>
+                <div className="z-50">
+                  <DateTimePicker
+                    disablePast={true}
+                    value={dayjs(task.toDate)}
+                    onChange={(newDate) => {
+                      setTask(() => {
+                        return { ...task, toDate: dayjs(newDate) };
+                      });
+                    }}
+                  />
+                </div>
               </div>
             </div>
             <div className="flex justify-between">
               <button
-                type="button"
-                onClick={() => setCreateTaskModalActive(false)}
-                className="border-2 border-red rounded"
+                type="submit"
+                className="bg-green-500 hover:bg-green-600 rounded-md px-2 py-1 w-full text-white transition duration-200 ease-in-out"
               >
-                Cancel
-              </button>
-              <button type="submit" className="border-2 border-black rounded">
                 Create Task
               </button>
             </div>

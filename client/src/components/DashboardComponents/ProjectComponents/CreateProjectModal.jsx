@@ -70,7 +70,7 @@ export default function CreateProjectModal({ modalActive }) {
         <div>
           <div className="flex items-center mb-4 font-bold gap-2">
             <PencilSquareIcon className="h-8 w-8 text-indigo-600" />
-            <h1 className="text-md">New Project</h1>
+            <h1 className="text-base sm:text-lg">New Project</h1>
           </div>
           <XMarkIcon
             className="h-6 w-6 text-white bg-red-500 rounded-lg absolute right-2 top-2 cursor-pointer hover:bg-red-600 transition duration-300 ease-in-out"
@@ -123,7 +123,7 @@ export default function CreateProjectModal({ modalActive }) {
             ></textarea>
           </div>
 
-          <div className="flex gap-2">
+          <div className="flex gap-2 flex-wrap">
             <div className="mb-3 flex flex-col">
               <label htmlFor="projectManager" className="relative ">
                 Project Manager{" "}

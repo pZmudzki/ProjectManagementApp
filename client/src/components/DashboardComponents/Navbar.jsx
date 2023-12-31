@@ -19,7 +19,7 @@ export default function Navbar() {
   const [notifications, setNotifications] = useState([]);
 
   const userNavigation = [
-    { name: "Your Profile", href: `./user/${user._id}` },
+    { name: "Your Profile", href: "./userprofile" },
     { name: "Settings", href: "./usersettings" },
   ];
 
@@ -42,10 +42,20 @@ export default function Navbar() {
           return "Calendar";
         case "/dashboard/team":
           return "Team";
+        case "/dashboard/team/user":
+          return "Team";
+        case "/dashboard/team/chat":
+          return "Team";
         case "/dashboard/reports":
           return "Reports";
+        case "/dashboard/notifications":
+          return "Notifications";
+        case "/dashboard/usersettings":
+          return "Settings";
+        case "/dashboard/userprofile":
+          return "Your Profile";
         default:
-          return "Overview";
+          return currentPage;
       }
     });
   }
@@ -55,9 +65,11 @@ export default function Navbar() {
     const day = dateObj.getDate();
     const month = dateObj.getMonth() + 1;
     const year = dateObj.getFullYear();
-    const hours = dateObj.getHours();
-    const minutes = dateObj.getMinutes();
+    var hours = dateObj.getHours();
+    var minutes = dateObj.getMinutes();
     const seconds = dateObj.getSeconds();
+    if (hours < 10) hours = `0${hours}`;
+    if (minutes < 10) minutes = `0${minutes}`;
     return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
   }
 
@@ -139,29 +151,41 @@ export default function Navbar() {
                             {notifications.length > 0 ? (
                               <div className="flex flex-col">
                                 <div>
-                                  {notifications
-                                    .filter(
-                                      (notification) => !notification.read
-                                    )
-                                    .map((notification) => (
-                                      <Menu.Item key={notification._id}>
-                                        <div className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 border-b-2 border-gray-200">
-                                          <div className="flex flex-col">
-                                            <div className="flex justify-between items-center">
-                                              <span className="text-xs">
-                                                {notification.notificationType}
-                                              </span>
-                                              <span className="text-xs">
-                                                {getDate(notification.date)}
+                                  {notifications.filter(
+                                    (notification) => !notification.read
+                                  ).length > 0 ? (
+                                    notifications
+                                      .filter(
+                                        (notification) => !notification.read
+                                      )
+                                      .map((notification) => (
+                                        <Menu.Item key={notification._id}>
+                                          <div className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 border-b-2 border-gray-200">
+                                            <div className="flex flex-col">
+                                              <div className="flex justify-between items-center">
+                                                <span className="text-xs">
+                                                  {
+                                                    notification.notificationType
+                                                  }
+                                                </span>
+                                                <span className="text-xs">
+                                                  {getDate(notification.date)}
+                                                </span>
+                                              </div>
+                                              <span className="text-md font-bold">
+                                                {notification.message}
                                               </span>
                                             </div>
-                                            <span className="text-md font-bold">
-                                              {notification.message}
-                                            </span>
                                           </div>
-                                        </div>
-                                      </Menu.Item>
-                                    ))}
+                                        </Menu.Item>
+                                      ))
+                                  ) : (
+                                    <Menu.Item>
+                                      <div className="px-4 py-2 text-sm text-gray-700">
+                                        No new notifications
+                                      </div>
+                                    </Menu.Item>
+                                  )}
                                 </div>
                                 <Menu.Item>
                                   <Link
@@ -213,7 +237,10 @@ export default function Navbar() {
                                     to={item.href}
                                     className={classNames(
                                       active ? "bg-gray-100" : "",
-                                      "block px-4 py-2 text-sm text-gray-700"
+                                      "block px-4 py-2 text-sm text-gray-700",
+                                      currentPage === item.name
+                                        ? "bg-gray-700 text-white"
+                                        : ""
                                     )}
                                   >
                                     {item.name}
@@ -288,14 +315,15 @@ export default function Navbar() {
                         {user && user.email}
                       </div>
                     </div>
-                    <button
-                      type="button"
+                    <Disclosure.Button
+                      as="a"
+                      href="/dashboard/notifications"
                       className="relative ml-auto flex-shrink-0 rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                     >
                       <span className="absolute -inset-1.5" />
                       <span className="sr-only">View notifications</span>
                       <BellIcon className="h-6 w-6" aria-hidden="true" />
-                    </button>
+                    </Disclosure.Button>
                   </div>
                   <div className="mt-3 space-y-1 px-2">
                     {userNavigation.map((item) => (
@@ -303,7 +331,12 @@ export default function Navbar() {
                         key={item.name}
                         as="a"
                         href={`/dashboard/${item.href}`}
-                        className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white text-left w-full"
+                        className={classNames(
+                          "block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white text-left w-full",
+                          currentPage === item.name
+                            ? "bg-gray-700 text-white"
+                            : ""
+                        )}
                       >
                         {item.name}
                       </Disclosure.Button>

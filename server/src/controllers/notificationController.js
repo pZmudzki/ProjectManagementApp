@@ -12,14 +12,25 @@ const getNotifications = async (req, res) => {
   }
 };
 
-// Update notification API Endpoint
-
-const updateNotification = async (req, res) => {
+// Update notifications API Endpoint
+const updateNotifications = async (req, res) => {
   try {
-    const { id } = req.params;
-    const notification = await Notification.findByIdAndUpdate(id, {
-      read: true,
-    });
+    const { ids, read } = req.body;
+
+    if (ids.length === 0) {
+      return res.json({ error: "No notifications selected" });
+    }
+
+    const notifications = await Notification.updateMany(
+      {
+        _id: {
+          $in: ids,
+        },
+      },
+      {
+        read: read,
+      }
+    );
     const allNotifications = await Notification.find({
       receivers: req.user._id,
     });
@@ -31,5 +42,5 @@ const updateNotification = async (req, res) => {
 
 module.exports = {
   getNotifications,
-  updateNotification,
+  updateNotifications,
 };

@@ -17,8 +17,8 @@ export default function UserSettings() {
   const [imagePreview, setImagePreview] = useState(null);
 
   const [newPassword, setNewPassword] = useState({
-    newpassword: null,
-    confirmpassword: null,
+    newpassword: "",
+    confirmpassword: "",
   });
   const [data, setData] = useState({
     username: user.username,
@@ -117,6 +117,7 @@ export default function UserSettings() {
             id="username"
             type="text"
             name="username"
+            autoComplete="off"
             value={data.username}
             onChange={handleChange}
             className="border-2 border-gray-300 rounded-md p-2"
@@ -130,6 +131,7 @@ export default function UserSettings() {
             id="email"
             type="email"
             name="email"
+            autoComplete="off"
             value={data.email}
             className="border-2 border-gray-300 rounded-md p-2"
             onChange={handleChange}

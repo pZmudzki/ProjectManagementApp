@@ -63,7 +63,7 @@ export default function ProjectSettings() {
   return (
     <form
       onSubmit={Submit}
-      className="flex flex-col justify-between p-3 h-full"
+      className="flex flex-col justify-between gap-5 p-1 sm:p-3 h-full"
     >
       <div className="flex gap-5 flex-col">
         <h1 className="text-2xl font-bold">Project Settings</h1>
@@ -189,7 +189,7 @@ export default function ProjectSettings() {
       </div>
       <button
         type="submit"
-        className="py-2 px-4 bg-indigo-500 text-white text-2xl w-48 sm:w-96 self-end rounded-full shadow-lg hover:bg-indigo-600 transition duration-200 ease-in-out"
+        className="py-2 px-4 bg-indigo-500 text-white text-2xl w-full sm:w-96 self-end rounded-full shadow-lg hover:bg-indigo-600 transition duration-200 ease-in-out"
       >
         Save
       </button>

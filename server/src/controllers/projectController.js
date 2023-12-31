@@ -203,9 +203,37 @@ const deleteProject = async (req, res) => {
   }
 };
 
+// Get specific user info API Endpoint
+
+const getUserInfo = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const userExists = await User.findById(id);
+    if (!userExists) {
+      return res.json({ error: "User does not exist" });
+    }
+
+    const projects = await Project.find({
+      $or: [
+        { projectManager: userExists._id },
+        { projectTeam: userExists._id },
+      ],
+    });
+
+    const tasks = await Task.find({ assignedTo: userExists.email });
+
+    res.json({ projects: projects, tasks: tasks });
+  } catch (error) {
+    console.log(error.message);
+    return res.json({ error: "Error getting user info" });
+  }
+};
+
 module.exports = {
   createProject,
   getProjects,
   updateProject,
   deleteProject,
+  getUserInfo,
 };

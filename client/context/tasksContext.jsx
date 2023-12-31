@@ -2,39 +2,26 @@ import axios from "axios";
 import { createContext, useState, useEffect, useContext } from "react";
 import Loader from "../src/components/Loader";
 
-import { ProjectsContext } from "./projectContext";
+import { SelectedProjectContext } from "./selectedProjectContext";
 
 export const TasksContext = createContext();
 
 export function TasksContextProvider({ children }) {
-  const { projects } = useContext(ProjectsContext);
-  const [tasks, setTasks] = useState([]); // for user view
-  const [tasksAdmin, setTasksAdmin] = useState([]); // for admin view
+  const { selectedProject } = useContext(SelectedProjectContext);
+  const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  const getTasksAdmin = async () => {
-    try {
-      await axios.get("/api/project/getTasksAdmin").then((res) => {
-        setTasksAdmin(res.data.tasks);
-        setLoading(false);
-        if (res.data.error) {
-          console.log(res.data.error);
-        }
-      });
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
 
   const getTasks = async () => {
     try {
-      await axios.get("/api/project/getTasks").then((res) => {
-        setTasks(res.data.tasks);
-        setLoading(false);
-        if (res.data.error) {
-          console.log(res.data.error);
-        }
-      });
+      await axios
+        .get(`/api/project/${selectedProject._id}/getTasks`)
+        .then((res) => {
+          setTasks(res.data.tasks);
+          setLoading(false);
+          if (res.data.error) {
+            console.log(res.data.error);
+          }
+        });
     } catch (error) {
       console.log(error.message);
     }
@@ -42,13 +29,10 @@ export function TasksContextProvider({ children }) {
 
   useEffect(() => {
     getTasks();
-    getTasksAdmin();
-  }, [projects]);
+  }, [selectedProject]);
 
   return (
-    <TasksContext.Provider
-      value={{ tasks, setTasks, tasksAdmin, setTasksAdmin, loading }}
-    >
+    <TasksContext.Provider value={{ tasks, setTasks, loading }}>
       {loading ? <Loader /> : children}
     </TasksContext.Provider>
   );

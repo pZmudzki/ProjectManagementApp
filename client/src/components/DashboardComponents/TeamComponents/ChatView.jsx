@@ -31,6 +31,7 @@ export default function ChatView() {
     }
   }
 
+  // listen for new messages
   useEffect(() => {
     socket.emit("userConnected", user._id);
 
@@ -65,16 +66,28 @@ export default function ChatView() {
     scrollToBottom();
   }, [messages]);
 
+  // group messages by date
+  const groupedMessagesByDate = messages.reduce((groups, message) => {
+    const date = message.date.split("T")[0];
+    if (!groups[date]) {
+      groups[date] = [];
+    }
+    groups[date].push(message);
+    return groups;
+  }, {});
+
   // format date to time
   function formatDateToTime(date) {
     const time = new Date(date);
-    const hours = time.getHours();
-    const minutes = time.getMinutes();
+    var hours = time.getHours();
+    var minutes = time.getMinutes();
+    if (minutes < 10) minutes = `0${minutes}`;
+    if (hours < 10) hours = `0${hours}`;
     return `${hours}:${minutes}`;
   }
 
   return (
-    <main className="w-full">
+    <main className="w-full bg-white">
       <div className="flex flex-col h-full">
         {/* chat header */}
         <div className="flex items-center justify-between px-3 py-3 border-b-2">
@@ -95,44 +108,56 @@ export default function ChatView() {
           {loadingMessages ? (
             <Loader />
           ) : (
-            messages.map((message) => {
-              return message.sender === user._id ? (
-                <div
-                  key={message._id}
-                  className="flex flex-col items-start self-end"
-                >
-                  <h2 className="text-xs font-light self-end">
-                    {formatDateToTime(message.date)}
-                  </h2>
-                  <div className="flex gap-2 items-center">
-                    <div className="flex flex-col items-start">
-                      <p className="px-3 py-2 mt-1 text-sm font-light bg-gray-300 rounded-md">
-                        {message.message}
-                      </p>
-                    </div>
-                    <img
-                      src={user.profilePicture}
-                      alt="user profile picture"
-                      className="w-8 h-8 rounded-full object-cover border-2 border-indigo-400"
-                    />
-                  </div>
-                </div>
-              ) : (
-                <div key={message._id} className="flex flex-col items-start">
-                  <h2 className="text-xs font-light">
-                    {formatDateToTime(message.date)}
-                  </h2>
-                  <div className="flex gap-2 items-center">
-                    <img
-                      src={selectedUser.profilePicture}
-                      alt="user profile picture"
-                      className="w-8 h-8 rounded-full object-cover border-2 border-indigo-400"
-                    />
-                    <div className="flex flex-col items-start">
-                      <p className="px-3 py-2 mt-1 text-sm font-light bg-gray-300 rounded-md">
-                        {message.message}
-                      </p>
-                    </div>
+            Object.keys(groupedMessagesByDate).map((date) => {
+              return (
+                <div key={date}>
+                  <h1 className="text-center font-bold">{date}</h1>
+                  <div className="flex flex-col">
+                    {groupedMessagesByDate[date].map((message) => {
+                      return message.sender === user._id ? (
+                        <div
+                          key={message._id}
+                          className="flex flex-col items-start self-end"
+                        >
+                          <h2 className="text-xs font-light self-end">
+                            {formatDateToTime(message.date)}
+                          </h2>
+                          <div className="flex gap-2 items-center">
+                            <div className="flex flex-col items-start">
+                              <p className="px-3 py-2 mt-1 text-sm font-light bg-gray-300 rounded-md">
+                                {message.message}
+                              </p>
+                            </div>
+                            <img
+                              src={user.profilePicture}
+                              alt="user profile picture"
+                              className="w-8 h-8 rounded-full object-cover border-2 border-indigo-400"
+                            />
+                          </div>
+                        </div>
+                      ) : (
+                        <div
+                          key={message._id}
+                          className="flex flex-col items-start"
+                        >
+                          <h2 className="text-xs font-light">
+                            {formatDateToTime(message.date)}
+                          </h2>
+                          <div className="flex gap-2 items-center">
+                            <img
+                              src={selectedUser.profilePicture}
+                              alt="user profile picture"
+                              className="w-8 h-8 rounded-full object-cover border-2 border-indigo-400"
+                            />
+                            <div className="flex flex-col items-start">
+                              <p className="px-3 py-2 mt-1 text-sm font-light bg-gray-300 rounded-md">
+                                {message.message}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               );

@@ -14,11 +14,15 @@ import Overview from "./components/DashboardComponents/Overview";
 import Team from "./components/DashboardComponents/Team";
 import Projects from "./components/DashboardComponents/Projects";
 import Calendar from "./components/DashboardComponents/Calendar";
+import Notifications from "./components/DashboardComponents/Notifications";
 
+// team components
 import ProfileView from "./components/DashboardComponents/TeamComponents/ProfileView";
 import ChatView from "./components/DashboardComponents/TeamComponents/ChatView";
 
+// for logged in user
 import UserSettings from "./components/UserComponents.jsx/UserSettings";
+import UserProfile from "./components/UserComponents.jsx/UserProfile";
 
 // axios config
 axios.defaults.baseURL = "http://localhost:5000";
@@ -45,8 +49,9 @@ function App() {
             <Route path="user" element={<ProfileView />} />
             <Route path="chat" element={<ChatView />} />
           </Route>
-
+          <Route path="notifications" element={<Notifications />} />
           <Route path="usersettings" element={<UserSettings />} />
+          <Route path="userprofile" element={<UserProfile />} />
         </Route>
       </Routes>
     </Router>

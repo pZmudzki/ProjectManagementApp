@@ -5,30 +5,14 @@ const Project = require("../models/projectSchema");
 // Get tasks API endpoint (for an individual user)
 const getTasks = async (req, res) => {
   try {
-    const tasks = await Task.find({ assignedTo: req.user.email });
+    const { id } = req.params;
+    const tasks = await Task.find({ project: id });
     res.json({ tasks });
   } catch (error) {
     console.log(error.message);
     return res.json({ error: "Error getting tasks" });
   }
 };
-
-// Get tasks API endpoint (for admin)
-
-const getTasksAdmin = async (req, res) => {
-  try {
-    const projectsWhereUserIsManager = await Project.find({
-      projectManager: req.user._id,
-    });
-    const projectIds = projectsWhereUserIsManager.map((project) => project._id);
-    const tasks = await Task.find({ project: { $in: projectIds } });
-    res.json({ tasks });
-  } catch (error) {
-    console.log(error.message);
-    return res.json({ error: "Error getting tasks" });
-  }
-};
-
 // Create new tasks API endpoint
 
 const createTask = async (req, res) => {
@@ -79,47 +63,21 @@ const createTask = async (req, res) => {
 
 const updateTask = async (req, res) => {
   try {
-    const { id } = req.params;
-    const {
-      taskName,
-      description,
-      status,
-      priority,
-      dueDate,
-      project,
-      assignedTo,
-    } = req.body;
-
-    const foundTask = await Task.exists({ _id: id });
-    if (!foundTask) {
-      return res.json({ error: "Task does not exist" });
-    }
-
-    const foundProject = await Project.exists({ _id: project });
-    if (!foundProject) {
-      return res.json({ error: "Project does not exist" });
-    }
-
-    const foundUser = await User.exists({ email: assignedTo });
-    if (!foundUser) {
-      return res.json({ error: "User does not exist" });
-    }
+    const { taskId } = req.params;
+    const { status } = req.body;
 
     const updatedTask = await Task.findByIdAndUpdate(
-      id,
+      taskId,
       {
-        taskName: taskName,
-        description: description,
         status: status,
-        priority: priority,
-        dueDate: dueDate,
-        project: project,
-        assignedTo: assignedTo,
       },
       { new: true }
     );
 
-    return res.json({ message: "Task updated successfully", updatedTask });
+    return res.json({
+      message: "Task updated successfully",
+      updatedTask: updatedTask,
+    });
   } catch (error) {
     console.log(error.message);
     return res.json({ error: "Error updating task" });
@@ -128,14 +86,14 @@ const updateTask = async (req, res) => {
 
 // Delete tasks API endpoint
 const deleteTask = async (req, res) => {
-  const { id } = req.params;
+  const { id, taskId } = req.params;
   try {
-    const deletedTask = await Task.findByIdAndDelete(id);
+    const deletedTask = await Task.findByIdAndDelete(taskId);
+    const tasks = await Task.find({ project: id });
     if (deletedTask) {
-      const foundTask = await Task.findOne({ _id: id });
-      return res.json({ message: "Task deleted successfully", foundTask });
+      return res.json({ message: "Task deleted successfully", tasks: tasks });
     } else {
-      return res.json({ error: "Task does not exist" });
+      return res.json({ error: "Task does not exist", id: deletedTask._id });
     }
   } catch (error) {
     console.log(error.message);
@@ -148,5 +106,4 @@ module.exports = {
   createTask,
   updateTask,
   deleteTask,
-  getTasksAdmin,
 };
