@@ -8,6 +8,8 @@ import { Scheduler } from "@aldabil/react-scheduler";
 import { TasksContext } from "../../../context/tasksContext";
 
 const defaultSettings = {
+  weekDays: [0, 1, 2, 3, 4, 5, 6],
+  weekStartOn: 1,
   startHour: 6,
   endHour: 22,
   step: 30,
@@ -16,8 +18,8 @@ const defaultSettings = {
 export default function Calendar() {
   const { tasks, setTasks } = useContext(TasksContext); // get tasks from TasksContext
 
-  const { loading, setLoading } = useState(true);
-  const [events, setEvents] = useState();
+  const [loading, setLoading] = useState(true);
+  const [events, setEvents] = useState([]);
 
   useEffect(() => {
     setEvents(() => {
@@ -39,48 +41,50 @@ export default function Calendar() {
 
   // handle confirm
   function handleConfirm(event, action) {
-    if (action === "add") {
-      axios
-        .post("/api/project/createTask", event)
-        .then((res) => {
-          setTasksAdmin((prevTasks) => {
-            return [...prevTasks, res.data.task];
-          });
-          setTasks((prevTasks) => {
-            return [...prevTasks, res.data.task];
-          });
-          toast.success(res.data.message);
-        })
-        .catch((err) => {
-          toast.error(err.response.data.message);
-        });
-    }
-    if (action === "edit") {
-      axios
-        .patch(`/api/project/updateTask/${event.event_id}`, event)
-        .then((res) => {
-          setTasksAdmin((prevTasks) => {
-            return prevTasks.map((task) => {
-              if (task._id === res.data.task._id) {
-                return res.data.task;
-              }
-              return task;
-            });
-          });
-          setTasks((prevTasks) => {
-            return prevTasks.map((task) => {
-              if (task._id === res.data.task._id) {
-                return res.data.task;
-              }
-              return task;
-            });
-          });
-          toast.success(res.data.message);
-        })
-        .catch((err) => {
-          toast.error(err.response.data.message);
-        });
-    }
+    console.log(event);
+    console.log(action);
+    // if (action === "add") {
+    //   axios
+    //     .post("/api/project/createTask", event)
+    //     .then((res) => {
+    //       setTasksAdmin((prevTasks) => {
+    //         return [...prevTasks, res.data.task];
+    //       });
+    //       setTasks((prevTasks) => {
+    //         return [...prevTasks, res.data.task];
+    //       });
+    //       toast.success(res.data.message);
+    //     })
+    //     .catch((err) => {
+    //       toast.error(err.response.data.message);
+    //     });
+    // }
+    // if (action === "edit") {
+    //   axios
+    //     .patch(`/api/project/updateTask/${event.event_id}`, event)
+    //     .then((res) => {
+    //       setTasksAdmin((prevTasks) => {
+    //         return prevTasks.map((task) => {
+    //           if (task._id === res.data.task._id) {
+    //             return res.data.task;
+    //           }
+    //           return task;
+    //         });
+    //       });
+    //       setTasks((prevTasks) => {
+    //         return prevTasks.map((task) => {
+    //           if (task._id === res.data.task._id) {
+    //             return res.data.task;
+    //           }
+    //           return task;
+    //         });
+    //       });
+    //       toast.success(res.data.message);
+    //     })
+    //     .catch((err) => {
+    //       toast.error(err.response.data.message);
+    //     });
+    // }
   }
 
   // handle delete
@@ -102,6 +106,7 @@ export default function Calendar() {
       });
   }
 
+  console.log(events);
   return (
     <>
       {loading ? (
@@ -116,7 +121,7 @@ export default function Calendar() {
           events={events}
           fields={[
             {
-              name: "asignedTo",
+              name: "assignedTo",
               type: "input",
               config: {
                 label: "Assigned To",
@@ -170,11 +175,11 @@ export default function Calendar() {
             );
           }}
           onConfirm={(event, action) => {
-            handleConfirm(event, action);
+            // handleConfirm(event, action);
             console.log(event);
             console.log(action);
           }}
-          onDelete={(id) => handleDelete(id)}
+          // onDelete={(id) => handleDelete(id)}
         />
       )}
     </>

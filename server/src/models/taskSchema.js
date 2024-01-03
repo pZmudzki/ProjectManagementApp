@@ -30,6 +30,7 @@ const taskSchema = new mongoose.Schema({
   assignedTo: {
     type: String,
     ref: "User",
+    required: true,
   },
 });
 

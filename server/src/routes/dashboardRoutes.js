@@ -25,7 +25,7 @@ router.delete("/deleteProject/:id", auth, deleteProject);
 
 router.post("/createTask", auth, createTask);
 router.get("/:id/getTasks", auth, getTasks);
-router.put("/updateTask/:taskId", auth, updateTask);
+router.put("/:id/updateTask/:taskId", auth, updateTask);
 router.delete("/:id/deleteTask/:taskId", auth, deleteTask);
 
 router.get("/getUserInfo/:id", auth, getUserInfo);

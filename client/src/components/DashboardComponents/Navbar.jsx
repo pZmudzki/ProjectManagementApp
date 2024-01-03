@@ -1,7 +1,10 @@
 import { useContext, Fragment, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+
+//context
 import { UserContext } from "../../../context/userContext";
+import { NotificationsContext } from "../../../context/notificationsContext";
 
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
@@ -14,9 +17,9 @@ function classNames(...classes) {
 
 export default function Navbar() {
   const { user } = useContext(UserContext);
+  const { notifications } = useContext(NotificationsContext);
 
   const [currentPage, setCurrentPage] = useState("Overview");
-  const [notifications, setNotifications] = useState([]);
 
   const userNavigation = [
     { name: "Your Profile", href: "./userprofile" },
@@ -74,21 +77,6 @@ export default function Navbar() {
   }
 
   useEffect(() => {
-    try {
-      axios
-        .get("/api/notifications/getNotifications")
-        .then((res) => {
-          setNotifications(res.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } catch (error) {
-      console.log(error.message);
-    }
-  }, []);
-
-  useEffect(() => {
     pageChange();
   }, [window.location.pathname]);
   return (
@@ -131,12 +119,23 @@ export default function Navbar() {
                     <div className="ml-4 flex items-center md:ml-6">
                       {/* Notification dropdown */}
                       <Menu as="div" className="relative ml-3">
-                        <div>
+                        <div className="relative">
                           <Menu.Button className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                             <span className="absolute -inset-1.5" />
                             <span className="sr-only">View notifications</span>
                             <BellIcon className="h-6 w-6" aria-hidden="true" />
                           </Menu.Button>
+                          {/* red indicator if there are any new notifications */}
+                          {notifications.filter(
+                            (notification) => !notification.read
+                          ).length > 0 && (
+                            <div className="absolute top-0 right-0 h-3 w-3 translate-x-1/2 -translate-y-1/2">
+                              <span class="relative flex h-3 w-3">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                              </span>
+                            </div>
+                          )}
                         </div>
                         <Transition
                           as={Fragment}
@@ -150,7 +149,7 @@ export default function Navbar() {
                           <Menu.Items className="absolute right-0 z-[9999] mt-2 w-60 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none overflow-hidden">
                             {notifications.length > 0 ? (
                               <div className="flex flex-col">
-                                <div>
+                                <div className=" max-h-72 overflow-y-auto">
                                   {notifications.filter(
                                     (notification) => !notification.read
                                   ).length > 0 ? (
@@ -160,23 +159,25 @@ export default function Navbar() {
                                       )
                                       .map((notification) => (
                                         <Menu.Item key={notification._id}>
-                                          <div className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 border-b-2 border-gray-200">
-                                            <div className="flex flex-col">
-                                              <div className="flex justify-between items-center">
-                                                <span className="text-xs">
-                                                  {
-                                                    notification.notificationType
-                                                  }
-                                                </span>
-                                                <span className="text-xs">
-                                                  {getDate(notification.date)}
+                                          <Link to="/dashboard/notifications">
+                                            <div className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 border-b-2 border-gray-200">
+                                              <div className="flex flex-col">
+                                                <div className="flex justify-between items-center">
+                                                  <span className="text-xs">
+                                                    {
+                                                      notification.notificationType
+                                                    }
+                                                  </span>
+                                                  <span className="text-xs">
+                                                    {getDate(notification.date)}
+                                                  </span>
+                                                </div>
+                                                <span className="text-md font-bold">
+                                                  {notification.message}
                                                 </span>
                                               </div>
-                                              <span className="text-md font-bold">
-                                                {notification.message}
-                                              </span>
                                             </div>
-                                          </div>
+                                          </Link>
                                         </Menu.Item>
                                       ))
                                   ) : (
@@ -323,6 +324,17 @@ export default function Navbar() {
                       <span className="absolute -inset-1.5" />
                       <span className="sr-only">View notifications</span>
                       <BellIcon className="h-6 w-6" aria-hidden="true" />
+                      {/* red indicator if there are any new notifications */}
+                      {notifications.filter(
+                        (notification) => !notification.read
+                      ).length > 0 && (
+                        <div className="absolute top-0 right-0 h-3 w-3 translate-x-1/2 -translate-y-1/2">
+                          <span class="relative flex h-3 w-3">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                          </span>
+                        </div>
+                      )}
                     </Disclosure.Button>
                   </div>
                   <div className="mt-3 space-y-1 px-2">

@@ -1,12 +1,19 @@
 const User = require("../models/userSchema");
 const Task = require("../models/taskSchema");
 const Project = require("../models/projectSchema");
+const Notification = require("../models/notificationSchema.js");
 
-// Get tasks API endpoint (for an individual user)
+// Get tasks API endpoint
 const getTasks = async (req, res) => {
   try {
     const { id } = req.params;
-    const tasks = await Task.find({ project: id });
+    const project = await Project.findById(id);
+    var tasks = [];
+    if (project.projectManager._id.toString() === req.user._id.toString()) {
+      tasks = await Task.find({ project: id });
+    } else {
+      tasks = await Task.find({ project: id, assignedTo: req.user.email });
+    }
     res.json({ tasks });
   } catch (error) {
     console.log(error.message);
@@ -31,7 +38,7 @@ const createTask = async (req, res) => {
     if (!taskName) {
       return res.json({ error: "Task name has not been entered" });
     }
-    const foundProject = await Project.exists({ _id: project });
+    const foundProject = await Project.findOne({ _id: project });
     if (!foundProject) {
       return res.json({ error: "Project does not exist" });
     }
@@ -39,6 +46,16 @@ const createTask = async (req, res) => {
     const foundUser = await User.exists({ email: assignedTo });
     if (!foundUser) {
       return res.json({ error: "User does not exist" });
+    }
+
+    if (
+      foundUser._id.toString() !== req.user._id.toString() &&
+      foundProject.projectManager._id.toString() !== req.user._id.toString()
+    ) {
+      return res.json({
+        error:
+          "Only project manager can create tasks for other project members.",
+      });
     }
 
     const task = await Task.create({
@@ -52,6 +69,13 @@ const createTask = async (req, res) => {
       assignedTo: assignedTo,
     });
 
+    const notification = await Notification.create({
+      notificationType: "Task",
+      sender: req.user._id,
+      receivers: [foundUser._id],
+      message: `You have been assigned a new task: ${taskName}`,
+    });
+
     res.json({ message: "Task created successfully", task });
   } catch (error) {
     console.log(error.message);
@@ -63,8 +87,21 @@ const createTask = async (req, res) => {
 
 const updateTask = async (req, res) => {
   try {
-    const { taskId } = req.params;
+    const { id, taskId } = req.params;
     const { status } = req.body;
+
+    const project = await Project.findById(id);
+    const foundTask = await Task.findById(taskId);
+
+    if (
+      project.projectManager._id.toString() !== req.user._id.toString() &&
+      foundTask.assignedTo !== req.user.email
+    ) {
+      return res.json({
+        error:
+          "Only project manager or user that is assigned to can update a task.",
+      });
+    }
 
     const updatedTask = await Task.findByIdAndUpdate(
       taskId,
@@ -73,6 +110,17 @@ const updateTask = async (req, res) => {
       },
       { new: true }
     );
+
+    const userThatTaskIsAssignedTo = await User.findOne({
+      email: updatedTask.assignedTo,
+    });
+
+    const notification = await Notification.create({
+      notificationType: "Task",
+      sender: req.user._id,
+      receivers: [userThatTaskIsAssignedTo._id],
+      message: `Task "${updatedTask.taskName}" status updated to: ${updatedTask.status}`,
+    });
 
     return res.json({
       message: "Task updated successfully",
@@ -90,11 +138,17 @@ const deleteTask = async (req, res) => {
   try {
     const deletedTask = await Task.findByIdAndDelete(taskId);
     const tasks = await Task.find({ project: id });
-    if (deletedTask) {
-      return res.json({ message: "Task deleted successfully", tasks: tasks });
-    } else {
+    if (!deletedTask) {
       return res.json({ error: "Task does not exist", id: deletedTask._id });
     }
+    const notification = await Notification.create({
+      notificationType: "Task",
+      sender: req.user._id,
+      receivers: [deletedTask.assignedTo],
+      message: `Task "${deletedTask.taskName}" has been deleted`,
+    });
+
+    return res.json({ message: "Task deleted successfully", tasks: tasks });
   } catch (error) {
     console.log(error.message);
     return res.json({ error: "Error deleting task" });

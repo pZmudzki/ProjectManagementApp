@@ -77,7 +77,7 @@ export default function AsideNavbar({
       >
         <ChevronRightIcon
           className={`h-7 w-7 sm:h-8 sm:w-8 hover:scale-125 transition-scale duration-300 ease-in-out
-            ${isNavOpen ? "rotate-180 transition-rotate duration-700" : ""}`}
+            ${isNavOpen ? "rotate-180 transition-rotate" : ""}`}
           aria-hidden="true"
         />
       </button>

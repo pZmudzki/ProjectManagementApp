@@ -6,6 +6,7 @@ import { UserContext } from "../../context/userContext";
 import { ProjectsContextProvider } from "../../context/projectContext";
 import { SelectedProjectContextProvider } from "../../context/selectedProjectContext";
 import { TasksContextProvider } from "../../context/tasksContext";
+import { NotificationsContextProvider } from "../../context/notificationsContext";
 
 import Navbar from "../components/DashboardComponents/Navbar";
 
@@ -25,8 +26,10 @@ export default function Dashboard() {
         <ProjectsContextProvider>
           <SelectedProjectContextProvider>
             <TasksContextProvider>
-              <Navbar />
-              <Outlet />
+              <NotificationsContextProvider>
+                <Navbar />
+                <Outlet />
+              </NotificationsContextProvider>
             </TasksContextProvider>
           </SelectedProjectContextProvider>
         </ProjectsContextProvider>

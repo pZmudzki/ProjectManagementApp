@@ -36,11 +36,12 @@ app.use("/api/notifications", require("./src/routes/notificationRoutes"));
 app.use("/api/messages", require("./src/routes/messagesRoutes"));
 
 // socket.io connection
-let users = {};
+let users = [];
 io.on("connection", (socket) => {
   // When a user connects, store their user ID and socket ID
   socket.on("userConnected", (userId) => {
     users[userId] = socket.id;
+    console.log(users);
   });
 
   // When you want to send a message to a specific user

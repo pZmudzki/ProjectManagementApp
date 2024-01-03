@@ -59,7 +59,7 @@ export default function ProfileView() {
   return (
     <div className="bg-white w-full h-full overflow-y-auto">
       <header>
-        <div className="h-28 flex items-end justify-end relative border-b-2 bg-indigo-50 p-1">
+        <div className="h-28 flex items-end justify-end relative border-b-2 bg-indigo-50 p-1 md:px-6">
           <img
             src={selectedUser.profilePicture}
             alt="user profile picture"
@@ -67,7 +67,7 @@ export default function ProfileView() {
           />
           <h1 className="text-3xl font-bold">{selectedUser.username}</h1>
         </div>
-        <div className="h-28 flex items-start justify-end p-1">
+        <div className="h-28 flex items-start justify-end p-1 md:px-6">
           <h2 className="text-end text-2xl font-bold">{selectedUser.email}</h2>
         </div>
       </header>

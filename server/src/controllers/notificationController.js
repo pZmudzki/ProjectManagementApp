@@ -34,7 +34,12 @@ const updateNotifications = async (req, res) => {
     const allNotifications = await Notification.find({
       receivers: req.user._id,
     });
-    res.status(200).json(allNotifications);
+    res
+      .status(200)
+      .json({
+        message: "Notifications updated succesfully",
+        allNotifications: allNotifications,
+      });
   } catch (error) {
     console.log(error.message);
   }

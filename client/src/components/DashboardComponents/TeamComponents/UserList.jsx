@@ -32,7 +32,7 @@ export default function UserList({
   return (
     <aside
       className={` ${
-        isSidebarOpen ? " w-full" : "w-0"
+        isSidebarOpen ? "w-full" : "w-0"
       } md:w-min flex flex-col border-r-2 relative transform transition-all duration-500`}
     >
       {/* button to open sidebar on smaller devices */}
@@ -43,7 +43,7 @@ export default function UserList({
         <ChevronRightIcon
           className={`h-5 w-5 text-white transform ${
             isSidebarOpen ? "rotate-180" : ""
-          } transition-all duration-300 ease-in-out`}
+          } transition-all duration-300 ease-in`}
           aria-hidden="true"
         />
       </button>

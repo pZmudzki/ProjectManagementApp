@@ -1,16 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+
+import { SelectedProjectContext } from "../../../../context/selectedProjectContext";
 
 const statusOptions = ["Not Started", "In Progress", "Completed"];
 
 export default function UpdateTaskButtons({ task }) {
   const [statusState, setStatusState] = useState(task.status);
+  const { selectedProject } = useContext(SelectedProjectContext);
 
   const handleUpdateTaskStatus = async (status) => {
     try {
       await axios
-        .put(`/api/project/updateTask/${task._id}`, {
+        .put(`/api/project/${selectedProject._id}/updateTask/${task._id}`, {
           status: status,
         })
         .then((res) => {

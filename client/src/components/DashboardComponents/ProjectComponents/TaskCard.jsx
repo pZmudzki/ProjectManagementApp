@@ -15,7 +15,7 @@ export default function TaskCard({ task }) {
   function formatDate(date) {
     const dateObj = new Date(date);
     const year = dateObj.getFullYear();
-    const month = dateObj.getMonth();
+    const month = dateObj.getMonth() + 1;
     const day = dateObj.getDate();
     const hours = dateObj.getHours();
     const minutes = dateObj.getMinutes();

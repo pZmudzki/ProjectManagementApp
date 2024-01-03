@@ -107,7 +107,7 @@ export default function ChatView() {
           {/* chat message */}
           {loadingMessages ? (
             <Loader />
-          ) : (
+          ) : messages.length > 0 ? (
             Object.keys(groupedMessagesByDate).map((date) => {
               return (
                 <div key={date}>
@@ -162,6 +162,8 @@ export default function ChatView() {
                 </div>
               );
             })
+          ) : (
+            <p className="text-center">No messages</p>
           )}
           <div ref={messagesEndRef} />
         </div>
