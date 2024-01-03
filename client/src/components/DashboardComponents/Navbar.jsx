@@ -1,6 +1,5 @@
 import { useContext, Fragment, useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import axios from "axios";
+import { Link, useLocation } from "react-router-dom";
 
 //context
 import { UserContext } from "../../../context/userContext";
@@ -16,6 +15,7 @@ function classNames(...classes) {
 }
 
 export default function Navbar() {
+  const location = useLocation();
   const { user } = useContext(UserContext);
   const { notifications } = useContext(NotificationsContext);
 
@@ -24,6 +24,7 @@ export default function Navbar() {
   const userNavigation = [
     { name: "Your Profile", href: "./userprofile" },
     { name: "Settings", href: "./usersettings" },
+    { name: "Support", href: "./support" },
   ];
 
   const navigation = [
@@ -31,12 +32,11 @@ export default function Navbar() {
     { name: "Projects", href: "/dashboard/projects" },
     { name: "Calendar", href: "/dashboard/calendar" },
     { name: "Team", href: "/dashboard/team" },
-    { name: "Reports", href: "#" },
   ];
 
   function pageChange() {
     setCurrentPage(() => {
-      switch (window.location.pathname) {
+      switch (location.pathname) {
         case "/dashboard":
           return "Overview";
         case "/dashboard/projects":
@@ -57,11 +57,16 @@ export default function Navbar() {
           return "Settings";
         case "/dashboard/userprofile":
           return "Your Profile";
+        case "/dashboard/support":
+          return "Support";
         default:
           return currentPage;
       }
     });
   }
+  useEffect(() => {
+    pageChange();
+  }, [location.pathname]);
 
   function getDate(date) {
     const dateObj = new Date(date);
@@ -76,9 +81,6 @@ export default function Navbar() {
     return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
   }
 
-  useEffect(() => {
-    pageChange();
-  }, [window.location.pathname]);
   return (
     <>
       <div className="border-b-2 border-indigo-400">
@@ -89,8 +91,8 @@ export default function Navbar() {
                 <div className="flex h-16 items-center justify-between">
                   <div className="flex items-center">
                     <div className="flex-shrink-0">
-                      <Link to="/dashboard" className="-m-1.5 p-1.5">
-                        <h1 className="transition font-bold text-indigo-500 text-3xl italic hover:text-indigo-400 logo-text">
+                      <Link to="/dashboard" className="p-1.5">
+                        <h1 className="transition font-bold text-gray-50 text-3xl italic hover:text-indigo-200">
                           ProjectFlow
                         </h1>
                       </Link>
@@ -104,7 +106,7 @@ export default function Navbar() {
                             className={classNames(
                               currentPage === item.name
                                 ? "bg-gray-900 text-white"
-                                : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                                : "text-gray-100 hover:bg-gray-700 hover:text-white",
                               "rounded-md px-3 py-2 text-sm font-medium"
                             )}
                             aria-current={item.current ? "page" : undefined}
@@ -130,9 +132,9 @@ export default function Navbar() {
                             (notification) => !notification.read
                           ).length > 0 && (
                             <div className="absolute top-0 right-0 h-3 w-3 translate-x-1/2 -translate-y-1/2">
-                              <span class="relative flex h-3 w-3">
-                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                                <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                              <span className="relative flex h-3 w-3">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
                               </span>
                             </div>
                           )}
@@ -250,7 +252,7 @@ export default function Navbar() {
                               </Menu.Item>
                             ))}
                             <LogoutButton
-                              className={
+                              classes={
                                 "block px-4 py-2 text-sm text-gray-700 w-full text-left hover:bg-gray-100"
                               }
                             />
@@ -329,9 +331,9 @@ export default function Navbar() {
                         (notification) => !notification.read
                       ).length > 0 && (
                         <div className="absolute top-0 right-0 h-3 w-3 translate-x-1/2 -translate-y-1/2">
-                          <span class="relative flex h-3 w-3">
-                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                            <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                          <span className="relative flex h-3 w-3">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
                           </span>
                         </div>
                       )}
@@ -353,7 +355,7 @@ export default function Navbar() {
                         {item.name}
                       </Disclosure.Button>
                     ))}
-                    <LogoutButton className="block rounded-md text-left w-full px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white" />
+                    <LogoutButton classes="block rounded-md text-left w-full px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white" />
                   </div>
                 </div>
               </Disclosure.Panel>

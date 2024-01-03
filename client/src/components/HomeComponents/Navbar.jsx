@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 
 import { useContext } from "react";
 import { UserContext } from "../../../context/userContext";
-// import LogoutButton from "../LogoutButton";
 
 const navigation = [
   { name: "About Us", href: "#about" },

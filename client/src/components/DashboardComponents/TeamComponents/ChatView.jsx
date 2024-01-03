@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, useRef } from "react";
+import { useState, useContext, useEffect, useRef } from "react";
 import axios from "axios";
 import { useOutletContext } from "react-router-dom";
 import { PaperAirplaneIcon } from "@heroicons/react/24/outline";
@@ -46,14 +46,14 @@ export default function ChatView() {
   }, []);
 
   // get messages for from database
-  const getMessages = async () => {
-    await axios.get(`api/messages/${selectedUser._id}`).then((res) => {
-      setMessages(res.data);
-      setLoadingMessages(false);
-    });
-  };
-
   useEffect(() => {
+    const getMessages = async () => {
+      await axios.get(`api/messages/${selectedUser._id}`).then((res) => {
+        setMessages(res.data);
+        setLoadingMessages(false);
+      });
+    };
+
     getMessages();
   }, [selectedUser]);
 

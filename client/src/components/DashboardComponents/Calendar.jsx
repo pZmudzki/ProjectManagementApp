@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 
@@ -93,16 +93,16 @@ export default function Calendar() {
     axios
       .delete(`/api/project/deleteTask/${id}`)
       .then((res) => {
-        setTasksAdmin((prevTasks) => {
-          return prevTasks.filter((task) => task._id !== id);
-        });
+        if (res.data.error) {
+          toast.error(res.data.error);
+        }
         setTasks((prevTasks) => {
           return prevTasks.filter((task) => task._id !== id);
         });
         toast.success(res.data.message);
       })
       .catch((err) => {
-        toast.error(res.data.error);
+        console.log(err.message);
       });
   }
 

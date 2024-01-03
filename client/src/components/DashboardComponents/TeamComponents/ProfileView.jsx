@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -24,35 +24,36 @@ export default function ProfileView() {
   });
   const [loading, setLoading] = useState(true);
 
-  async function getUserInfo() {
-    try {
-      await axios
-        .get(`/api/project/getUserInfo/${selectedUser._id}`)
-        .then((res) => {
-          if (res.data.error) {
-            return toast.error(res.data.error);
-          }
-          setUserInfo({
-            completedTasks: res.data.tasks.filter(
-              (task) => task.status === "Completed"
-            ),
-            inProgressTasks: res.data.tasks.filter(
-              (task) => task.status === "In Progress"
-            ),
-            notStartedTasks: res.data.tasks.filter(
-              (task) => task.status === "Not Started"
-            ),
-            tasks: res.data.tasks,
-            projects: res.data.projects,
-          });
-          setLoading(false);
-        });
-    } catch (error) {
-      console.log(error.message);
-    }
-  }
-
+  // get user info
   useEffect(() => {
+    async function getUserInfo() {
+      try {
+        await axios
+          .get(`/api/project/getUserInfo/${selectedUser._id}`)
+          .then((res) => {
+            if (res.data.error) {
+              return toast.error(res.data.error);
+            }
+            setUserInfo({
+              completedTasks: res.data.tasks.filter(
+                (task) => task.status === "Completed"
+              ),
+              inProgressTasks: res.data.tasks.filter(
+                (task) => task.status === "In Progress"
+              ),
+              notStartedTasks: res.data.tasks.filter(
+                (task) => task.status === "Not Started"
+              ),
+              tasks: res.data.tasks,
+              projects: res.data.projects,
+            });
+            setLoading(false);
+          });
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+
     getUserInfo();
   }, [selectedUser]);
 

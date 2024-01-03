@@ -1,5 +1,4 @@
-import React, { useContext, useState } from "react";
-import { ArrowSmallDownIcon } from "@heroicons/react/24/outline";
+import { useContext, useState } from "react";
 import "./dashboard.css";
 
 import SecondNavbar from "./ProjectComponents/SecondNavbar";

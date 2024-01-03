@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { DocumentMinusIcon } from "@heroicons/react/24/outline";
@@ -9,7 +9,7 @@ import { SelectedProjectContext } from "../../../../context/selectedProjectConte
 
 export default function DeleteTaskButton({ id }) {
   const { selectedProject } = useContext(SelectedProjectContext);
-  const { setTasks, tasks } = useContext(TasksContext);
+  const { setTasks } = useContext(TasksContext);
 
   const handleDeleteTask = async () => {
     try {

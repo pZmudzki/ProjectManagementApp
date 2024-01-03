@@ -18,8 +18,8 @@ export default function AboutSection() {
                   </p>
                   <p className="mt-6 text-lg leading-8 text-gray-600">
                     ProjectFlow is a project management tool that helps you stay
-                    on top of your projects and tasks. It's designed to simplify
-                    the project planning process and foster seamless
+                    on top of your projects and tasks. It&apos;s designed to
+                    simplify the project planning process and foster seamless
                     collaboration.
                   </p>
                 </div>

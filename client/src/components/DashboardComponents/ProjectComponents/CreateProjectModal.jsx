@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import { useState, useContext } from "react";
 import { UserPlusIcon, UserMinusIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
 import { toast } from "react-hot-toast";
@@ -31,6 +31,7 @@ export default function CreateProjectModal({ modalActive }) {
   // helper function to validate email address
   function validateTeamEmail(email) {
     return email.match(
+      //validation regex from https://stackoverflow.com/questions/46155/how-to-validate-an-email-address-in-javascript
       /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     );
   }
@@ -147,7 +148,7 @@ export default function CreateProjectModal({ modalActive }) {
                 <div className="relative">
                   <input
                     className="text-black w-full border-2 border-indigo-300 rounded-md px-1 text-lg"
-                    type="text"
+                    type="email"
                     name="projectTeam"
                     id="projectTeam"
                     value={projectTeamMember}

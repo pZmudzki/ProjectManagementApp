@@ -4,7 +4,7 @@ import { UserContext } from "../../context/userContext";
 import { SelectedProjectContext } from "../../context/selectedProjectContext";
 import { useNavigate } from "react-router-dom";
 
-export default function LogoutButton(props) {
+export default function LogoutButton({ classes }) {
   const navigate = useNavigate();
   const { setSelectedProject } = useContext(SelectedProjectContext);
 
@@ -25,7 +25,7 @@ export default function LogoutButton(props) {
   };
 
   return (
-    <button className={props.className} onClick={logout}>
+    <button className={classes} onClick={logout}>
       Logout
     </button>
   );

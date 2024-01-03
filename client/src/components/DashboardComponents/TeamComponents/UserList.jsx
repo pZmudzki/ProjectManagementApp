@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import { useState, useContext } from "react";
 
 import {
   MagnifyingGlassIcon,
@@ -69,7 +69,6 @@ export default function UserList({
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls="panel1a-content"
                 id={project._id}
-                // className="flex flex-col gap-2 px-5 py-3"
               >
                 <Typography>{project.projectName}</Typography>
               </AccordionSummary>

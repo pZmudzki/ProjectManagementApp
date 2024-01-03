@@ -1,4 +1,3 @@
-import React from "react";
 import { ArrowSmallDownIcon } from "@heroicons/react/24/outline";
 
 export default function NoProjectsMessage({ setCreateProjectModal }) {
@@ -6,7 +5,7 @@ export default function NoProjectsMessage({ setCreateProjectModal }) {
     <section className="h-full flex justify-center items-center ">
       <div className="flex flex-col items-center">
         <h1 className="text-lg font-bold mb-2 mt-10 sm:text-3xl">
-          Seems like you don't have any projects yet
+          Seems like you don&apos;t have any projects yet
         </h1>
         <h2 className="flex mb-7">
           Get started by creating a project below{" "}

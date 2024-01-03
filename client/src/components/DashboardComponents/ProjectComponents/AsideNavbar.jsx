@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
 import DeleteProjectModal from "./DeleteProjectModal";
 
 //context
@@ -31,7 +31,7 @@ export default function AsideNavbar({
         user._id === selectedProject.projectManager._id ? true : false
       );
     }
-  }, [selectedProject]);
+  }, [selectedProject, user._id]);
   return (
     <div className="flex flex-col justify-between items-center w-max bg-indigo-600 p-1 sm:p-3">
       <div className="w-full flex flex-col gap-2">
@@ -40,6 +40,7 @@ export default function AsideNavbar({
             setProjectViewOpened("overview");
             setIsNavOpen(false);
           }}
+          name="overview button"
           type="button"
           className={
             "flex justify-between items-center w-full text-white rounded-lg px-2 py-1 hover:bg-indigo-300 " +
@@ -57,6 +58,7 @@ export default function AsideNavbar({
             setProjectViewOpened("tasks");
             setIsNavOpen(false);
           }}
+          name="tasks button"
           type="button"
           className={
             "flex justify-between items-center w-full text-white rounded-lg px-2 py-1 hover:hover:bg-indigo-300 " +
@@ -72,6 +74,7 @@ export default function AsideNavbar({
       </div>
       <button
         onClick={() => setIsNavOpen(!isNavOpen)}
+        name="open side navigation button"
         type="button"
         className="grow self-end text-white"
       >
@@ -89,6 +92,7 @@ export default function AsideNavbar({
                 setProjectViewOpened("settings");
                 setIsNavOpen(false);
               }}
+              name="settings button"
               type="button"
               className={
                 "flex justify-between items-center w-full text-white rounded-lg px-2 py-1 hover:bg-indigo-300 " +
@@ -102,6 +106,7 @@ export default function AsideNavbar({
               />
             </button>
             <button
+              name="delete project button"
               type="button"
               className="flex justify-between items-center gap-3 w-full text-white rounded-lg px-2 py-1 hover:bg-indigo-300"
               onClick={() => {

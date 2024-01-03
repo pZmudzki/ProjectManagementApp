@@ -1,5 +1,4 @@
-import React, { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useContext } from "react";
 
 import ProjectCard from "./ProjectComponents/ProjectCard";
 import CreateProjectModal from "./ProjectComponents/CreateProjectModal";
@@ -7,13 +6,9 @@ import NoProjectsMessage from "./ProjectComponents/NoProjectsMessage";
 
 // context
 import { ProjectsContext } from "../../../context/projectContext";
-// import { SelectedProjectContext } from "../../../context/selectedProjectContext";
 
 export default function Overview() {
-  const navigate = useNavigate();
   const { projects } = useContext(ProjectsContext);
-  // console.log(projects);
-  // const { setSelectedProject } = useContext(SelectedProjectContext);
   const [createProjectModal, setCreateProjectModal] = useState(false);
   return (
     <div className="p-6">

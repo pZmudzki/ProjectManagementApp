@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import { useState, useContext } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
 
@@ -98,7 +98,7 @@ export default function Notifications() {
 
       <div className="p-2">
         <div className="flex justify-between items-center mb-2">
-          <div className="flex gap-1 py-1 px-2 items-center bg-indigo-500 w-max rounded-md">
+          <div className="flex gap-1 py-1 px-2 items-center bg-indigo-500 min-w-max rounded-md">
             <input
               type="checkbox"
               name="selectAll"
@@ -111,7 +111,7 @@ export default function Notifications() {
               Select all
             </label>
           </div>
-          <div className="flex flex-wrap gap-1">
+          <div className="flex flex-wrap justify-end gap-1">
             <button
               name="markAsRead"
               type="button"

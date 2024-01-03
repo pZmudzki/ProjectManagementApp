@@ -16,6 +16,8 @@ import Projects from "./components/DashboardComponents/Projects";
 import Calendar from "./components/DashboardComponents/Calendar";
 import Notifications from "./components/DashboardComponents/Notifications";
 
+import Support from "./components/SupportComponents/Support";
+
 // team components
 import ProfileView from "./components/DashboardComponents/TeamComponents/ProfileView";
 import ChatView from "./components/DashboardComponents/TeamComponents/ChatView";
@@ -52,6 +54,7 @@ function App() {
           <Route path="notifications" element={<Notifications />} />
           <Route path="usersettings" element={<UserSettings />} />
           <Route path="userprofile" element={<UserProfile />} />
+          <Route path="support" element={<Support />} />
         </Route>
       </Routes>
     </Router>

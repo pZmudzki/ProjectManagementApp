@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 
@@ -24,34 +24,34 @@ export default function UserProfile() {
     projects: [],
   });
   const [loading, setLoading] = useState(true);
-
-  async function getUserInfo() {
-    try {
-      await axios.get(`/api/project/getUserInfo/${user._id}`).then((res) => {
-        if (res.data.error) {
-          return toast.error(res.data.error);
-        }
-        setUserInfo({
-          completedTasks: res.data.tasks.filter(
-            (task) => task.status === "Completed"
-          ),
-          inProgressTasks: res.data.tasks.filter(
-            (task) => task.status === "In Progress"
-          ),
-          notStartedTasks: res.data.tasks.filter(
-            (task) => task.status === "Not Started"
-          ),
-          tasks: res.data.tasks,
-          projects: res.data.projects,
-        });
-        setLoading(false);
-      });
-    } catch (error) {
-      console.log(error.message);
-    }
-  }
-
+  // get user info
   useEffect(() => {
+    async function getUserInfo() {
+      try {
+        await axios.get(`/api/project/getUserInfo/${user._id}`).then((res) => {
+          if (res.data.error) {
+            return toast.error(res.data.error);
+          }
+          setUserInfo({
+            completedTasks: res.data.tasks.filter(
+              (task) => task.status === "Completed"
+            ),
+            inProgressTasks: res.data.tasks.filter(
+              (task) => task.status === "In Progress"
+            ),
+            notStartedTasks: res.data.tasks.filter(
+              (task) => task.status === "Not Started"
+            ),
+            tasks: res.data.tasks,
+            projects: res.data.projects,
+          });
+          setLoading(false);
+        });
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+
     getUserInfo();
   }, []);
 

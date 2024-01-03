@@ -25,8 +25,8 @@ export default function HeroSection() {
           </h1>
           <p className="mt-6 text-lg leading-8 text-gray-600">
             Streamline your project planning and execution with our intuitive
-            project management platform. Whether you're a solo entrepreneur or
-            managing a team, we've got you covered.
+            project management platform. Whether you&apos;re a solo entrepreneur
+            or managing a team, we&apos;ve got you covered.
           </p>
           <div className="mt-10 flex items-center justify-center gap-x-6">
             <Link

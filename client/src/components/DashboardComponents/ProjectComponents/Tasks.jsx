@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import { useState, useContext } from "react";
 import CreateTaskModal from "./CreateTaskModal";
 
 import { TasksContext } from "../../../../context/tasksContext";

@@ -1,15 +1,12 @@
-// import React from "react";
-import { useNavigate } from "react-router-dom";
 import Navbar from "../components/HomeComponents/Navbar";
 import HeroSection from "../components/HomeComponents/HeroSection";
 import AboutSection from "../components/HomeComponents/AboutSection";
 import FeaturesSection from "../components/HomeComponents/FeaturesSection";
 import TestimonialsSection from "../components/HomeComponents/TestimonialsSection";
 import CTASection from "../components/HomeComponents/CTASection";
+import Footer from "../components/HomeComponents/Footer";
 
 function HomePage() {
-  let navigate = useNavigate();
-
   return (
     <main className="snap-y">
       <Navbar />
@@ -18,6 +15,7 @@ function HomePage() {
       <FeaturesSection />
       <TestimonialsSection />
       <CTASection />
+      <Footer />
     </main>
   );
 }

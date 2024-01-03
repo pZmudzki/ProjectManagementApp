@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import { useState, useContext } from "react";
 import CreateProjectModal from "./CreateProjectModal";
 
 // context
@@ -31,6 +31,7 @@ export default function SecondNavbar({ setProjectViewOpened }) {
         {selectedProject ? (
           <div className="relative bg-white">
             <button
+              name="select project button"
               type="button"
               className="w-40 flex items-center justify-between px-1 py-1 outline outline-offset-1 outline-1 outline-indigo-600 font-bold text-xs rounded-md shadow-sm hover:outline-2"
               onClick={() => {
@@ -58,9 +59,10 @@ export default function SecondNavbar({ setProjectViewOpened }) {
                   {projects.map((project, idx) => (
                     <li key={idx}>
                       <button
+                        name="project button"
                         type="button"
                         className="w-full flex gap-2 px-1 py-1 font-bold text-xs hover:bg-gray-200"
-                        onClick={(e) => {
+                        onClick={() => {
                           setSelectedProject(projects[idx]);
                           setDropDown(false);
                           setProjectViewOpened("overview");
@@ -87,6 +89,7 @@ export default function SecondNavbar({ setProjectViewOpened }) {
           </div>
         )}
         <button
+          name="create project button"
           onClick={() => {
             setCreateProjectModal(true);
           }}
