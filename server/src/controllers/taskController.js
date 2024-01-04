@@ -7,8 +7,10 @@ const Notification = require("../models/notificationSchema.js");
 const getTasks = async (req, res) => {
   try {
     const { id } = req.params;
+    
     const project = await Project.findById(id);
     var tasks = [];
+    
     if (project.projectManager._id.toString() === req.user._id.toString()) {
       tasks = await Task.find({ project: id });
     } else {

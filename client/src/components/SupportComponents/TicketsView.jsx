@@ -66,7 +66,7 @@ export default function TicketsView() {
         >
           <div className="flex flex-col">
             <label className="text-xl text-gray-500">From</label>
-            <p className="border-b-2 border-gray-500 py-1 px-2 text-xl text-gray-500 bg-gray-100 rounded select-none">
+            <p className="border-b-2 border-gray-500 py-1 px-2 text-xl text-gray-600 bg-gray-100 rounded select-none">
               {ticketContent.from}
             </p>
           </div>

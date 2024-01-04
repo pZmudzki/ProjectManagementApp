@@ -5,6 +5,8 @@ import { TasksContext } from "../../../../context/tasksContext";
 import { SelectedProjectContext } from "../../../../context/selectedProjectContext";
 import { UserContext } from "../../../../context/userContext";
 
+import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+
 import TaskCard from "./TaskCard";
 
 import { DocumentPlusIcon } from "@heroicons/react/24/outline";
@@ -90,31 +92,48 @@ export default function Tasks() {
   const [sortState, setSortState] = useState("Latest Date");
   // filtering options
   const [filterState, setFilterState] = useState("All");
+  // search bar
+  const [searchTask, setSearchTask] = useState("");
   // show all tasks that are relatable to project
   const [showOnlyUsersTasks, setShowOnlyUsersTasks] = useState(false);
+
+  function handleSearch(e) {
+    setSearchTask(e.target.value);
+  }
 
   return (
     <>
       {tasks.length > 0 ? (
         <>
           <div className="flex flex-col gap-2 p-3 h-full">
-            <div className="flex flex-col">
-              {user._id === selectedProject.projectManager._id && (
-                <div className="flex gap-1 text-xs items-center justify-end">
-                  <label>Show only your tasks</label>
-                  <input
-                    type="checkbox"
-                    checked={showOnlyUsersTasks}
-                    value={showOnlyUsersTasks}
-                    onChange={() => setShowOnlyUsersTasks(!showOnlyUsersTasks)}
-                  />
-                </div>
-              )}
+            <div className="flex flex-col gap-2">
+              <div className="flex justify-between items-center">
+                    <input
+                      type="text"
+                      id="searchbar"
+                      name="searchbar"
+                      placeholder="Search tasks"
+                      className="bg-gray-200 py-1 px-2 rounded-xl text-xs sm:text-lg"
+                      value={searchTask}
+                      onChange={handleSearch}
+                    />
+                  {user._id === selectedProject.projectManager._id && (
+                    <div className="flex gap-1 text-xs items-center justify-end">
+                      <label>Show only your tasks</label>
+                      <input
+                        type="checkbox"
+                        checked={showOnlyUsersTasks}
+                        value={showOnlyUsersTasks}
+                        onChange={() => setShowOnlyUsersTasks(!showOnlyUsersTasks)}
+                        />
+                    </div>
+                  )}
+              </div>
               <div className="flex justify-between items-center gap-2">
                 {/* new task button */}
                 <button
                   type="button"
-                  className="border-2 flex items-center gap-2 rounded-lg p-1 sm:px-2 sm:py-1 hover:bg-indigo-300"
+                  className="border-2 flex items-center gap-2 rounded-xl p-1 sm:px-2 sm:py-1 hover:bg-indigo-300"
                   onClick={() => setCreateTaskModalActive(true)}
                 >
                   <span className="text-xs sm:text-lg">New task</span>
@@ -160,7 +179,7 @@ export default function Tasks() {
               </div>
             </div>
             <div>
-              {tasks.length !== 0 ? (
+            
                 <ul className="flex flex-col gap-2">
                   {tasks
                     .filter(filterMethods[filterState].method)
@@ -171,14 +190,29 @@ export default function Tasks() {
                         return task;
                       }
                     })
+                    .filter((task) => {
+                      if (searchTask === "") {
+                        return task;
+                      } else if (
+                        task.taskName.toLowerCase().includes(searchTask.toLowerCase())
+                      ) {
+                        return task;
+                      } else if (
+                        task.description.toLowerCase().includes(searchTask.toLowerCase())
+                      ) {
+                        return task;
+                      } else if (
+                        task.assignedTo.toLowerCase().includes(searchTask.toLowerCase())
+                      ) {
+                        return task;
+                      }
+                    })
                     .sort(sortMethods[sortState].method)
                     .map((task) => {
                       return <TaskCard key={task._id} task={task} />;
                     })}
                 </ul>
-              ) : (
-                <div className="text-2xl text-center">You have no tasks</div>
-              )}
+              
             </div>
           </div>
           {createTaskModalActive && (
