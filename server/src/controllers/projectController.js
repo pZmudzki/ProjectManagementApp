@@ -20,6 +20,28 @@ const getProjects = async (req, res) => {
   }
 };
 
+// Get project info API Endpoint
+const getProjectInfo = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const project = await Project.findById(id)
+      .populate("projectManager", "username email profilePicture")
+      .populate("projectTeam", "username email profilePicture");
+
+    if (!project) {
+      return res.json({ error: "Project does not exist" });
+    }
+
+    const tasks = await Task.find({ project: id });
+
+    res.json({ project: project, tasks: tasks });
+  } catch (error) {
+    console.log(error.message);
+    return res.json({ error: "Error getting project info" });
+  }
+};
+
 // Create Project API Endpoint
 const createProject = async (req, res) => {
   try {
@@ -233,6 +255,7 @@ const getUserInfo = async (req, res) => {
 module.exports = {
   createProject,
   getProjects,
+  getProjectInfo,
   updateProject,
   deleteProject,
   getUserInfo,

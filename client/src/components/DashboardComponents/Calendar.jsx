@@ -5,25 +5,33 @@ import toast from "react-hot-toast";
 import Loader from "../Loader";
 import { Scheduler } from "@aldabil/react-scheduler";
 
-import { TasksContext } from "../../../context/tasksContext";
+//no project components
+import NoProjectsMessage from "./ProjectComponents/NoProjectsMessage";
+import CreateProjectModal from "./ProjectComponents/CreateProjectModal";
 
+//context
+import { ProjectsContext } from "../../../context/projectContext";
+import { TasksContext } from "../../../context/tasksContext";
 const defaultSettings = {
   weekDays: [0, 1, 2, 3, 4, 5, 6],
   weekStartOn: 1,
-  startHour: 6,
-  endHour: 22,
+  startHour: 0,
+  endHour: 24,
   step: 30,
 };
 
 export default function Calendar() {
-  const { tasks, setTasks } = useContext(TasksContext); // get tasks from TasksContext
+  const { allTasks, setAllTasks } = useContext(TasksContext); // get tasks from TasksContext
+  const { projects } = useContext(ProjectsContext); // get projects from ProjectsContext
+
+  const [createProjectModal, setCreateProjectModal] = useState(false);
 
   const [loading, setLoading] = useState(true);
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
     setEvents(() => {
-      return tasks.map((task) => {
+      return allTasks.map((task) => {
         return {
           event_id: task._id,
           title: task.taskName,
@@ -31,156 +39,93 @@ export default function Calendar() {
           end: new Date(task.toDate),
           assignedTo: task.assignedTo,
           description: task.description,
-          status: task.status,
-          priority: task.priority,
         };
       });
     });
     setLoading(false);
-  }, [tasks]);
+  }, [allTasks]);
 
-  // handle confirm
-  function handleConfirm(event, action) {
-    console.log(event);
-    console.log(action);
-    // if (action === "add") {
-    //   axios
-    //     .post("/api/project/createTask", event)
-    //     .then((res) => {
-    //       setTasksAdmin((prevTasks) => {
-    //         return [...prevTasks, res.data.task];
-    //       });
-    //       setTasks((prevTasks) => {
-    //         return [...prevTasks, res.data.task];
-    //       });
-    //       toast.success(res.data.message);
-    //     })
-    //     .catch((err) => {
-    //       toast.error(err.response.data.message);
-    //     });
-    // }
-    // if (action === "edit") {
-    //   axios
-    //     .patch(`/api/project/updateTask/${event.event_id}`, event)
-    //     .then((res) => {
-    //       setTasksAdmin((prevTasks) => {
-    //         return prevTasks.map((task) => {
-    //           if (task._id === res.data.task._id) {
-    //             return res.data.task;
-    //           }
-    //           return task;
-    //         });
-    //       });
-    //       setTasks((prevTasks) => {
-    //         return prevTasks.map((task) => {
-    //           if (task._id === res.data.task._id) {
-    //             return res.data.task;
-    //           }
-    //           return task;
-    //         });
-    //       });
-    //       toast.success(res.data.message);
-    //     })
-    //     .catch((err) => {
-    //       toast.error(err.response.data.message);
-    //     });
-    // }
-  }
-
-  // handle delete
-  function handleDelete(id) {
-    console.log(id);
-    axios
-      .delete(`/api/project/deleteTask/${id}`)
-      .then((res) => {
+  async function handleDelete(id) {
+    try {
+      await axios.delete(`/api/project/any/deleteTask/${id}`).then((res) => {
         if (res.data.error) {
           toast.error(res.data.error);
+        } else {
+          toast.success(res.data.message);
+          setAllTasks(res.data.tasks);
         }
-        setTasks((prevTasks) => {
-          return prevTasks.filter((task) => task._id !== id);
-        });
-        toast.success(res.data.message);
-      })
-      .catch((err) => {
-        console.log(err.message);
       });
+    } catch (error) {
+      console.log(error.message);
+    }
   }
 
-  console.log(events);
   return (
     <>
-      {loading ? (
-        <Loader />
+      {projects.length > 0 ? (
+        loading ? (
+          <Loader />
+        ) : (
+          <Scheduler
+            view="month"
+            height="700"
+            month={defaultSettings}
+            week={defaultSettings}
+            day={defaultSettings}
+            events={events}
+            editable={false}
+            fields={[
+              {
+                name: "assignedTo",
+                type: "input",
+                config: {
+                  label: "Assigned To",
+                  required: true,
+                  min: 3,
+                  variant: "outlined",
+                },
+              },
+              {
+                name: "description",
+                type: "input",
+                config: {
+                  label: "Description",
+                  required: false,
+                  min: 3,
+                  variant: "outlined",
+                },
+              },
+            ]}
+            viewerTitleComponent={(fields, event) => {
+              return (
+                <div className="flex flex-col justify-center">
+                  <div className="flex gap-2 items-center">
+                    <p className="text-base text-white">Task Name:</p>
+                    <h1 className="text-xl">{fields.title}</h1>
+                  </div>
+                  <div className="flex gap-2 items-center">
+                    <p className="text-base text-white">Assigned To:</p>
+                    <h1 className="text-xl">{fields.assignedTo}</h1>
+                  </div>
+                </div>
+              );
+            }}
+            viewerExtraComponent={(fields, event) => {
+              return (
+                <div className="flex flex-col justify-center">
+                  <p className="text-base text-gray-400">Description:</p>
+                  <h1 className="text-xl">{event.description}</h1>
+                </div>
+              );
+            }}
+            onDelete={(id) => handleDelete(id)}
+          />
+        )
       ) : (
-        <Scheduler
-          view="month"
-          height="700"
-          month={defaultSettings}
-          week={defaultSettings}
-          day={defaultSettings}
-          events={events}
-          fields={[
-            {
-              name: "assignedTo",
-              type: "input",
-              config: {
-                label: "Assigned To",
-                required: true,
-                min: 3,
-                variant: "outlined",
-              },
-            },
-            {
-              name: "description",
-              type: "input",
-              config: {
-                label: "Description",
-                required: false,
-                min: 3,
-                variant: "outlined",
-              },
-            },
-            {
-              name: "status",
-              type: "select",
-              options: [
-                { id: 1, text: "Not Started", value: "Not Started" },
-                { id: 2, text: "In Progress", value: "In Progress" },
-                { id: 3, text: "Completed", value: "Completed" },
-              ],
-              config: {
-                label: "Status",
-                required: true,
-              },
-            },
-            {
-              name: "priority",
-              type: "select",
-              options: [
-                { id: 1, text: "Low", value: "Low" },
-                { id: 2, text: "Medium", value: "Medium" },
-                { id: 3, text: "High", value: "High" },
-              ],
-              config: {
-                label: "Priority",
-                required: true,
-              },
-            },
-          ]}
-          viewerTitleComponent={(props) => {
-            return (
-              <div className="text-center">
-                <h1 className="text-2xl font-bold">{props.title}</h1>
-              </div>
-            );
-          }}
-          onConfirm={(event, action) => {
-            // handleConfirm(event, action);
-            console.log(event);
-            console.log(action);
-          }}
-          // onDelete={(id) => handleDelete(id)}
-        />
+        <NoProjectsMessage setCreateProjectModal={setCreateProjectModal} />
+      )}
+      {createProjectModal && (
+        <CreateProjectModal modalActive={setCreateProjectModal} />
       )}
     </>
   );

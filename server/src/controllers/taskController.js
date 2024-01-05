@@ -7,10 +7,10 @@ const Notification = require("../models/notificationSchema.js");
 const getTasks = async (req, res) => {
   try {
     const { id } = req.params;
-    
+
     const project = await Project.findById(id);
     var tasks = [];
-    
+
     if (project.projectManager._id.toString() === req.user._id.toString()) {
       tasks = await Task.find({ project: id });
     } else {
@@ -22,6 +22,21 @@ const getTasks = async (req, res) => {
     return res.json({ error: "Error getting tasks" });
   }
 };
+
+// Get all tasks API endpoint
+const getAllTasks = async (req, res) => {
+  try {
+    const tasks = await Task.find({ assignedTo: req.user.email });
+    if (!tasks) {
+      return res.json({ error: "No tasks found" });
+    }
+    res.json({ tasks });
+  } catch (error) {
+    console.log(error.message);
+    return res.json({ error: "Error getting tasks" });
+  }
+};
+
 // Create new tasks API endpoint
 
 const createTask = async (req, res) => {
@@ -137,16 +152,35 @@ const updateTask = async (req, res) => {
 // Delete tasks API endpoint
 const deleteTask = async (req, res) => {
   const { id, taskId } = req.params;
+
   try {
     const deletedTask = await Task.findByIdAndDelete(taskId);
-    const tasks = await Task.find({ project: id });
+
+    const userThatTaskIsAssignedTo = await User.findOne({
+      email: deletedTask.assignedTo,
+    });
+
+    var tasks = [];
+    if (id === "any") {
+      tasks = await Task.find({ assignedTo: req.user.email });
+    } else {
+      const project = await Project.findById(id);
+
+      if (project.projectManager._id.toString() === req.user._id.toString()) {
+        tasks = await Task.find({ project: id });
+      } else {
+        tasks = await Task.find({ project: id, assignedTo: req.user.email });
+      }
+    }
+
     if (!deletedTask) {
       return res.json({ error: "Task does not exist", id: deletedTask._id });
     }
+
     const notification = await Notification.create({
       notificationType: "Task",
       sender: req.user._id,
-      receivers: [deletedTask.assignedTo],
+      receivers: [userThatTaskIsAssignedTo._id],
       message: `Task "${deletedTask.taskName}" has been deleted`,
     });
 
@@ -159,6 +193,7 @@ const deleteTask = async (req, res) => {
 
 module.exports = {
   getTasks,
+  getAllTasks,
   createTask,
   updateTask,
   deleteTask,

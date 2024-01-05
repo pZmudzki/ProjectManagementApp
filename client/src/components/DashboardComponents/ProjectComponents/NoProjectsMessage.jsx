@@ -2,7 +2,7 @@ import { ArrowSmallDownIcon } from "@heroicons/react/24/outline";
 
 export default function NoProjectsMessage({ setCreateProjectModal }) {
   return (
-    <section className="h-full flex justify-center items-center ">
+    <section className="flex justify-center items-center absolute top-[66px] right-0 bottom-0 left-0 z-0">
       <div className="flex flex-col items-center">
         <h1 className="text-lg font-bold mb-2 mt-10 sm:text-3xl">
           Seems like you don&apos;t have any projects yet

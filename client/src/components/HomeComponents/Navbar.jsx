@@ -45,7 +45,7 @@ export default function Navbar() {
             <a
               key={item.name}
               href={item.href}
-              className="text-md font-semibold leading-6 text-gray-900 bg-white px-6 py-3 rounded-lg hover:bg-indigo-500 hover:text-white transition-all"
+              className="text-md font-semibold leading-6 text-gray-900 px-6 py-3 rounded-lg hover:bg-indigo-500 hover:text-white transition-all"
             >
               {item.name}
             </a>
@@ -76,9 +76,13 @@ export default function Navbar() {
         onClose={setMobileMenuOpen}
       >
         <div className="fixed inset-0 z-50 " />
-        <Dialog.Panel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+        <Dialog.Panel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white p-4 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
           <div className="flex items-center justify-between">
-            <a href="#" className="-m-1.5 p-1.5">
+            <a
+              onClick={() => setMobileMenuOpen(false)}
+              href="#"
+              className="-m-1.5 p-1.5"
+            >
               <h1 className="font-bold text-indigo-600 text-3xl italic">
                 ProjectFlow
               </h1>
@@ -99,6 +103,7 @@ export default function Navbar() {
                   <a
                     key={item.name}
                     href={item.href}
+                    onClick={() => setMobileMenuOpen(false)}
                     className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                   >
                     {item.name}

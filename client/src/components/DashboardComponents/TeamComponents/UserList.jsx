@@ -64,7 +64,10 @@ export default function UserList({
       <div className="h-full overflow-y-auto">
         {projects.map((project) => {
           return (
-            <Accordion key={project._id}>
+            <Accordion
+              key={project._id}
+              defaultExpanded={projects[0]._id === project._id ? true : false}
+            >
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls="panel1a-content"

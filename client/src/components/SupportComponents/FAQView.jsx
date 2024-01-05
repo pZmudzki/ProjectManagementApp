@@ -6,7 +6,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 export default function FAQView() {
   return (
-    <div className="overflow-y-auto w-full ">
+    <div className="overflow-y-scroll w-full ">
       <div className="flex flex-col gap-5 p-5">
         <div className="flex flex-col items-center justify-center">
           <h2 className="text-xl font-bold">

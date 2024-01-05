@@ -4,6 +4,7 @@ import "./dashboard.css";
 import SecondNavbar from "./ProjectComponents/SecondNavbar";
 import AsideNavbar from "./ProjectComponents/AsideNavbar";
 import ProjectSettings from "./ProjectComponents/ProjectSettings";
+import ProjectOverview from "./ProjectComponents/ProjectOverview";
 import CreateProjectModal from "./ProjectComponents/CreateProjectModal";
 import Tasks from "./ProjectComponents/Tasks";
 import NoProjectsMessage from "./ProjectComponents/NoProjectsMessage";
@@ -31,20 +32,7 @@ export default function Projects() {
             <SecondNavbar setProjectViewOpened={setProjectViewOpened} />
             <section className="flex-1 flex overflow-y-scroll">
               <div className="min-h-min w-full">
-                {projectViewOpened === "overview" && (
-                  <>
-                    <h2>{selectedProject._id}</h2>
-                    <h2>{selectedProject.projectName}</h2>
-                    <h2>{selectedProject.projectDescription}</h2>
-                    <h2>{selectedProject.projectManager.username}</h2>
-                    <h2>{selectedProject.status}</h2>
-                    <h2>
-                      {selectedProject.projectTeam.map((member) => (
-                        <span key={member._id}>{member.username}</span>
-                      ))}
-                    </h2>
-                  </>
-                )}
+                {projectViewOpened === "overview" && <ProjectOverview />}
                 {projectViewOpened === "settings" && (
                   <ProjectSettings
                     setProjectViewOpened={setProjectViewOpened}
