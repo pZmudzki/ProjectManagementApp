@@ -2,7 +2,7 @@ import { useState, useContext } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 
-import LoadingButton from "../../LoadingButton";
+import LoadingButton from "../LoadingButton";
 
 //context
 import { UserContext } from "../../../context/userContext";
