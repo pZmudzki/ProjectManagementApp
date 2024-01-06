@@ -10,7 +10,7 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "https://projectflow.onrender.com" || "http://localhost:5173",
+    origin: process.env.CLIENT_URL,
   },
 });
 
@@ -26,7 +26,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
     credentials: true,
-    origin: "https://projectflow.onrender.com" || "http://localhost:5173",
+    origin: process.env.CLIENT_URL,
   })
 );
 

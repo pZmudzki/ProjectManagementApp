@@ -79,7 +79,7 @@ export default function CreateProjectModal({ modalActive }) {
           />
         </div>
         <form onSubmit={onSubmit}>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
             <div className="mb-3 flex flex-col">
               <label htmlFor="projectName" className="text-xs">
                 Project Name

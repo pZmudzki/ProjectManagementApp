@@ -7,6 +7,7 @@ import { UserContext } from "../../../context/userContext";
 
 export default function LoginPage() {
   const { setUser, setIsAuthenticated } = useContext(UserContext);
+  const [sendingRequest, setSendingRequest] = useState(false);
 
   const navigate = useNavigate();
 
@@ -18,15 +19,18 @@ export default function LoginPage() {
 
   const loginUser = async (e) => {
     e.preventDefault();
+    setSendingRequest(true);
     const { email, password } = data;
     try {
       const { data } = await axios.post("/login", { email, password });
       if (data.error) {
         toast.error(data.error);
+        setSendingRequest(false);
       } else {
         setUser(data.user);
         setIsAuthenticated(data.isAuthenticated);
         setData({});
+        setSendingRequest(false);
         toast.success("Logged in successfully!");
         navigate("/dashboard");
       }
@@ -106,7 +110,33 @@ export default function LoginPage() {
                 type="submit"
                 className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
-                Sign in
+                {sendingRequest ? (
+                  <>
+                    <svg
+                      className="animate-spin h-5 w-5 text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                      ></path>
+                    </svg>
+                    <span className="ml-2">Loading...</span>
+                  </>
+                ) : (
+                  "Sign in"
+                )}
               </button>
             </div>
           </form>

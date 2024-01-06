@@ -1,5 +1,5 @@
 import { io } from "socket.io-client";
 
-const URL = "https://project-management-app-govb.onrender.com";
+const URL = import.meta.env.SERVER_URL;
 
 export const socket = io(URL);

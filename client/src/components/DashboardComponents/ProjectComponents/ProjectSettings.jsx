@@ -164,7 +164,7 @@ export default function ProjectSettings() {
               return (
                 <div
                   key={idx}
-                  className="flex items-center gap-2 p-1 pl-2 border-2 border-indigo-500 rounded-full"
+                  className="flex items-center justify-between gap-2 p-1 pl-2 border-2 border-indigo-500 rounded-full"
                 >
                   <p>{member}</p>
                   <button

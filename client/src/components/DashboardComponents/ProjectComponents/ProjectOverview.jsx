@@ -81,11 +81,6 @@ export default function ProjectOverview() {
     }
   }
 
-  // console.log(selectedProject);
-  if (!loading) {
-    console.log(projectData);
-    console.log(tasksData.completed.length);
-  }
   return loading ? (
     <Loader />
   ) : (
