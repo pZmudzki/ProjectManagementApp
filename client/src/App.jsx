@@ -27,7 +27,7 @@ import UserSettings from "./components/UserComponents.jsx/UserSettings";
 import UserProfile from "./components/UserComponents.jsx/UserProfile";
 
 // axios config
-axios.defaults.baseURL = "http://localhost:5000";
+axios.defaults.baseURL = "https://project-management-app-govb.onrender.com";
 axios.defaults.withCredentials = true;
 
 function App() {
