@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
 
+import LoadingButton from "../../LoadingButton";
+
 //context
 import { UserContext } from "../../../context/userContext";
 import { SelectedProjectContext } from "../../../context/selectedProjectContext";
@@ -15,6 +17,8 @@ export default function UserSettings() {
 
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
+
+  const [sendingRequest, setSendingRequest] = useState(false);
 
   const [newPassword, setNewPassword] = useState({
     newpassword: "",
@@ -53,6 +57,7 @@ export default function UserSettings() {
 
   const updateUser = async (e) => {
     e.preventDefault();
+    setSendingRequest(true);
 
     const formData = new FormData();
     formData.append("id", user._id);
@@ -64,15 +69,18 @@ export default function UserSettings() {
     try {
       if (newPassword.newpassword !== newPassword.confirmpassword) {
         toast.error("Passwords do not match!");
+        setSendingRequest(false);
         return;
       }
       const response = await axios.post("/update", formData);
       if (response.data.error) {
+        setSendingRequest(false);
         toast.error(response.data.error);
         return;
       }
       await axios.get("/logout").then((res) => {
         setUser(res.data.user);
+        setSendingRequest(false);
         setIsAuthenticated(res.data.isAuthenticated);
         setSelectedProject(null);
         localStorage.clear();
@@ -168,7 +176,7 @@ export default function UserSettings() {
           type="submit"
           className="py-2 px-4 bg-indigo-600 text-white text-2xl self-center justify-self-end w-2/3 rounded-full shadow-lg hover:bg-indigo-500 transition duration-200 ease-in-out"
         >
-          Update
+          {sendingRequest ? <LoadingButton /> : "Update"}
         </button>
       </form>
     </div>

@@ -5,6 +5,8 @@ import "../dashboard.css";
 
 import { TrashIcon, XMarkIcon } from "@heroicons/react/24/outline";
 
+import LoadingButton from "../../LoadingButton";
+
 // context
 import { ProjectsContext } from "../../../../context/projectContext";
 import { SelectedProjectContext } from "../../../../context/selectedProjectContext";
@@ -19,6 +21,8 @@ export default function DeleteProjectModal({
     SelectedProjectContext
   );
 
+  const [sendingRequest, setSendingRequest] = useState(false);
+
   function handleChange(e) {
     setTypedName(e.target.value);
   }
@@ -26,14 +30,17 @@ export default function DeleteProjectModal({
   async function deleteProject(e) {
     try {
       e.preventDefault();
+      setSendingRequest(true);
       await axios
         .delete(`/api/project/deleteProject/${selectedProject._id}`)
         .then((res) => {
           if (res.data.error) {
+            setSendingRequest(false);
             toast.error(res.data.error);
           } else {
             setProjects(res.data.projects);
             setSelectedProject(res.data.projects[0]);
+            setSendingRequest(false);
             setProjectViewOpened("overview");
             setActive(false);
             toast.success(res.data.message);
@@ -77,7 +84,7 @@ export default function DeleteProjectModal({
               className="text-xl bg-red-500 hover:bg-red-600 rounded-md px-2 py-1 w-full text-white transition duration-200 ease-in-out"
               type="submit"
             >
-              Delete
+              {sendingRequest ? <LoadingButton /> : "Delete"}
             </button>
           ) : (
             <button

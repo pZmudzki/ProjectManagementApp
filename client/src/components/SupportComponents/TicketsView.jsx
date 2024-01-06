@@ -2,6 +2,8 @@ import { useState, useContext } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 
+import LoadingButton from "../../LoadingButton";
+
 //context
 import { UserContext } from "../../../context/userContext";
 
@@ -13,6 +15,8 @@ export default function TicketsView() {
     text: "",
   });
 
+  const [sendingRequest, setSendingRequest] = useState(false);
+
   function handleChange(e) {
     const { name, value } = e.target;
     setTicketContent((prev) => {
@@ -21,15 +25,18 @@ export default function TicketsView() {
   }
 
   async function sendTicket(e) {
+    e.preventDefault();
+    setSendingRequest(true);
     try {
-      e.preventDefault();
       const { data } = await axios.post("/api/support/sendTicket", {
         ticketContent,
       });
       if (data.error) {
+        setSendingRequest(false);
         toast.error(data.error);
       } else {
         toast.success(data.message);
+        setSendingRequest(false);
         setTicketContent({
           from: user.email,
           subject: "",
@@ -113,7 +120,7 @@ export default function TicketsView() {
               type="submit"
               className="grow bg-green-500 text-white font-bold rounded-md py-1 px-2 shadow-md hover:bg-green-600 transition duration-200 ease-in-out text-xl"
             >
-              Send
+              {sendingRequest ? <LoadingButton /> : "Submit Ticket"}
             </button>
           </div>
         </form>

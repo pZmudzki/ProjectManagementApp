@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { SelectedProjectContext } from "../../../../context/selectedProjectContext";
 import { ProjectsContext } from "../../../../context/projectContext";
 
+import LoadingButton from "../../LoadingButton";
+
 import { UserPlusIcon, UserMinusIcon } from "@heroicons/react/24/outline";
 
 export default function ProjectSettings() {
@@ -26,6 +28,8 @@ export default function ProjectSettings() {
 
   const [projectTeam, setProjectTeam] = useState([]);
 
+  const [sendingRequest, setSendingRequest] = useState(false);
+
   function handleChange(e) {
     setProjectData({
       ...projectData,
@@ -34,13 +38,14 @@ export default function ProjectSettings() {
   }
 
   async function Submit(e) {
+    e.preventDefault();
+    setSendingRequest(true);
     try {
-      console.log(projectData);
-      e.preventDefault();
       await axios
         .post(`/api/project/updateProject/${selectedProject._id}`, projectData)
         .then((res) => {
           if (res.data.error) {
+            setSendingRequest(false);
             toast.error(res.data.error);
           } else {
             setProjects((projects) => {
@@ -51,6 +56,7 @@ export default function ProjectSettings() {
               );
             });
             setSelectedProject(res.data.updatedProject);
+            setSendingRequest(false);
             navigate("/dashboard/projects");
             toast.success(res.data.message);
           }
@@ -191,7 +197,7 @@ export default function ProjectSettings() {
         type="submit"
         className="py-2 px-4 bg-indigo-500 text-white text-2xl w-full sm:w-96 self-end rounded-full shadow-lg hover:bg-indigo-600 transition duration-200 ease-in-out"
       >
-        Save
+        {sendingRequest ? <LoadingButton /> : "Save Changes"}
       </button>
     </form>
   );

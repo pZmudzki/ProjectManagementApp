@@ -4,6 +4,8 @@ import { toast } from "react-hot-toast";
 
 import { PencilSquareIcon, XMarkIcon } from "@heroicons/react/24/outline";
 
+import LoadingButton from "../../LoadingButton";
+
 // context
 import { TasksContext } from "../../../../context/tasksContext";
 import { SelectedProjectContext } from "../../../../context/selectedProjectContext";
@@ -24,6 +26,8 @@ export default function CreateTaskModal({ setCreateTaskModalActive }) {
   const { setTasks } = useContext(TasksContext);
   const { selectedProject } = useContext(SelectedProjectContext);
   const { user } = useContext(UserContext);
+
+  const [sendingRequest, setSendingRequest] = useState(false);
 
   const [task, setTask] = useState({
     taskName: "",
@@ -59,17 +63,20 @@ export default function CreateTaskModal({ setCreateTaskModalActive }) {
 
   async function handleSubmit(e) {
     e.preventDefault();
+    setSendingRequest(true);
     try {
       await axios
         .post("/api/project/createTask", task)
         .then((res) => {
           if (res.data.error) {
+            setSendingRequest(false);
             toast.error(res.data.error);
           } else {
             setTasks((prevTasks) => {
               return [...prevTasks, res.data.task];
             });
             toast.success(res.data.message);
+            setSendingRequest(false);
             setTask({
               taskName: "",
               description: "",
@@ -216,7 +223,7 @@ export default function CreateTaskModal({ setCreateTaskModalActive }) {
                 type="submit"
                 className="bg-green-500 hover:bg-green-600 rounded-md px-2 py-1 w-full text-white transition duration-200 ease-in-out"
               >
-                Create Task
+                {sendingRequest ? <LoadingButton /> : <span>Create Task</span>}
               </button>
             </div>
           </form>

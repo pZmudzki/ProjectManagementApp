@@ -3,8 +3,12 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useNavigate, Link } from "react-router-dom";
 
+import LoadingButton from "../../components/LoadingButton";
+
 export default function RegisterPage() {
   const navigate = useNavigate();
+
+  const [sendingRequest, setSendingRequest] = useState(false);
 
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
@@ -39,6 +43,7 @@ export default function RegisterPage() {
 
   const registerUser = async (e) => {
     e.preventDefault();
+    setSendingRequest(true);
     const formData = new FormData();
     formData.append("username", data.username);
     formData.append("email", data.email);
@@ -48,8 +53,10 @@ export default function RegisterPage() {
       const response = await axios.post("/register", formData);
       if (response.data.error) {
         toast.error(response.data.error);
+        setSendingRequest(false);
       } else {
         setData({});
+        setSendingRequest(false);
         toast.success("Account created successfully!");
         navigate("/login");
       }
@@ -160,7 +167,7 @@ export default function RegisterPage() {
               type="submit"
               className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
-              Sign up
+              {sendingRequest ? <LoadingButton /> : "Sign up"}
             </button>
           </div>
         </form>

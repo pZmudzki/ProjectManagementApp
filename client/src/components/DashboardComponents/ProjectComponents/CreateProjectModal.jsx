@@ -5,6 +5,8 @@ import { toast } from "react-hot-toast";
 import "../dashboard.css";
 import { useNavigate } from "react-router-dom";
 
+import LoadingButton from "../../LoadingButton";
+
 import { PencilSquareIcon, XMarkIcon } from "@heroicons/react/24/outline";
 
 import { ProjectsContext } from "../../../../context/projectContext";
@@ -17,6 +19,8 @@ export default function CreateProjectModal({ modalActive }) {
   const { setSelectedProject } = useContext(SelectedProjectContext);
   const { projects, setProjects } = useContext(ProjectsContext);
   const { user } = useContext(UserContext);
+
+  const [sendingRequest, setSendingRequest] = useState(false);
 
   const [projectData, setProjectData] = useState({
     projectName: "",
@@ -46,16 +50,19 @@ export default function CreateProjectModal({ modalActive }) {
   async function onSubmit(e) {
     try {
       e.preventDefault();
+      setSendingRequest(true);
       const { data } = await axios.post(
         "/api/project/createProject",
         projectData
       );
       if (data.error) {
         toast.error(data.error);
+        setSendingRequest(false);
       } else {
         setProjects([...projects, data.newProject]);
         setSelectedProject(data.newProject);
         setProjectData({});
+        setSendingRequest(false);
         modalActive(false);
         navigate("/dashboard/projects");
         toast.success(data.message);
@@ -230,7 +237,7 @@ export default function CreateProjectModal({ modalActive }) {
             className="bg-green-500 hover:bg-green-600 rounded-md px-2 py-1 w-full text-white transition duration-200 ease-in-out"
             type="submit"
           >
-            Create Project
+            {sendingRequest ? <LoadingButton /> : <span>Create Project</span>}
           </button>
         </form>
       </div>
