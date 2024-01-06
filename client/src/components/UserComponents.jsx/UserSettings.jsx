@@ -60,7 +60,7 @@ export default function UserSettings() {
     formData.append("email", data.email);
     formData.append("password", newPassword.newpassword);
     formData.append("profile_picture", data.profile_picture);
-    console.log(formData);
+
     try {
       if (newPassword.newpassword !== newPassword.confirmpassword) {
         toast.error("Passwords do not match!");
