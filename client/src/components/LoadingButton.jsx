@@ -1,6 +1,6 @@
 export default function LoadingButton() {
   return (
-    <>
+    <div className="flex justify-center items-center gap-2">
       <svg
         className="animate-spin h-5 w-5 text-white"
         xmlns="http://www.w3.org/2000/svg"
@@ -22,6 +22,6 @@ export default function LoadingButton() {
         ></path>
       </svg>
       <span className="ml-2">Loading...</span>
-    </>
+    </div>
   );
 }
