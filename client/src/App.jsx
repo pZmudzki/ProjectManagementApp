@@ -23,8 +23,8 @@ import ProfileView from "./components/DashboardComponents/TeamComponents/Profile
 import ChatView from "./components/DashboardComponents/TeamComponents/ChatView";
 
 // for logged in user
-import UserSettings from "./components/UserComponents.jsx/UserSettings";
-import UserProfile from "./components/UserComponents.jsx/UserProfile";
+import UserSettings from "./components/UserComponents/UserSettings";
+import UserProfile from "./components/UserComponents/UserProfile";
 
 // axios config
 axios.defaults.baseURL = "https://project-management-app-govb.onrender.com";
