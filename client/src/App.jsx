@@ -28,8 +28,14 @@ import ChatView from "./components/DashboardComponents/TeamComponents/ChatView";
 import UserSettings from "./components/UserComponents/UserSettings";
 import UserProfile from "./components/UserComponents/UserProfile";
 
+// config
+import config from "../config";
+
+const environment = import.meta.env.VITE_NODE_ENV || "development";
+const { serverUrl } = config[environment];
+
 // axios config
-axios.defaults.baseURL = "https://project-management-app-govb.onrender.com";
+axios.defaults.baseURL = serverUrl;
 axios.defaults.withCredentials = true;
 
 function App() {

@@ -1,5 +1,8 @@
 import { io } from "socket.io-client";
 
-const URL = "https://project-management-app-govb.onrender.com";
+import config from "../config";
 
-export const socket = io(URL);
+const environment = import.meta.env.VITE_NODE_ENV || "development";
+const { serverUrl } = config[environment];
+
+export const socket = io(serverUrl);

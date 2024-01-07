@@ -6,11 +6,14 @@ const { Server } = require("socket.io");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 
+const environment = process.env.NODE_ENV || "development";
+const config = require("./config")[environment];
+
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "https://projectflow.onrender.com",
+    origin: config.clientUrl,
   },
 });
 
@@ -26,7 +29,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
     credentials: true,
-    origin: "https://projectflow.onrender.com",
+    origin: config.clientUrl,
   })
 );
 
