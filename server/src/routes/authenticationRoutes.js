@@ -6,6 +6,8 @@ const {
   logoutUser,
   updateUser,
   isLoggedIn,
+  getResetToken,
+  changePassword,
 } = require("../controllers/userController");
 const Multer = require("multer");
 
@@ -17,6 +19,8 @@ router.post("/register", upload.single("profile_picture"), registerUser);
 router.post("/login", loginUser);
 router.get("/logout", logoutUser);
 router.post("/update", upload.single("profile_picture"), updateUser);
+router.post("/getResetToken", getResetToken);
+router.post("/changePassword", changePassword);
 router.get("/loggedIn", isLoggedIn);
 
 module.exports = router;

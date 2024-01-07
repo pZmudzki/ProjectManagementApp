@@ -4,6 +4,16 @@ const { hashPassword, comparePassword } = require("../helpers/auth");
 const jwt = require("jsonwebtoken");
 const { handleUpload } = require("../helpers/cloudinaryUpload");
 
+var nodemailer = require("nodemailer");
+
+var transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL,
+    pass: process.env.EMAIL_PASSWORD,
+  },
+});
+
 // Register API Endpoint
 const registerUser = async (req, res) => {
   try {
@@ -179,6 +189,82 @@ const logoutUser = (req, res) => {
   }
 };
 
+// Forgot Password API Endpoint (get token and send email)
+const getResetToken = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const user = await User.findOne({ email: email });
+    if (!user) {
+      return res.json({ error: "No account with this email exists." });
+    }
+    const token = user._id;
+
+    // update user's resetPasswordToken field
+    await User.findByIdAndUpdate(user._id, {
+      resetPasswordToken: token,
+    });
+
+    // send email
+    var mailOptions = {
+      from: process.env.EMAIL,
+      to: email,
+      subject: "ProjectFlow Password Reset",
+      html: `<h2>Please click on the link below to reset your password.</h2><a href="https://projectflow.onrender.com/reset-password/${token}">Reset Password -></a>`,
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+        return res.status(400).json({ error: "Error sending an email." });
+      } else {
+        return res
+          .status(200)
+          .json({ message: `Email with password reset link sent!` });
+      }
+    });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+// Reset Password API Endpoint (validate token and change password)
+const changePassword = async (req, res) => {
+  try {
+    const { password, token } = req.body;
+    console.log(password, token);
+
+    if (!token) return res.json({ error: "No token provided." });
+
+    //check token validity
+    const tokenExists = await User.findById(token);
+    if (!tokenExists) {
+      return res.json({
+        error: "Invalid token.",
+      });
+    }
+    if (password.length < 6) {
+      return res.json({
+        error: "The password needs to be at least 6 characters long.",
+      });
+    }
+
+    // update user's password
+    const updatedUser = await User.findOneAndUpdate(
+      {
+        resetPasswordToken: token,
+      },
+      {
+        password: await hashPassword(password),
+        resetPasswordToken: "",
+      }
+    );
+
+    res.json({ message: "Password updated!" });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 // check if user is logged in API Endpoint
 const isLoggedIn = (req, res) => {
   try {
@@ -201,4 +287,6 @@ module.exports = {
   logoutUser,
   updateUser,
   isLoggedIn,
+  getResetToken,
+  changePassword,
 };

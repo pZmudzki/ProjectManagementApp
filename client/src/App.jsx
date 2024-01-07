@@ -8,6 +8,8 @@ import HomePage from "./Pages/HomePage";
 import ErrorPage from "./Pages/ErrorPage";
 import RegisterPage from "./Pages/authPages/RegisterPage";
 import LoginPage from "./Pages/authPages/LoginPage";
+import ForgotPasswordPage from "./Pages/authPages/ForgotPasswordPage";
+import ResetPasswordPage from "./Pages/authPages/ResetPasswordPage";
 import Dashboard from "./Pages/Dashboard";
 
 import Overview from "./components/DashboardComponents/Overview";
@@ -41,6 +43,8 @@ function App() {
         {/* auth */}
         <Route exact path="/register" element={<RegisterPage />} />
         <Route exact path="/login" element={<LoginPage />} />
+        <Route exact path="/forgotpassword" element={<ForgotPasswordPage />} />
+        <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
 
         {/* protected routes */}
         <Route path="dashboard" element={<Dashboard />}>
