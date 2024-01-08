@@ -18,6 +18,8 @@ const {
   updateTask,
   deleteTask,
   getAllTasks,
+  createComment,
+  getComments,
 } = require("../controllers/taskController");
 
 router.post("/createProject", auth, createProject);
@@ -31,6 +33,8 @@ router.get("/:id/getTasks", auth, getTasks);
 router.get("/getAllTasks", auth, getAllTasks);
 router.put("/:id/updateTask/:taskId", auth, updateTask);
 router.delete("/:id/deleteTask/:taskId", auth, deleteTask);
+router.post("/createComment/:taskId", auth, createComment);
+router.get("/getComments/:taskId", auth, getComments);
 
 router.get("/getUserInfo/:id", auth, getUserInfo);
 

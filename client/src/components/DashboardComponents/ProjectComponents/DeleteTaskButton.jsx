@@ -31,10 +31,10 @@ export default function DeleteTaskButton({ id }) {
   return (
     <button
       type="button"
-      className="self-end p-2 rounded-full hover:bg-gray-200"
+      className="p-2 rounded-full bg-red-500 hover:bg-red-600 transition duration-300 ease-in-out  "
       onClick={() => handleDeleteTask()}
     >
-      <DocumentMinusIcon className="h-7 w-7 text-red-500" aria-hidden={true} />
+      <DocumentMinusIcon className="h-7 w-7 text-white" aria-hidden={true} />
     </button>
   );
 }

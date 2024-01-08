@@ -73,9 +73,9 @@ export default function ProjectOverview() {
       case "Not Started":
         return "bg-red-500";
       case "In Progress":
-        return "bg-yellow-300";
+        return "bg-yellow-500";
       case "Completed":
-        return "bg-green-300";
+        return "bg-green-500";
       default:
         return "bg-red-500";
     }
@@ -141,6 +141,7 @@ export default function ProjectOverview() {
                 <div className="flex flex-col gap-2">
                   {projectData.projectTeam.map((member) => (
                     <Link
+                      key={member._id}
                       to={
                         member._id === user._id
                           ? "/dashboard/userprofile"

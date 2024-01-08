@@ -36,22 +36,22 @@ export default function UpdateTaskButtons({ task }) {
       case "Not Started":
         return "bg-red-500";
       case "In Progress":
-        return "bg-yellow-300";
+        return "bg-yellow-500";
       case "Completed":
-        return "bg-green-300";
+        return "bg-green-600";
       default:
         return "bg-red-500";
     }
   }
 
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-4">
       {statusOptions.map((status) => {
         return (
           <button
             key={status}
             type="button"
-            className={`px-2 rounded text-xs md:text-base text-gray-900 hover:opacity-80 border border-indigo-400 ${taskStatus(
+            className={`px-2 rounded text-xs md:text-base text-white  hover:outline outline-2 outline-indigo-600 outline-offset-2 ${taskStatus(
               status
             )}`}
             onClick={() => {

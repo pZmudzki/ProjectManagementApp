@@ -115,7 +115,7 @@ export default function CreateTaskModal({ setCreateTaskModalActive }) {
             <div className="flex justify-between flex-wrap gap-4">
               <div className="flex flex-col grow">
                 <label htmlFor="taskName" className="text-xs sm:text-base">
-                  Task Name
+                  Title
                 </label>
                 <input
                   onChange={handleChange}

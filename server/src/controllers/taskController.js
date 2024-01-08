@@ -2,6 +2,7 @@ const User = require("../models/userSchema");
 const Task = require("../models/taskSchema");
 const Project = require("../models/projectSchema");
 const Notification = require("../models/notificationSchema.js");
+const Comment = require("../models/commentSchema.js");
 
 // Get tasks API endpoint
 const getTasks = async (req, res) => {
@@ -191,10 +192,64 @@ const deleteTask = async (req, res) => {
   }
 };
 
+// Create comment API endpoint
+const createComment = async (req, res) => {
+  try {
+    const { taskId } = req.params;
+    const { comment } = req.body;
+
+    if (comment === "") {
+      return res.json({ error: "Comment cannot be empty" });
+    }
+
+    const foundTask = await Task.findById(taskId);
+
+    const newComment = await Comment.create({
+      comment: comment,
+      task: taskId,
+      user: req.user._id,
+    });
+
+    const comments = await Comment.find({ task: taskId }).populate("user");
+
+    const userThatTaskIsAssignedTo = await User.findOne({
+      email: foundTask.assignedTo,
+    });
+
+    const notification = await Notification.create({
+      notificationType: "Task",
+      sender: req.user._id,
+      receivers: [userThatTaskIsAssignedTo._id],
+      message: `New comment on task "${foundTask.taskName}"`,
+    });
+
+    return res.json({ message: "Comment created successfully", comments });
+  } catch (error) {
+    console.log(error.message);
+    return res.json({ error: "Error creating comment" });
+  }
+};
+
+// Get comments API endpoint
+const getComments = async (req, res) => {
+  try {
+    const { taskId } = req.params;
+
+    const comments = await Comment.find({ task: taskId }).populate("user");
+
+    return res.json({ comments });
+  } catch (error) {
+    console.log(error.message);
+    return res.json({ error: "Error getting comments" });
+  }
+};
+
 module.exports = {
   getTasks,
   getAllTasks,
   createTask,
   updateTask,
   deleteTask,
+  createComment,
+  getComments,
 };

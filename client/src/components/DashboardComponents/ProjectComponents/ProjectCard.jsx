@@ -31,7 +31,7 @@ export default function ProjectCard({ project }) {
   return (
     <article
       onClick={handleProjectClick}
-      className="cursor-pointer transition-all hover:scale-110 "
+      className="cursor-pointer transition-all hover:scale-105 "
     >
       <div className="bg-indigo-400 py-4 px-6 w-60 h-36 flex flex-col rounded-lg relative">
         <h1 className="text-2xl line-clamp-1 first-letter: capitalize">
