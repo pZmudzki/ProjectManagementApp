@@ -12,7 +12,6 @@ import ForgotPasswordPage from "./Pages/authPages/ForgotPasswordPage";
 import ResetPasswordPage from "./Pages/authPages/ResetPasswordPage";
 import Dashboard from "./Pages/Dashboard";
 
-import Overview from "./components/DashboardComponents/Overview";
 import Team from "./components/DashboardComponents/Team";
 import Projects from "./components/DashboardComponents/Projects";
 import Calendar from "./components/DashboardComponents/Calendar";
@@ -54,8 +53,7 @@ function App() {
 
         {/* protected routes */}
         <Route path="dashboard" element={<Dashboard />}>
-          <Route path="" element={<Overview />} />
-          <Route path="projects" element={<Projects />} />
+          <Route path="" element={<Projects />} />
           <Route path="calendar" element={<Calendar />} />
           <Route path="team" element={<Team />}>
             <Route path="user" element={<ProfileView />} />

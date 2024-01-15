@@ -28,8 +28,7 @@ export default function Navbar() {
   ];
 
   const navigation = [
-    { name: "Overview", href: "/dashboard" },
-    { name: "Projects", href: "/dashboard/projects" },
+    { name: "Projects", href: "/dashboard" },
     { name: "Calendar", href: "/dashboard/calendar" },
     { name: "Team", href: "/dashboard/team" },
   ];
@@ -38,8 +37,6 @@ export default function Navbar() {
     setCurrentPage(() => {
       switch (location.pathname) {
         case "/dashboard":
-          return "Overview";
-        case "/dashboard/projects":
           return "Projects";
         case "/dashboard/calendar":
           return "Calendar";

@@ -17,23 +17,19 @@ export default function FAQView() {
         <div className="flex flex-col items-center justify-center">
           {faqArray.map((faq, index) => {
             return (
-              <Accordion key={index} className="w-full max-w-3xl">
+              <Accordion
+                key={index}
+                className="w-full max-w-3xl dark:bg-neutral-900"
+              >
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon />}
                   aria-controls="panel1a-content"
                   id="panel1a-header"
-                  sx={{
-                    backgroundColor: "#e2e8f0",
-                  }}
-                  className="hover:bg-white transition duration-200 ease-in-out"
+                  className="hover:bg-white dark:hover:bg-black transition duration-200 ease-in-out"
                 >
                   <Typography>{faq.question}</Typography>
                 </AccordionSummary>
-                <AccordionDetails
-                  sx={{
-                    color: "#000000",
-                  }}
-                >
+                <AccordionDetails>
                   <Typography>{faq.answer}</Typography>
                 </AccordionDetails>
               </Accordion>
@@ -65,6 +61,11 @@ const faqArray = [
     question: "Is ProjectFlow suitable for small businesses?",
     answer:
       "Yes, ProjectFlow is designed to be scalable and is suitable for businesses of all sizes, including small businesses. The platform provides the flexibility needed to adapt to different project management needs.",
+  },
+  {
+    question: "How can i change the theme?",
+    answer:
+      "ProjectFlow theme is based on your system prefered theme. If you want to change it, you can do it in your system settings.",
   },
   {
     question: "How does task assignment work in ProjectFlow?",

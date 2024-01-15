@@ -100,7 +100,7 @@ export default function CreateTaskModal({ setCreateTaskModalActive }) {
   return (
     <>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <div className="modal bg-indigo-50 border-4 border-indigo-600 px-4 py-2 rounded-lg">
+        <div className="modal bg-indigo-50 dark:bg-neutral-900 border-4 border-indigo-600 px-4 py-2 rounded-lg">
           <div>
             <div className="flex items-center mb-4 font-bold gap-2">
               <PencilSquareIcon className="h-8 w-8 text-indigo-600" />
@@ -123,7 +123,7 @@ export default function CreateTaskModal({ setCreateTaskModalActive }) {
                   id="taskName"
                   name="taskName"
                   value={task.taskName}
-                  className="border-2 border-indigo-300 rounded-md px-1"
+                  className="border-2 border-indigo-300 rounded-md px-1 dark:border-indigo-600 dark:bg-gray-700"
                 />
               </div>
               <div className="flex flex-col grow">
@@ -136,7 +136,7 @@ export default function CreateTaskModal({ setCreateTaskModalActive }) {
                   id="assignedTo"
                   name="assignedTo"
                   value={task.assignedTo}
-                  className="border-2 border-indigo-300 rounded-md px-1"
+                  className="border-2 border-indigo-300 rounded-md px-1 dark:border-indigo-600 dark:bg-gray-700"
                 />
               </div>
             </div>
@@ -151,7 +151,7 @@ export default function CreateTaskModal({ setCreateTaskModalActive }) {
                 id="description"
                 name="description"
                 value={task.description}
-                className="resize-none border-2 border-indigo-300 rounded-md px-1"
+                className="resize-none border-2 border-indigo-300 rounded-md px-1 dark:border-indigo-600 dark:bg-gray-700"
               />
             </div>
             <div className="flex justify-between flex-wrap gap-4">
@@ -164,7 +164,7 @@ export default function CreateTaskModal({ setCreateTaskModalActive }) {
                   id="status"
                   name="status"
                   value={task.status}
-                  className="border-2 border-indigo-300 rounded-md px-1"
+                  className="border-2 border-indigo-300 rounded-md px-1 dark:border-indigo-600 dark:bg-gray-700"
                 >
                   <option value="Not Started">Not Started</option>
                   <option value="In Progress">In Progress</option>
@@ -180,7 +180,7 @@ export default function CreateTaskModal({ setCreateTaskModalActive }) {
                   id="priority"
                   name="priority"
                   value={task.priority}
-                  className="border-2 border-indigo-300 rounded-md px-1"
+                  className="border-2 border-indigo-300 rounded-md px-1 dark:border-indigo-600 dark:bg-gray-700"
                 >
                   <option value="Low">Low</option>
                   <option value="Medium">Medium</option>

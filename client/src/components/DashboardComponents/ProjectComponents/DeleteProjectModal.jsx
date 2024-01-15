@@ -53,7 +53,7 @@ export default function DeleteProjectModal({
 
   return (
     <>
-      <div className="modal bg-indigo-50 border-4 border-indigo-600 rounded-xl py-3 px-4 flex flex-col gap-4">
+      <div className="modal bg-indigo-50 dark:bg-neutral-900 border-4 border-indigo-600 rounded-xl py-3 px-4 flex flex-col gap-4">
         <div>
           <div className="flex items-center font-bold gap-2">
             <TrashIcon className="h-8 w-8 text-indigo-600" />
@@ -72,7 +72,7 @@ export default function DeleteProjectModal({
         </h1>
         <form onSubmit={deleteProject} className="flex flex-col gap-1">
           <input
-            className="text-black border-2 border-indigo-300 rounded-md px-1 text-2xl"
+            className=" border-2 border-indigo-300 rounded-md px-1 text-2xl dark:border-indigo-600 dark:bg-gray-700"
             onChange={handleChange}
             type="text"
             name="projectName"

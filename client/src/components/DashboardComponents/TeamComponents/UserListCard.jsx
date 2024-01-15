@@ -21,8 +21,10 @@ export default function UserListCard({
 
   return (
     <li
-      className={`flex gap-2 items-center justify-between p-2 bg-gray-200 rounded ${
-        selectedUser && selectedUser._id === displayedUser._id && "bg-gray-300"
+      className={`flex gap-2 items-center justify-between p-2 bg-gray-200 dark:bg-gray-800  ${
+        selectedUser &&
+        selectedUser._id === displayedUser._id &&
+        "bg-gray-300 dark:bg-neutral-900"
       } ${user._id === displayedUser._id && "hidden"}`}
     >
       <div className="flex items-center gap-2">
@@ -40,29 +42,30 @@ export default function UserListCard({
       </div>
       <div className="flex items-center gap-1">
         <button
+          name="view profile"
           type="button"
           onClick={() => {
-            setSelectedUser(
-              displayedUser._id === selectedUser?._id ? null : displayedUser
-            );
+            setSelectedUser(displayedUser);
             setIsSidebarOpen(false);
             navigate(`/dashboard/team/user`);
           }}
         >
-          <UserIcon className="h-6 w-6 text-indigo-600" aria-hidden="true" />
+          <UserIcon
+            className="h-6 w-6 text-indigo-600 dark:text-indigo-300"
+            aria-hidden="true"
+          />
         </button>
         <button
+          name="chat"
           type="button"
           onClick={() => {
-            setSelectedUser(
-              displayedUser._id === selectedUser?._id ? null : displayedUser
-            );
+            setSelectedUser(displayedUser);
             setIsSidebarOpen(false);
             navigate(`/dashboard/team/chat`);
           }}
         >
           <ChatBubbleOvalLeftEllipsisIcon
-            className="h-6 w-6 text-indigo-600"
+            className="h-6 w-6 text-indigo-600 dark:text-indigo-300"
             aria-hidden="true"
           />
         </button>

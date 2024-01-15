@@ -27,7 +27,7 @@ export default function TaskCard({ task }) {
     <>
       <li
         key={task._id}
-        className="border-2 border-indigo-500 bg-indigo-50 rounded-lg grid grid-cols-3 sm:grid-cols-4 grid-rows-2 sm:grid-rows-1 gap-1 py-1 px-2 md:py-2 md:px-4"
+        className="border-2 border-indigo-500 bg-indigo-50 dark:bg-neutral-700 rounded-lg grid grid-cols-3 sm:grid-cols-4 grid-rows-2 sm:grid-rows-1 gap-1 py-1 px-2 md:py-2 md:px-4"
       >
         <h1 className=" flex flex-col justify-between ">
           <span className="text-[12px] md:text-sm">Title</span>
@@ -52,7 +52,7 @@ export default function TaskCard({ task }) {
           <button
             name="show task info"
             onClick={() => setTaskModalActive(true)}
-            className="flex items-center font-bold text-indigo-800 md:text-2xl relative before:absolute before:h-1 before:w-0 before:bg-indigo-500 before:bottom-0 before:left-0 before:rounded-lg before:z-0 before:transition-all before:duration-300 before:ease-in-out hover:before:w-full hover:before:z-10 hover:before:duration-300 hover:before:ease-in-out hover:before:bg-indigo-500 hover:before:bottom-0 hover:before:left-0 hover:before:rounded-lg hover:before:h-1  text-sm "
+            className="flex items-center font-bold text-indigo-800 dark:text-indigo-400 md:text-2xl relative before:absolute before:h-1 before:w-0 before:bg-indigo-400 before:bottom-0 before:left-0 before:rounded-lg before:z-0 before:transition-all before:duration-300 before:ease-in-out hover:before:w-full hover:before:z-10 hover:before:duration-300 hover:before:ease-in-out hover:before:bg-indigo-500 hover:before:bottom-0 hover:before:left-0 hover:before:rounded-lg hover:before:h-1  text-sm "
           >
             Show More &rarr;
           </button>

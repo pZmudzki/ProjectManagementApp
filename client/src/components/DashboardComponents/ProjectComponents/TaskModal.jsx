@@ -82,7 +82,7 @@ export default function TaskModal({ task, setTaskModalActive }) {
 
   return (
     <>
-      <div className="modal flex flex-col gap-2 bg-indigo-50 border-4 border-indigo-600 px-4 py-2 rounded-lg">
+      <div className="modal flex flex-col gap-2 bg-indigo-50 dark:bg-neutral-800 border-4 border-indigo-600 px-4 py-2 rounded-lg">
         <XMarkIcon
           className="h-6 w-6 text-white bg-red-500 rounded-lg absolute right-2 top-2 cursor-pointer hover:bg-red-600 transition duration-300 ease-in-out"
           onClick={() => setTaskModalActive(false)}
@@ -126,12 +126,12 @@ export default function TaskModal({ task, setTaskModalActive }) {
           </div>
         )}
         {/* comment section */}
-        <div className="p-2 border-t-2 border-black bg-indigo-200 rounded-lg flex flex-col gap-2">
+        <div className="p-2 border-t-2 border-black bg-indigo-200 dark:bg-neutral-700 rounded-lg flex flex-col gap-2">
           <form onSubmit={sendComment} className="relative">
             <input
               type="text"
               placeholder="Add a comment"
-              className="border-2 border-indigo-500 rounded-full px-2 py-1 w-full"
+              className=" rounded-full px-2 py-1 w-full outline outline-2 outline-gray-300 dark:outline-indigo-600 dark:bg-gray-700"
               value={currentComment}
               onChange={(e) => setCurrentComment(e.target.value)}
             />
@@ -143,14 +143,14 @@ export default function TaskModal({ task, setTaskModalActive }) {
             </button>
           </form>
           {/* comments list */}
-          <div className="flex flex-col gap-2 max-h-44 overflow-y-auto">
+          <div className="flex flex-col gap-2 max-h-44 overflow-y-auto ">
             {loading ? (
               <p>Loading...</p>
             ) : comments.length > 0 ? (
               comments.map((comment) => (
                 <div
                   key={comment._id}
-                  className="border-2 border-indigo-500 bg-indigo-50 rounded-lg p-2 flex flex-col gap-2 "
+                  className="border-2 border-indigo-500 bg-indigo-50 dark:bg-neutral-800 rounded-lg p-2 flex flex-col gap-2 "
                 >
                   <div className="flex justify-between items-center">
                     <div className="flex gap-2">

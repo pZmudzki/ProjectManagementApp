@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useMemo } from "react";
 import { useNavigate, Outlet } from "react-router-dom";
 
 // context
@@ -10,6 +10,11 @@ import { NotificationsContextProvider } from "../../context/notificationsContext
 
 import Navbar from "../components/DashboardComponents/Navbar";
 
+// MUI dark theme
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+
 export default function Dashboard() {
   const navigate = useNavigate();
   const { isAuthenticated } = useContext(UserContext);
@@ -20,9 +25,23 @@ export default function Dashboard() {
     }
   }, []);
 
+  // MUI dark theme
+  const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
+
+  const theme = useMemo(
+    () =>
+      createTheme({
+        palette: {
+          mode: prefersDarkMode ? "dark" : "light",
+        },
+      }),
+    [prefersDarkMode]
+  );
+
   return (
     <>
-      <div>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
         <ProjectsContextProvider>
           <SelectedProjectContextProvider>
             <TasksContextProvider>
@@ -33,7 +52,7 @@ export default function Dashboard() {
             </TasksContextProvider>
           </SelectedProjectContextProvider>
         </ProjectsContextProvider>
-      </div>
+      </ThemeProvider>
     </>
   );
 }

@@ -68,17 +68,22 @@ export default function TicketsView() {
           </p>
         </div>
         <form
-          className=" p-3 flex flex-col gap-2 bg-gray-50"
+          className=" p-3 flex flex-col gap-2 bg-gray-50 dark:bg-neutral-900"
           onSubmit={sendTicket}
         >
           <div className="flex flex-col">
-            <label className="text-xl text-gray-500">From</label>
-            <p className="border-b-2 border-gray-500 py-1 px-2 text-xl text-gray-600 bg-gray-100 rounded select-none">
+            <label className="text-xl text-gray-500 dark:text-white">
+              From
+            </label>
+            <p className="border-b-2 border-gray-500  py-1 px-2 text-xl text-gray-600 bg-gray-100 rounded select-none dark:border-indigo-600 dark:bg-gray-700">
               {ticketContent.from}
             </p>
           </div>
           <div className="flex flex-col">
-            <label htmlFor="subject" className="text-xl text-gray-500">
+            <label
+              htmlFor="subject"
+              className="text-xl text-gray-500 dark:text-white"
+            >
               Subject
             </label>
             <input
@@ -88,11 +93,14 @@ export default function TicketsView() {
               id="subject"
               placeholder="Enter a subject"
               value={ticketContent.subject}
-              className="border-b-2 border-gray-500 py-1 px-2 text-xl bg-gray-100 rounded"
+              className="border-b-2 border-gray-500 py-1 px-2 text-xl bg-gray-100 rounded dark:border-indigo-600 dark:bg-gray-700"
             />
           </div>
           <div className="flex flex-col">
-            <label htmlFor="text" className="text-xl text-gray-500">
+            <label
+              htmlFor="text"
+              className="text-xl text-gray-500 dark:text-white"
+            >
               Description
             </label>
             <textarea
@@ -103,7 +111,7 @@ export default function TicketsView() {
               rows="4"
               placeholder="Enter a description"
               value={ticketContent.text}
-              className="border-b-2 border-gray-500 py-1 px-2 text-xl bg-gray-100 rounded"
+              className="border-b-2 border-gray-500 py-1 px-2 text-xl bg-gray-100 rounded dark:border-indigo-600 dark:bg-gray-700"
             ></textarea>
           </div>
           <div className="flex items-center justify-between gap-2">

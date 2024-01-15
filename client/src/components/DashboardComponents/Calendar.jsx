@@ -66,60 +66,62 @@ export default function Calendar() {
         loading ? (
           <Loader />
         ) : (
-          <Scheduler
-            view="month"
-            height="700"
-            month={defaultSettings}
-            week={defaultSettings}
-            day={defaultSettings}
-            events={events}
-            editable={false}
-            fields={[
-              {
-                name: "assignedTo",
-                type: "input",
-                config: {
-                  label: "Assigned To",
-                  required: true,
-                  min: 3,
-                  variant: "outlined",
+          <div>
+            <Scheduler
+              view="month"
+              height="700"
+              month={defaultSettings}
+              week={defaultSettings}
+              day={defaultSettings}
+              events={events}
+              editable={false}
+              fields={[
+                {
+                  name: "assignedTo",
+                  type: "input",
+                  config: {
+                    label: "Assigned To",
+                    required: true,
+                    min: 3,
+                    variant: "outlined",
+                  },
                 },
-              },
-              {
-                name: "description",
-                type: "input",
-                config: {
-                  label: "Description",
-                  required: false,
-                  min: 3,
-                  variant: "outlined",
+                {
+                  name: "description",
+                  type: "input",
+                  config: {
+                    label: "Description",
+                    required: false,
+                    min: 3,
+                    variant: "outlined",
+                  },
                 },
-              },
-            ]}
-            viewerTitleComponent={(fields, event) => {
-              return (
-                <div className="flex flex-col justify-center">
-                  <div className="flex gap-2 items-center">
-                    <p className="text-base text-white">Task Name:</p>
-                    <h1 className="text-xl">{fields.title}</h1>
+              ]}
+              viewerTitleComponent={(fields, event) => {
+                return (
+                  <div className="flex flex-col justify-center">
+                    <div className="flex gap-2 items-center">
+                      <h2 className="text-base font-bold">Task Name:</h2>
+                      <p className="text-xl">{fields.title}</p>
+                    </div>
+                    <div className="flex gap-2 items-center">
+                      <h2 className="text-base font-bold">Assigned To:</h2>
+                      <p className="text-xl">{fields.assignedTo}</p>
+                    </div>
                   </div>
-                  <div className="flex gap-2 items-center">
-                    <p className="text-base text-white">Assigned To:</p>
-                    <h1 className="text-xl">{fields.assignedTo}</h1>
+                );
+              }}
+              viewerExtraComponent={(fields, event) => {
+                return (
+                  <div className="flex flex-col justify-center">
+                    <p className="text-base text-gray-400">Description:</p>
+                    <h1 className="text-xl">{event.description}</h1>
                   </div>
-                </div>
-              );
-            }}
-            viewerExtraComponent={(fields, event) => {
-              return (
-                <div className="flex flex-col justify-center">
-                  <p className="text-base text-gray-400">Description:</p>
-                  <h1 className="text-xl">{event.description}</h1>
-                </div>
-              );
-            }}
-            onDelete={(id) => handleDelete(id)}
-          />
+                );
+              }}
+              onDelete={(id) => handleDelete(id)}
+            />
+          </div>
         )
       ) : (
         <NoProjectsMessage setCreateProjectModal={setCreateProjectModal} />

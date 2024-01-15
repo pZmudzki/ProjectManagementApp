@@ -109,7 +109,7 @@ export default function Tasks() {
                 {/* new task button */}
                 <button
                   type="button"
-                  className=" text-white border-2 flex items-center gap-2 rounded-xl p-1 sm:px-2 sm:py-1 bg-indigo-500 hover:bg-indigo-600 transition duration-300 ease-in-out"
+                  className=" text-white border-2 dark:border-indigo-600 flex items-center gap-2 rounded-xl p-1 sm:px-2 sm:py-1 bg-indigo-500 hover:bg-indigo-600 transition duration-300 ease-in-out"
                   onClick={() => setCreateTaskModalActive(true)}
                 >
                   <span className="text-xs sm:text-lg">New task</span>
@@ -138,18 +138,18 @@ export default function Tasks() {
                   id="searchbar"
                   name="searchbar"
                   placeholder="Search tasks"
-                  className="bg-gray-200 py-1 px-2 rounded-xl text-xs sm:text-lg"
+                  className="bg-gray-200 py-1 px-2 rounded-xl text-xs sm:text-lg outline outline-2 outline-gray-300 dark:outline-indigo-600 dark:bg-gray-700"
                   value={searchTask}
                   onChange={handleSearch}
                 />
-                <div className="flex text-xs sm:text-lg">
+                <div className="flex text-xs sm:text-lg gap-2">
                   {/* filter tasks */}
                   <select
                     name="filter"
                     id="filter"
                     value={filterState}
                     onChange={(e) => setFilterState(e.target.value)}
-                    className="border-2 rounded border-gray-400 self-end"
+                    className="border-2 rounded border-gray-400 self-end dark:border-indigo-600 dark:bg-gray-700"
                   >
                     {filterOptions.map((option, idx) => {
                       return (
@@ -165,7 +165,7 @@ export default function Tasks() {
                     id="sort"
                     value={sortState}
                     onChange={(e) => setSortState(e.target.value)}
-                    className="border-2 rounded border-gray-400 self-end"
+                    className="border-2 rounded border-gray-400 self-end dark:border-indigo-600 dark:bg-gray-700"
                   >
                     {sortOptions.map((option, idx) => {
                       return (

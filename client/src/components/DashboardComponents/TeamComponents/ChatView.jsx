@@ -87,10 +87,10 @@ export default function ChatView() {
   }
 
   return (
-    <main className="w-full bg-white">
+    <main className="w-full bg-white dark:bg-neutral-900 dark:text-white">
       <div className="flex flex-col h-full">
         {/* chat header */}
-        <div className="flex items-center justify-between px-3 py-3 border-b-2">
+        <div className="flex items-center justify-between px-3 py-3 border-b-2 dark:border-gray-600">
           <div className="flex items-center">
             <h1 className="text-xl font-semibold flex items-center gap-2">
               <img
@@ -123,8 +123,8 @@ export default function ChatView() {
                             {formatDateToTime(message.date)}
                           </h2>
                           <div className="flex gap-2 items-center">
-                            <div className="flex flex-col items-start">
-                              <p className="px-3 py-2 mt-1 text-sm font-light bg-gray-300 rounded-md">
+                            <div className="flex flex-col items-start dark:bg">
+                              <p className="px-3 py-2 mt-1 text-sm font-light bg-gray-300 rounded-md dark:bg-gray-700">
                                 {message.message}
                               </p>
                             </div>
@@ -150,7 +150,7 @@ export default function ChatView() {
                               className="w-8 h-8 rounded-full object-cover border-2 border-indigo-400"
                             />
                             <div className="flex flex-col items-start">
-                              <p className="px-3 py-2 mt-1 text-sm font-light bg-gray-300 rounded-md">
+                              <p className="px-3 py-2 mt-1 text-sm font-light bg-gray-300 rounded-md dark:bg-gray-700">
                                 {message.message}
                               </p>
                             </div>
@@ -168,14 +168,14 @@ export default function ChatView() {
           <div ref={messagesEndRef} />
         </div>
         {/* chat footer */}
-        <div className="flex items-center justify-center p-3 border-t border-gray-300 bg-gray-200">
+        <div className="flex items-center justify-center p-3 border-t border-gray-300 dark:border-gray-600 bg-gray-200 dark:bg-neutral-900">
           <form onSubmit={handleSendMessage} className="relative w-9/12">
             <input
               type="text"
               name="message"
               value={message}
               placeholder="Type a message"
-              className="rounded-md px-2 py-1 w-full h-8 border-2 outline outline-2 outline-gray-300"
+              className="rounded-md px-2 py-1 w-full h-8 outline outline-2 outline-gray-300 dark:outline-indigo-600 dark:bg-gray-700"
               onChange={(e) => setMessage(e.target.value)}
             />
             <button className="absolute right-0 top-0 rounded-md bg-indigo-600 h-8 p-1">

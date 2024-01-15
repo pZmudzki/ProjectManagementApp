@@ -118,11 +118,11 @@ export default function ProjectOverview() {
                       ? "/dashboard/userprofile"
                       : "/dashboard/team"
                   }
-                  className="flex  justify-between items-center border-2 border-indigo-400 rounded-tl-full rounded-bl-full bg-indigo-100 transition hover:bg-indigo-200 pr-2"
+                  className="flex  justify-between items-center border-2 border-indigo-700 rounded-tl-full rounded-bl-full bg-indigo-100 dark:bg-neutral-700 transition hover:bg-indigo-200 dark:hover:bg-neutral-900 pr-2"
                 >
                   <img
                     src={projectData.projectManager.profilePicture}
-                    className="h-10 w-10 sm:h-20 sm:w-20 object-cover rounded-full outline outline-2 outline-indigo-400"
+                    className="h-10 w-10 sm:h-20 sm:w-20 object-cover rounded-full outline outline-2 outline-indigo-700"
                   />
                   <div className="flex flex-wrap justify-end sm:justify-between items-center gap-2">
                     <p className="text-xl font-bold">
@@ -147,11 +147,11 @@ export default function ProjectOverview() {
                           ? "/dashboard/userprofile"
                           : "/dashboard/team"
                       }
-                      className="flex  justify-between items-center border-2 border-indigo-400 rounded-tl-full rounded-bl-full bg-indigo-100 transition hover:bg-indigo-200 pr-2"
+                      className="flex  justify-between items-center border-2 border-indigo-700 rounded-tl-full rounded-bl-full bg-indigo-100 dark:bg-neutral-700 transition hover:bg-indigo-200 dark:hover:bg-neutral-900 pr-2"
                     >
                       <img
                         src={member.profilePicture}
-                        className="h-10 w-10 sm:h-20 sm:w-20 object-cover rounded-full outline outline-2 outline-indigo-400"
+                        className="h-10 w-10 sm:h-20 sm:w-20 object-cover rounded-full outline outline-2 outline-indigo-700"
                       />
                       <div className="flex flex-wrap justify-end sm:justify-between items-center gap-2">
                         <p className="text-xl font-bold">

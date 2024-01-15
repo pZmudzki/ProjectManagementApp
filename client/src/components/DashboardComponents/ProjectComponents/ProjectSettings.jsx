@@ -84,7 +84,7 @@ export default function ProjectSettings() {
               name="projectName"
               id="projectName"
               value={projectData.projectName}
-              className="border-2 border-gray-400 rounded-lg p-1"
+              className="border-2 border-gray-400 rounded-lg p-1 dark:border-indigo-600 dark:bg-gray-700"
             />
           </div>
           <div className="flex flex-col justify-center">
@@ -96,7 +96,7 @@ export default function ProjectSettings() {
               name="status"
               id="status"
               value={projectData.status}
-              className="border-2 border-gray-400 rounded-lg p-1 text-xl"
+              className="border-2 border-gray-400 rounded-lg p-1 text-xl dark:border-indigo-600 dark:bg-gray-700"
             >
               <option value="Not Started">Not Started</option>
               <option value="In Progress">In Progress</option>
@@ -113,7 +113,7 @@ export default function ProjectSettings() {
               name="projectManager"
               id="projectManager"
               value={projectData.projectManager}
-              className="border-2 border-gray-400 rounded-lg p-1"
+              className="border-2 border-gray-400 rounded-lg p-1 dark:border-indigo-600 dark:bg-gray-700"
             />
           </div>
         </div>
@@ -127,7 +127,7 @@ export default function ProjectSettings() {
             id="projectDescription"
             rows="3"
             value={projectData.projectDescription}
-            className="border-2 border-gray-400 rounded-lg p-1"
+            className="border-2 border-gray-400 rounded-lg p-1 dark:border-indigo-600 dark:bg-gray-700"
           ></textarea>
         </div>
         <div className="flex flex-col gap-2">
@@ -137,7 +137,7 @@ export default function ProjectSettings() {
             </label>
             <div className="relative w-max">
               <input
-                className="text-black border-2 border-gray-400 rounded-lg p-1"
+                className=" border-2 border-gray-400 rounded-lg p-1 dark:border-indigo-600 dark:bg-gray-700"
                 type="text"
                 name="projectTeam"
                 id="projectTeam"
@@ -170,7 +170,7 @@ export default function ProjectSettings() {
               return (
                 <div
                   key={idx}
-                  className="flex items-center justify-between gap-2 p-1 pl-2 border-2 border-indigo-500 rounded-full"
+                  className="flex items-center justify-between gap-2 p-1 pl-2 border-2 border-indigo-500 rounded-full dark:bg-gray-500"
                 >
                   <p>{member}</p>
                   <button

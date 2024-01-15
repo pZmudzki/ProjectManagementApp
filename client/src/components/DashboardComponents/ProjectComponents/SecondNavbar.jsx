@@ -29,7 +29,7 @@ export default function SecondNavbar({ setProjectViewOpened }) {
       <nav className="flex justify-between px-3 py-2 bg-indigo-600">
         {/* dropdown here */}
         {selectedProject ? (
-          <div className="relative bg-white">
+          <div className="relative bg-white dark:text-black">
             <button
               name="select project button"
               type="button"

@@ -58,9 +58,9 @@ export default function ProfileView() {
   }, [selectedUser]);
 
   return (
-    <div className="bg-white w-full h-full overflow-y-auto">
+    <div className="bg-white w-full h-full overflow-y-auto dark:text-white dark:bg-neutral-800">
       <header>
-        <div className="h-28 flex items-end justify-end relative border-b-2 bg-indigo-50 p-1 md:px-6">
+        <div className="h-28 flex items-end justify-end relative border-b-2 dark:border-gray-600 bg-indigo-50 dark:bg-neutral-900 p-1 md:px-6">
           <img
             src={selectedUser.profilePicture}
             alt="user profile picture"

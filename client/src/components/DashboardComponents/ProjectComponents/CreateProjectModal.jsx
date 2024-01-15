@@ -74,7 +74,7 @@ export default function CreateProjectModal({ modalActive }) {
 
   return (
     <>
-      <div className="modal bg-indigo-50 border-4 border-indigo-600 rounded-xl py-3 px-4">
+      <div className="modal bg-indigo-50 dark:bg-neutral-900 border-4 border-indigo-600 rounded-xl py-3 px-4">
         <div>
           <div className="flex items-center mb-4 font-bold gap-2">
             <PencilSquareIcon className="h-8 w-8 text-indigo-600" />
@@ -92,7 +92,7 @@ export default function CreateProjectModal({ modalActive }) {
                 Project Name
               </label>
               <input
-                className="text-black border-2 border-indigo-300 rounded-md px-1"
+                className=" border-2 border-indigo-300 rounded-md px-1 dark:border-indigo-600 dark:bg-gray-700"
                 type="text"
                 name="projectName"
                 id="projectName"
@@ -105,7 +105,7 @@ export default function CreateProjectModal({ modalActive }) {
                 Status
               </label>
               <select
-                className="text-black border-2 border-indigo-300 rounded-md px-1 text-lg"
+                className=" border-2 border-indigo-300 rounded-md px-1 text-lg dark:border-indigo-600 dark:bg-gray-700"
                 name="status"
                 id="status"
                 onChange={handleChange}
@@ -121,7 +121,7 @@ export default function CreateProjectModal({ modalActive }) {
               Project Description
             </label>
             <textarea
-              className="text-black resize-none border-2 border-indigo-300 rounded-md px-1 text-lg"
+              className=" resize-none border-2 border-indigo-300 rounded-md px-1 text-lg dark:border-indigo-600 dark:bg-gray-700"
               name="projectDescription"
               id="projectDescription"
               cols="30"
@@ -138,7 +138,7 @@ export default function CreateProjectModal({ modalActive }) {
                 <span className="absolute text-xs italic">Email</span>
               </label>
               <input
-                className="text-black border-2 border-indigo-300 rounded-md px-1 text-lg"
+                className=" border-2 border-indigo-300 rounded-md px-1 text-lg dark:border-indigo-600 dark:bg-gray-700"
                 type="email"
                 name="projectManager"
                 id="projectManager"
@@ -154,7 +154,7 @@ export default function CreateProjectModal({ modalActive }) {
               <div className="flex flex-col gap-2">
                 <div className="relative">
                   <input
-                    className="text-black w-full border-2 border-indigo-300 rounded-md px-1 text-lg"
+                    className=" w-full border-2 border-indigo-300 rounded-md px-1 text-lg dark:border-indigo-600 dark:bg-gray-700"
                     type="email"
                     name="projectTeam"
                     id="projectTeam"
@@ -207,7 +207,7 @@ export default function CreateProjectModal({ modalActive }) {
                 <div className="flex flex-col gap-1 max-h-40 overflow-y-auto">
                   {projectData.projectTeam.map((teamMember) => (
                     <div
-                      className="bg-indigo-200 flex justify-between py-1 px-2 rounded-md"
+                      className="bg-indigo-200 dark:bg-neutral-600 flex justify-between py-1 px-2 rounded-md"
                       key={teamMember}
                     >
                       <p>{teamMember}</p>
