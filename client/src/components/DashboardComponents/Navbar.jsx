@@ -145,7 +145,7 @@ export default function Navbar() {
                           leaveFrom="transform opacity-100 scale-100"
                           leaveTo="transform opacity-0 scale-95"
                         >
-                          <Menu.Items className="absolute right-0 z-[9999] mt-2 w-60 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none overflow-hidden">
+                          <Menu.Items className="absolute right-0 z-[9999] mt-2 w-60 origin-top-right rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none overflow-hidden">
                             {notifications.length > 0 ? (
                               <div className="flex flex-col">
                                 <div className=" max-h-72 overflow-y-auto">
@@ -159,7 +159,7 @@ export default function Navbar() {
                                       .map((notification) => (
                                         <Menu.Item key={notification._id}>
                                           <Link to="/dashboard/notifications">
-                                            <div className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 border-b-2 border-gray-200">
+                                            <div className="block px-4 py-2 text-sm dark:bg-neutral-700 hover:dark:bg-neutral-800 hover:bg-gray-100 border-b-2 border-gray-200">
                                               <div className="flex flex-col">
                                                 <div className="flex justify-between items-center">
                                                   <span className="text-xs">
@@ -229,15 +229,15 @@ export default function Navbar() {
                           leaveFrom="transform opacity-100 scale-100"
                           leaveTo="transform opacity-0 scale-95"
                         >
-                          <Menu.Items className="absolute right-0 z-[9999] mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                          <Menu.Items className="absolute right-0 z-[9999] mt-2 w-48 origin-top-right rounded-md bg-white dark:bg-neutral-900 py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                             {userNavigation.map((item) => (
                               <Menu.Item key={item.name}>
                                 {({ active }) => (
                                   <Link
                                     to={item.href}
                                     className={classNames(
-                                      active ? "bg-gray-100" : "",
-                                      "block px-4 py-2 text-sm text-gray-700",
+                                      active ? "bg-gray-800" : "",
+                                      "block px-4 py-2 text-sm",
                                       currentPage === item.name
                                         ? "bg-gray-700 text-white"
                                         : ""
@@ -250,7 +250,7 @@ export default function Navbar() {
                             ))}
                             <LogoutButton
                               classes={
-                                "block px-4 py-2 text-sm text-gray-700 w-full text-left hover:bg-gray-100"
+                                "block px-4 py-2 text-sm w-full text-left hover:bg-gray-800"
                               }
                             />
                           </Menu.Items>

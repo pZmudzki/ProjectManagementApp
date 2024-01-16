@@ -128,7 +128,7 @@ export default function UserSettings() {
             autoComplete="off"
             value={data.username}
             onChange={handleChange}
-            className="border-2 border-gray-300 rounded-md p-2"
+            className="border-2 border-gray-300 rounded-md p-2 dark:border-indigo-600 dark:bg-gray-700"
           />
         </div>
         <div className="flex justify-between items-center">
@@ -141,7 +141,7 @@ export default function UserSettings() {
             name="email"
             autoComplete="off"
             value={data.email}
-            className="border-2 border-gray-300 rounded-md p-2"
+            className="border-2 border-gray-300 rounded-md p-2 dark:border-indigo-600 dark:bg-gray-700"
             onChange={handleChange}
           />
         </div>
@@ -155,7 +155,7 @@ export default function UserSettings() {
             name="newpassword"
             value={newPassword.newpassword}
             onChange={handleNewPassword}
-            className="border-2 border-gray-300 rounded-md p-2"
+            className="border-2 border-gray-300 rounded-md p-2 dark:border-indigo-600 dark:bg-gray-700"
           />
         </div>
         <div className="flex justify-between items-center gap-2">
@@ -168,7 +168,7 @@ export default function UserSettings() {
             name="confirmpassword"
             value={newPassword.confirmpassword}
             onChange={handleNewPassword}
-            className="border-2 border-gray-300 rounded-md p-2"
+            className="border-2 border-gray-300 rounded-md p-2 dark:border-indigo-600 dark:bg-gray-700"
           />
         </div>
 

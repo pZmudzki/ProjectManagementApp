@@ -158,7 +158,7 @@ export default function Notifications() {
                 className={`flex flex-col gap-1 py-1 px-2 rounded-md ${
                   notification.read
                     ? "bg-gray-500 text-white"
-                    : "bg-indigo-100 border-2 border-indigo-500"
+                    : "bg-indigo-100 dark:bg-neutral-800 border-2 border-indigo-500"
                 }`}
               >
                 <input

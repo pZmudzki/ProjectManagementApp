@@ -88,7 +88,7 @@ const loginUser = async (req, res) => {
           profilePicture: user.profilePicture,
         },
         process.env.JWT_SECRET,
-        { expiresIn: "8h" },
+        { expiresIn: "1h" },
         (err, token) => {
           if (err) throw err;
           res
