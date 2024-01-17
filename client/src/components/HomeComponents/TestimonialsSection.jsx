@@ -23,7 +23,7 @@ export default function Testimonials() {
   return (
     <section
       id="testimonials"
-      className="relative isolate bg-white px-6 py-24 sm:py-32 sm:pt-16 lg:px-8"
+      className="relative isolate bg-white px-6 py-24 sm:py-32 lg:px-8"
     >
       <div
         className="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]"
@@ -44,7 +44,7 @@ export default function Testimonials() {
         <div className="grid grid-cols-1 divide-y-2 divide-indigo-200">
           {people.map((person, i) => {
             return (
-              <figure className="mt-10" key={i}>
+              <figure className="mb-4" key={i}>
                 <figcaption className="mt-10 flex items-center mb-5">
                   <img
                     className="h-10 w-10 rounded-full"

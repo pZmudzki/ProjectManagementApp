@@ -57,7 +57,7 @@ export default function ProjectSettings() {
             });
             setSelectedProject(res.data.updatedProject);
             setSendingRequest(false);
-            navigate("/dashboard/projects");
+            navigate("/dashboard");
             toast.success(res.data.message);
           }
         });

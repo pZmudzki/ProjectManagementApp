@@ -64,7 +64,7 @@ export default function CreateProjectModal({ modalActive }) {
         setProjectData({});
         setSendingRequest(false);
         modalActive(false);
-        navigate("/dashboard/projects");
+        navigate("/dashboard");
         toast.success(data.message);
       }
     } catch (error) {

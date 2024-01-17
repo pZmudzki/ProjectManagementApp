@@ -30,7 +30,7 @@ export default function Projects() {
 
           <div className="flex-1 flex flex-col">
             <SecondNavbar setProjectViewOpened={setProjectViewOpened} />
-            <section className="flex-1 flex overflow-y-scroll">
+            <section className="flex-1 flex overflow-y-auto">
               <div className="min-h-min w-full">
                 {projectViewOpened === "overview" && <ProjectOverview />}
                 {projectViewOpened === "settings" && (
