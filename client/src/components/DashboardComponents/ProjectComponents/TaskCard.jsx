@@ -23,6 +23,17 @@ export default function TaskCard({ task }) {
     );
   }
 
+  function taskPriority(priority) {
+    switch (priority) {
+      case "High":
+        return "text-red-500";
+      case "Medium":
+        return "text-yellow-500";
+      case "Low":
+        return "text-green-600";
+    }
+  }
+
   return (
     <>
       <li
@@ -43,7 +54,11 @@ export default function TaskCard({ task }) {
         </h2>
         <h3 className=" flex flex-col justify-between ">
           <span className="text-[12px] md:text-sm">Priority</span>
-          <span className="text-sm md:text-2xl font-bold truncate">
+          <span
+            className={`text-sm md:text-2xl font-bold truncate ${taskPriority(
+              task.priority
+            )}`}
+          >
             {task.priority}
           </span>
         </h3>

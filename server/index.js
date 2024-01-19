@@ -49,9 +49,10 @@ io.on("connection", (socket) => {
 
   // When you want to send a message to a specific user
   socket.on("sendMessage", (receiverId, message) => {
-    if (users[receiverId]) {
-      io.to(users[receiverId]).emit("receiveMessage", message);
+    if (!users[receiverId]) {
+      return;
     }
+    io.to(users[receiverId]).emit("receiveMessage", message);
   });
 });
 

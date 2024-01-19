@@ -42,7 +42,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex h-screen justify-center items-center px-6 py-12 lg:px-8">
+    <div className="flex h-screen relative justify-center items-center px-6 py-12 lg:px-8">
       <div className="flex flex-col grow">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <h1 className="text-center font-bold text-indigo-600 text-3xl italic ">
@@ -127,6 +127,11 @@ export default function LoginPage() {
             </Link>
           </p>
         </div>
+      </div>
+      <div className="absolute top-0 left-0 p-2 bg-indigo-50">
+        <h2 className="font-bold">Demo Account:</h2>
+        <p>Email: john.smith@demo.com</p>
+        <p>Password: zaq1@WSX</p>
       </div>
     </div>
   );

@@ -80,6 +80,17 @@ export default function TaskModal({ task, setTaskModalActive }) {
     );
   }
 
+  function taskPriority(priority) {
+    switch (priority) {
+      case "High":
+        return "text-red-500";
+      case "Medium":
+        return "text-yellow-500";
+      case "Low":
+        return "text-green-600";
+    }
+  }
+
   return (
     <>
       <div className="modal flex flex-col gap-2 bg-indigo-50 dark:bg-neutral-800 border-4 border-indigo-600 px-4 py-2 rounded-lg">
@@ -115,7 +126,11 @@ export default function TaskModal({ task, setTaskModalActive }) {
           </div>
           <div className="flex flex-col grow">
             <span className="text-xs sm:text-base">Priority</span>
-            <span className="text-sm md:text-2xl font-bold">
+            <span
+              className={`text-sm md:text-2xl font-bold ${taskPriority(
+                task.priority
+              )}`}
+            >
               {task.priority}
             </span>
           </div>
