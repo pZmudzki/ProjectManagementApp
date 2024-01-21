@@ -1,22 +1,22 @@
 ﻿# How to run locally
 
- 1.  Copy repository 
-> copy https://github.com/pZmudzki/ProjectManagementApp.git
+1.  Copy repository
 
- 3.  Install necessary packages
-	 
->ProjectManagementApp/client	
- 
+    > copy https://github.com/pZmudzki/ProjectManagementApp.git
+
+2.  Install necessary packages
+
+> ProjectManagementApp/client
 
     npm i
 
->ProjectManagementApp/server
+> ProjectManagementApp/server
 
     npm i
 
 3. Create and configure .env file
 
->ProjectManagementApp/server
+> ProjectManagementApp/server
 
     MONGO_CONNECT_URI = "MongoDB connect URI"
     JWT_SECRET = "JWT SECRET"
@@ -27,19 +27,39 @@
     EMAIL_PASSWORD = "Generated email password"
     PROJECTFLOW_EMAIL = "Email for receiving form tickets"
 
- 4.  Start locally
->ProjectManagementApp/
-	
-	( in separate terminals )
+4.  Start locally
+
+    > ProjectManagementApp/
+
+    ( in separate terminals )
     npm run start-client
     npm run dev-server
 
-#  About the project
+# About the project
 
 **[ProjectFlow](https://projectflow.onrender.com/)** is a project management tool that helps you stay on top of your projects and tasks. It's designed to simplify the project planning process and foster seamless collaboration.
 
-# Routes
- 
+## Features
+
+- Forgot Password for creating new password
+- Creating/Updating/Deleting projects
+- Creating/Updating/Deleting tasks
+- Adding/Deleting users to/from projects
+- Live Chat
+- Support ticket system
+
+## Technologies
+
+- React
+- Node.js
+- Express
+- MongoDB
+- Tailwind Css
+- NodeMailer
+- Cloudinary API
+
+## Routes
+
 > **/**  
 > (Landing Page)
 
@@ -94,9 +114,3 @@
 > (FAQ / Tickets Page)
 
 ![FAQ / Tickets Page](https://res.cloudinary.com/dxsyxo3em/image/upload/v1705672492/projectFlowScreenShots/chgbdhdofvivlcfyeqoy.png)
-
-
-
-
-
-
