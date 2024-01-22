@@ -39,7 +39,7 @@
 
 **[ProjectFlow](https://projectflow.onrender.com/)** is a project management tool that helps you stay on top of your projects and tasks. It's designed to simplify the project planning process and foster seamless collaboration.
 
-## Features
+## Main Features
 
 - Forgot Password for creating new password
 - Creating/Updating/Deleting projects

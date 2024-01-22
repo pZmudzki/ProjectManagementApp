@@ -5,6 +5,7 @@ const {
   loginUser,
   logoutUser,
   updateUser,
+  deleteAccount,
   isLoggedIn,
   getResetToken,
   changePassword,
@@ -19,6 +20,7 @@ router.post("/register", upload.single("profile_picture"), registerUser);
 router.post("/login", loginUser);
 router.get("/logout", logoutUser);
 router.post("/update", upload.single("profile_picture"), updateUser);
+router.post("/deleteAccount", deleteAccount);
 router.post("/getResetToken", getResetToken);
 router.post("/changePassword", changePassword);
 router.get("/loggedIn", isLoggedIn);

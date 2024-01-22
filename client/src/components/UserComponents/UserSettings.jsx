@@ -19,6 +19,7 @@ export default function UserSettings() {
   const [imagePreview, setImagePreview] = useState(null);
 
   const [sendingRequest, setSendingRequest] = useState(false);
+  const [sendingRequestDelete, setSendingRequestDelete] = useState(false);
 
   const [newPassword, setNewPassword] = useState({
     newpassword: "",
@@ -55,6 +56,8 @@ export default function UserSettings() {
     setData({ ...data, [e.target.name]: e.target.value });
   };
 
+
+  //update user
   const updateUser = async (e) => {
     e.preventDefault();
     setSendingRequest(true);
@@ -87,6 +90,32 @@ export default function UserSettings() {
         toast.success("Please login again.");
         navigate("/login", { replace: true });
       });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  //delete account
+  const deleteAccount = async (e) => {
+    e.preventDefault();
+    setSendingRequestDelete(true);
+
+    try {
+      const response = await axios.post("/deleteAccount", { id: user._id });
+      if (response.data.error) {
+        setSendingRequestDelete(false);
+        toast.error(response.data.error);
+        return;
+      }
+      await axios.get("/logout").then((res) => {
+        setUser(res.data.user);
+        setSendingRequestDelete(false);
+        setIsAuthenticated(res.data.isAuthenticated);
+        setSelectedProject(null);
+        localStorage.clear();
+        navigate("/login", { replace: true });
+      });
+      toast.success(response.data.message);
     } catch (error) {
       console.log(error.message);
     }
@@ -174,9 +203,17 @@ export default function UserSettings() {
 
         <button
           type="submit"
-          className="py-2 px-4 bg-indigo-600 text-white text-2xl self-center justify-self-end w-2/3 rounded-full shadow-lg hover:bg-indigo-500 transition duration-200 ease-in-out"
+          className="py-2 px-4 bg-indigo-600 text-white text-2xl self-center justify-self-end w-2/3 rounded-full shadow-lg hover:bg-indigo-800 transition duration-200 ease-in-out"
         >
           {sendingRequest ? <LoadingButton /> : "Update"}
+        </button>
+        <button
+        type="button"
+        name="delete account"
+        className="py-2 px-4 bg-red-600 text-white text-2xl self-center justify-self-end w-2/3 rounded-full shadow-lg hover:bg-red-800 transition duration-200 ease-in-out"
+        onClick={deleteAccount}
+        >
+          {sendingRequestDelete ? <LoadingButton /> : "Delete Account"}
         </button>
       </form>
     </div>

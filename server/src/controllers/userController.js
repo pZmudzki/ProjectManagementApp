@@ -1,5 +1,6 @@
 const User = require("../models/userSchema");
 const Notification = require("../models/notificationSchema");
+const Project = require("../models/projectSchema");
 const { hashPassword, comparePassword } = require("../helpers/auth");
 const jwt = require("jsonwebtoken");
 const { handleUpload } = require("../helpers/cloudinaryUpload");
@@ -172,6 +173,54 @@ const updateUser = async (req, res) => {
   }
 };
 
+// Delete Account API Endpoint
+const deleteAccount = async (req, res) => {
+  try {
+    const { id } = req.body;
+
+    const user = await User.findById(id);
+    const foundProjects = await Project.find({
+      $or: [{ projectManager: user._id }, { projectTeam: user._id }],
+    });
+
+    if(!user) {
+      return res.json({ error: "User does not exist." });
+    }
+
+    if(user._id != id) {  
+      return res.json({ error: "You can only delete your own account." });
+    }
+
+    if(foundProjects.length > 0) {
+    await Promise.all(
+      foundProjects.map(async (project) => {
+        // console.log(JSON.stringify(project.projectManager))
+        // console.log(JSON.stringify(user._id))
+        // console.log(JSON.stringify(user._id) == JSON.stringify(project.projectManager))
+        if(JSON.stringify(user._id) == JSON.stringify(project.projectManager)) {
+          // console.log(project.projectManager)
+          await Project.findByIdAndDelete(project._id);
+        }
+        if(project.projectTeam.includes(user._id)) {
+          // console.log(project.projectTeam)
+          await Project.findByIdAndUpdate(project._id, {
+            $pull: { projectTeam: user._id },
+          });
+        }
+      })
+    );
+    }
+
+    await User.findByIdAndDelete(id);
+
+    return res.json({message: "Account deleted!"});
+
+  } catch (error) {
+    console.log(error);
+    res.json({ error: error.message });
+  }
+};
+
 // Logout API Endpoint
 const logoutUser = (req, res) => {
   try {
@@ -289,4 +338,5 @@ module.exports = {
   isLoggedIn,
   getResetToken,
   changePassword,
+  deleteAccount,
 };

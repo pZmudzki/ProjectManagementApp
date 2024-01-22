@@ -159,7 +159,7 @@ export default function Navbar() {
                                       .map((notification) => (
                                         <Menu.Item key={notification._id}>
                                           <Link to="/dashboard/notifications">
-                                            <div className="block px-4 py-2 text-sm dark:bg-neutral-700 hover:dark:bg-neutral-800 hover:bg-gray-100 border-b-2 border-gray-200">
+                                            <div className="block px-4 py-2 text-sm bg-white dark:bg-neutral-700 hover:dark:bg-neutral-800 hover:bg-gray-100 border-b-2 border-gray-200">
                                               <div className="flex flex-col">
                                                 <div className="flex justify-between items-center">
                                                   <span className="text-xs">
@@ -236,7 +236,7 @@ export default function Navbar() {
                                   <Link
                                     to={item.href}
                                     className={classNames(
-                                      active ? "bg-gray-800" : "",
+                                      active ? "text-white bg-gray-400 dark:bg-gray-800" : "",
                                       "block px-4 py-2 text-sm",
                                       currentPage === item.name
                                         ? "bg-gray-700 text-white"
@@ -250,7 +250,7 @@ export default function Navbar() {
                             ))}
                             <LogoutButton
                               classes={
-                                "block px-4 py-2 text-sm w-full text-left hover:bg-gray-800"
+                                "block px-4 py-2 text-sm w-full text-left hover:text-white hover:bg-gray-400 hover:dark:bg-gray-800"
                               }
                             />
                           </Menu.Items>
