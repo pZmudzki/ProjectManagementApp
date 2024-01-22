@@ -27,8 +27,9 @@ export default function ProjectOverview() {
           .get(`/api/project/${selectedProject._id}/getProjectInfo`)
           .then((res) => {
             setProjectData(res.data.project);
-            setTasksData(() => {
-              const groupedTasks = res.data.tasks.reduce(
+            if(res.data.tasks > 0){
+              setTasksData(() => {
+                const groupedTasks = res.data.tasks.reduce(
                 (acc, task) => {
                   if (task.status === "Completed") {
                     acc.completed.push(task);
@@ -40,10 +41,11 @@ export default function ProjectOverview() {
                   return acc;
                 },
                 { completed: [], inProgress: [], notStarted: [] }
-              );
-
-              return groupedTasks;
-            });
+                );
+                
+                return groupedTasks;
+              });
+            }
             setLoading(false);
           });
       } catch (error) {
