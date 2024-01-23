@@ -27,7 +27,7 @@ export default function ProjectOverview() {
           .get(`/api/project/${selectedProject._id}/getProjectInfo`)
           .then((res) => {
             setProjectData(res.data.project);
-            if(res.data.tasks > 0){
+            
               setTasksData(() => {
                 const groupedTasks = res.data.tasks.reduce(
                 (acc, task) => {
@@ -45,7 +45,7 @@ export default function ProjectOverview() {
                 
                 return groupedTasks;
               });
-            }
+            
             setLoading(false);
           });
       } catch (error) {
